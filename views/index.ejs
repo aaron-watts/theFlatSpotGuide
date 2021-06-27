@@ -1,14 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spot Guide</title>
 </head>
+
 <body>
     <h1>Spot Guide</h1>
 
     <a href="/spots/new">Add a Spot</a>
+
+    <div>
+        <% for (let spot of spots) { %>
+            <h2><a href="/spots/<%= spot._id %>">
+                    <%= spot.name %>
+                </a></h2>
+            <h3>
+                <%= spot.location %>
+            </h3>
+            <p>
+                <%= spot.details %>
+            </p>
+            <% } %>
+    </div>
 </body>
+
 </html>
