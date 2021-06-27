@@ -2,21 +2,21 @@ const Spot = require('../models/spot');
 
 module.exports.index = async (req, res) => {
     const spots = await Spot.find({});
-    res.render('index', { spots });
+    res.render('spots/index', { spots });
 }
 
 module.exports.newForm = (req, res) => {
-    res.render('new');
+    res.render('spots/new');
 }
 
 module.exports.show = async (req, res) => {
     const spot = await Spot.findById(req.params.id);
-    res.render('show', { spot });
+    res.render('spots/show', { spot });
 }
 
 module.exports.editForm = async (req, res) => {
     const spot = await Spot.findById(req.params.id);
-    res.render('edit', { spot });
+    res.render('spots/edit', { spot });
 }
 
 module.exports.create = async (req, res) => {
