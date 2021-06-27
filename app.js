@@ -27,6 +27,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(methodOverride('_method'));
 
+app.use(express.static(path.join(__dirname, 'public')));
 app.use('/spots', spotRoutes);
 
 app.get('/', (req, res) => {

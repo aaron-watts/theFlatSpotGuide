@@ -1,19 +1,22 @@
 <% layout('layouts/boilerplate') %>
 
-    <h1>Spot Guide</h1>
-
-    <a href="/spots/new">Add a Spot</a>
-
-    <div>
-        <% for (let spot of spots) { %>
-            <h2><a href="/spots/<%= spot._id %>">
-                    <%= spot.name %>
-                </a></h2>
-            <h3>
-                <%= spot.location %>
-            </h3>
-            <p>
-                <%= spot.details %>
-            </p>
-            <% } %>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h1>Spot Guide</h1>
+            </div>
+            <div class="col overflow-scroll limit-height" id="show-spots">
+                <% for (let spot of spots) { %>
+                    <h2><a href="/spots/<%= spot._id %>">
+                            <%= spot.name %>
+                        </a></h2>
+                    <h3>
+                        <%= spot.location %>
+                    </h3>
+                    <p>
+                        <%= spot.details %>
+                    </p>
+                    <% } %>
+            </div>
+        </div>
     </div>
