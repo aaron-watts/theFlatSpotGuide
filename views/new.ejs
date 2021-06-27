@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add a Spot</title>
+</head>
+
+<body>
+    <h1>Add a Spot!</h1>
+
+    <form action="/spots" method="POST">
+        <div class="">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="spot[name]">
+        </div>
+        <div class="">
+            <label for="location">Location</label>
+            <input type="text" id="location" name="spot[location]">
+        </div>
+        <div class="">
+            <label for="details">About this spot</label>
+            <textarea name="spot[details]" id="details" cols="30" rows="10"></textarea>
+        </div>
+        <div>
+            <button type="submit">Submit</button>
+        </div>
+    </form>
+
+</body>
+
+</html>
