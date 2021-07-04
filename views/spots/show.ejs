@@ -1,16 +1,52 @@
 <% layout('layouts/boilerplate') %>
 
-    <h1>
-        <%= spot.name %>
-    </h1>
-    <h2>
-        <%= spot.location %>
-    </h2>
-    <p>
-        <%= spot.details %>
-    </p>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <img src="https://images.unsplash.com/photo-1523225078415-687408717027?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=745&q=80"
+                    class="img-fluid" alt="">
+                <div class="card">
+
+                    <div class="card-body">
+                        <h1 class="card-title">
+                            <%= spot.name %>
+                        </h1>
+                        <i class="bi bi-geo-alt text-muted"></i>
+                        <a href="geo:51.498169,-0.049067" class=" text-muted">
+                            <%= spot.location %>
+                        </a>
+                        <p class="card-text">
+                            <%= spot.details %>
+                        </p>
+                    </div>
+                    <div class="card-body row">
+                        <div class="d-grid gap-3 col-sm-6 mx-auto mb-3">
+                            <a href="/spots/<%= spot._id %>/edit" class="btn btn-info"><i
+                                    class="bi bi-pencil"></i> Edit</a>
+                            <a href="/spots/<%= spot._id %>?_method=DELETE" class="btn btn-danger"><i
+                                    class="bi bi-trash"></i> Delete</a>
+                        </div>
+                        <div class="d-grid gap-3 col-sm-6 mx-auto mb-3">
+                            <a href="/spots/<%= spot._id %>?_method=DELETE" class="btn btn-warning"><i
+                                    class="bi bi-star"></i> Review</a>
+                            <a href="/spots/<%= spot._id %>?_method=DELETE" class="btn btn-primary"><i
+                                    class="bi bi-calendar2-plus"></i> Event</a>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 
     <a href="/spots/<%= spot._id %>/edit">Edit</a>
     <form action="/spots/<%= spot._id %>?_method=DELETE" method="POST">
         <button>Delete</button>
     </form>
-    <a href="/spots">All Spots</a>
+    <a href="/spots">All Spots</a> -->
