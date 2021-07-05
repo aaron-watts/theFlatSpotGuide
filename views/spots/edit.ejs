@@ -1,21 +1,26 @@
 <% layout('layouts/boilerplate') %>
 
-    <h1>Edit Spot</h1>
+    <div class="container">
+        <div class="row">
 
-    <form action="/spots/<%= spot._id %>?_method=PUT" method="POST">
-        <div class="">
-            <label for="name">Name</label>
-            <input type="text" id="name" name="spot[name]" value="<%= spot.name %>">
+            <form action="/spots/<%= spot._id %>?_method=PUT" method="POST">
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="name" name="spot[name]" value="<%= spot.name %>" aria-describedby="nameHelp">
+                    <div id="nameHelp" class="form-text">Use a descriptive name</div>
+                </div>
+                <div class="mb-3">
+                    <label for="location" class="form-label">Location</label>
+                    <input type="text" class="form-control" id="location" name="spot[location]" value="<%= spot.location %>">
+                </div>
+                <div class="mb-3">
+                    <label for="details" class="form-label">Example textarea</label>
+                    <textarea class="form-control" id="details" name="spot[details]" rows="3"><%= spot.details %></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <a href="/spots/<%= spot._id %>" class="btn btn-danger">Cancel</a>
+            </form>
+
         </div>
-        <div class="">
-            <label for="location">Location</label>
-            <input type="text" id="location" name="spot[location]" value="<%= spot.location %>">
-        </div>
-        <div class="">
-            <label for="details">About this spot</label>
-            <textarea name="spot[details]" id="details" cols="30" rows="10"><%= spot.details %></textarea>
-        </div>
-        <div>
-            <button type="submit">Update</button>
-        </div>
-    </form>
+    </div>
