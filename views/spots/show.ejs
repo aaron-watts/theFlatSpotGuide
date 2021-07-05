@@ -21,8 +21,8 @@
                     </div>
                     <div class="card-body row">
                         <div class="d-grid gap-3 col-sm-6 mx-auto mb-3">
-                            <a href="/spots/<%= spot._id %>/edit" class="btn btn-info"><i
-                                    class="bi bi-pencil"></i> Edit</a>
+                            <a href="/spots/<%= spot._id %>/edit" class="btn btn-info"><i class="bi bi-pencil"></i>
+                                Edit</a>
                             <a href="/spots/<%= spot._id %>?_method=DELETE" class="btn btn-danger"><i
                                     class="bi bi-trash"></i> Delete</a>
                         </div>
@@ -32,13 +32,44 @@
                             <a href="/spots/<%= spot._id %>?_method=DELETE" class="btn btn-primary"><i
                                     class="bi bi-calendar2-plus"></i> Event</a>
                         </div>
-                        
+
                     </div>
                 </div>
             </div>
 
             <div class="col-md-6">
+                <% for (event of spot.events) { %>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <!-- Calendar illustration -->
+                                    <div class="cal-frame">
+                                        <div class="date-frame">
+                                            <span><%= event.date.getDate() %></span>
+                                        </div>
+                                        <div class="month-frame">
+                                            <span><%= monthArray[event.date.getMonth()] %></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-8">
+                                    <p class="card-title"></p>
+                                    <p class="h4 mb-0">Here is a Title</p>
+                                    <span class="text-muted">
+                                        <%= event.author %>
+                                    </span>
+                                    </p>
 
+                                    <p class="card-text">
+                                        Details:
+                                        <%= event.date %>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <% } %>
             </div>
         </div>
     </div>

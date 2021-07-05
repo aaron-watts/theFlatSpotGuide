@@ -1,3 +1,31 @@
 .limit-height {
     max-height: 80vh;
 }
+
+.cal-frame {
+    /* border: solid 2px black; */
+    height: 10rem;
+    width: 8rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.date-frame {
+    font-size: 7rem;
+    font-weight: 500;
+    margin: -2.5rem auto;
+    color: red;
+}
+
+.month-frame {
+    font-size: 2rem;
+    font-weight: bold;
+    color: rgba(0,0,0,0.72);
+    margin-top: .8rem;
+    border-top: solid 4px rgba(0, 0, 0, 0.24);
+    width: 80%;
+    text-align: center;
+}

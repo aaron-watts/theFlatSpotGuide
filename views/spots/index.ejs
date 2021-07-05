@@ -24,9 +24,10 @@
                                 <div class="col-sm-8">
                                     <p class="card-title"></p>
                                     <p class="h4 mb-0">
-                                    <a href="/spots/<%= spot._id %>">
-                                        <%= spot.name %>
-                                    </a></p>
+                                        <a href="/spots/<%= spot._id %>">
+                                            <%= spot.name %>
+                                        </a>
+                                    </p>
                                     <span class="text-muted">
                                         <%= spot.author %>
                                     </span>
@@ -39,7 +40,9 @@
                             </div>
                         </div>
                         <div class="card-footer text-muted d-flex">
-                            <div class="col"><i class="bi bi-calendar2-week"></i> 1 Event</div>
+                            <div class="col"><i class="bi bi-calendar2-week"></i>
+                                <%= spot.events.length %> Event<%= spot.events.length > 1 ? 's' : '' %>
+                            </div>
                             <div class="col"><i class="bi bi-star"></i> 2 Reviews</div>
                         </div>
                     </div>
