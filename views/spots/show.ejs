@@ -23,12 +23,10 @@
                         <div class="d-grid gap-3 col-sm-6 mx-auto mb-3">
                             <a href="/spots/<%= spot._id %>/edit" class="btn btn-info"><i class="bi bi-pencil"></i>
                                 Edit</a>
-                            <a href="/spots/<%= spot._id %>?_method=DELETE" class="btn btn-danger"><i
-                                    class="bi bi-trash"></i> Delete</a>
                         </div>
                         <div class="d-grid gap-3 col-sm-6 mx-auto mb-3">
-                            <a href="#" class="btn btn-warning"><i class="bi bi-star"></i> Review</a>
-                            <a href="/events/new" class="btn btn-primary"><i class="bi bi-calendar2-plus"></i> Event</a>
+                            <a href="/spots/<%= spot._id %>?_method=DELETE" class="btn btn-danger"><i
+                                class="bi bi-trash"></i> Delete</a>
                         </div>
 
                     </div>
@@ -36,60 +34,102 @@
             </div>
 
             <div class="col-md-6">
-                
-                <form action="/events/<%= spot._id %>" method="POST">
-                    <div class="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon1"><i class="bi bi-calendar2-event"></i></span>
-                        <input id="day" name="event[day]" type="number" class="form-control" placeholder="dd" aria-label="Day"
-                            aria-describedby="basic-addon1" min=1 max=31 step=1 maxlength="2" required>
-                        <input id="month" name="event[month]" type="number" class="form-control" placeholder="mm" aria-label="Month" min=1
-                            max=12 step=1 maxlength=2 required>
-                        <input id="year" name="event[year]" type="number" class="form-control" placeholder="yyyy" aria-label="Year" min=2021
-                            max=3000>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
 
-                <% for (event of spot.events) { %>
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-sm-4">
-                                    <!-- Calendar illustration -->
-                                    <div class="cal-frame">
-                                        <div class="date-frame">
-                                            <span>
-                                                <%= event.date.getDate() %>
-                                            </span>
-                                        </div>
-                                        <div class="month-frame">
-                                            <span>
-                                                <%= monthArray[event.date.getMonth()] %>
-                                            </span>
+
+
+
+                <div class="col-sm-6 mx-auto">
+                    <form action="/events/<%= spot._id %>" method="POST">
+                        <div id="new-event" class="d-none">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="title-addon">Title</span>
+                                <input type="text" id="title" name="event[title]" class="form-control"
+                                    placeholder="What is the event called?" aria-label="title"
+                                    aria-describedby="title-addon">
+                            </div>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon1"><i
+                                        class="bi bi-calendar2-event"></i></span>
+                                <input id="day" name="event[day]" type="number" class="form-control" placeholder="dd"
+                                    aria-label="Day" aria-describedby="basic-addon1" min=1 max=31 step=1 maxlength="2"
+                                    required>
+                                <input id="month" name="event[month]" type="number" class="form-control"
+                                    placeholder="mm" aria-label="Month" min=1 max=12 step=1 maxlength=2 required>
+                                <input id="year" name="event[year]" type="number" class="form-control"
+                                    placeholder="yyyy" aria-label="Year" min=2021 max=3000>
+                            </div>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">Details</span>
+                                <textarea id="event" name="event[description]" class="form-control"
+                                    aria-label="With textarea"></textarea>
+                            </div>
+                            <div class="d-grid gap-2 mb-3">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </div>
+                        <div class="d-grid gap-2 mb-3">
+                            <button id="open-event-form" class="btn btn-primary"><i class="bi bi-calendar2-plus"></i>
+                                Event</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="event-container">
+                    <% for (event of spot.events) { %>
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <!-- Calendar illustration -->
+                                        <div class="cal-frame">
+                                            <div class="date-frame">
+                                                <span>
+                                                    <%= event.date.getDate() %>
+                                                </span>
+                                            </div>
+                                            <div class="month-frame">
+                                                <span>
+                                                    <%= monthArray[event.date.getMonth()] %>
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-sm-8">
-                                    <p class="card-title"></p>
-                                    <p class="h4 mb-0">Here is a Title</p>
-                                    <span class="text-muted">
-                                        <%= event.author %>
-                                    </span>
-                                    </p>
+                                    <div class="col-sm-9">
+                                        <p class="card-title"></p>
+                                        <p class="h4 mb-0"><%= event.title %></p>
+                                        <span class="text-muted">
+                                            <%= event.author %>
+                                        </span>
+                                        </p>
 
-                                    <p class="card-text">
-                                        Details:
-                                        <%= event.date %>
-                                    </p>
+                                        <p class="card-text">
+                                            <%= event.description %>
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <% } %>
+                        <% } %>
+                </div>
 
             </div>
         </div>
     </div>
+
+    <script>
+        const eventBtn = document.querySelector('#open-event-form');
+        const eventForm = document.querySelector('#new-event');
+
+        eventBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            eventForm.classList.toggle('d-none');
+            eventBtn.classList.toggle('btn-primary');
+            eventBtn.classList.toggle('btn-danger');
+            if (eventBtn.innerHTML === 'Cancel') {
+                eventBtn.innerHTML = '<i class="bi bi-calendar2-plus"></i> Event';
+            } else eventBtn.innerHTML = 'Cancel'
+        })
+    </script>
 
 
     <!-- 

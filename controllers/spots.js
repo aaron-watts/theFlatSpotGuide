@@ -13,7 +13,13 @@ module.exports.newForm = (req, res) => {
 
 module.exports.show = async (req, res) => {
     const spot = await Spot.findById(req.params.id)
-        .populate('events');
+        .populate({
+            path: 'events',
+            match: { date: { $gt: new Date()}},
+            options: {
+                sort: { date: 1 }
+            }
+        })
     res.render('spots/show', { spot, monthArray });
 }
 

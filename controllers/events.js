@@ -16,6 +16,8 @@ module.exports.create = async (req, res) => {
     const newEvent = new Event ({
         author: 'user99',
         date: new Date(parseInt(event.year), parseInt(event.month) - 1, parseInt(event.day)),
+        title: event.title,
+        description: event.description,
         spot: spotId
     })
     spot.events.push(newEvent);
