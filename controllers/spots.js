@@ -1,5 +1,5 @@
 const Spot = require('../models/spot');
-const Event = require('../models/event')
+const Event = require('../models/event');
 
 module.exports.index = async (req, res) => {
     const spots = await Spot.find({});

@@ -6,6 +6,7 @@ const methodOverride = require('method-override');
 const mongoose = require('mongoose');
 
 const spotRoutes = require('./routes/spots');
+const eventsRoutes = require('./routes/events')
 
 const port = 3000;
 
@@ -28,6 +29,7 @@ app.use(methodOverride('_method'));
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/spots', spotRoutes);
+app.use('/events', eventsRoutes);
 
 app.get('/', (req, res) => {
     res.send('Spot Guide!');

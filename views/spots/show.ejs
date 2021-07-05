@@ -27,10 +27,8 @@
                                     class="bi bi-trash"></i> Delete</a>
                         </div>
                         <div class="d-grid gap-3 col-sm-6 mx-auto mb-3">
-                            <a href="/spots/<%= spot._id %>?_method=DELETE" class="btn btn-warning"><i
-                                    class="bi bi-star"></i> Review</a>
-                            <a href="/spots/<%= spot._id %>?_method=DELETE" class="btn btn-primary"><i
-                                    class="bi bi-calendar2-plus"></i> Event</a>
+                            <a href="#" class="btn btn-warning"><i class="bi bi-star"></i> Review</a>
+                            <a href="/events/new" class="btn btn-primary"><i class="bi bi-calendar2-plus"></i> Event</a>
                         </div>
 
                     </div>
@@ -38,6 +36,20 @@
             </div>
 
             <div class="col-md-6">
+                
+                <form action="/events/<%= spot._id %>" method="POST">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1"><i class="bi bi-calendar2-event"></i></span>
+                        <input id="day" name="event[day]" type="number" class="form-control" placeholder="dd" aria-label="Day"
+                            aria-describedby="basic-addon1" min=1 max=31 step=1 maxlength="2" required>
+                        <input id="month" name="event[month]" type="number" class="form-control" placeholder="mm" aria-label="Month" min=1
+                            max=12 step=1 maxlength=2 required>
+                        <input id="year" name="event[year]" type="number" class="form-control" placeholder="yyyy" aria-label="Year" min=2021
+                            max=3000>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+
                 <% for (event of spot.events) { %>
                     <div class="card">
                         <div class="card-body">
@@ -46,10 +58,14 @@
                                     <!-- Calendar illustration -->
                                     <div class="cal-frame">
                                         <div class="date-frame">
-                                            <span><%= event.date.getDate() %></span>
+                                            <span>
+                                                <%= event.date.getDate() %>
+                                            </span>
                                         </div>
                                         <div class="month-frame">
-                                            <span><%= monthArray[event.date.getMonth()] %></span>
+                                            <span>
+                                                <%= monthArray[event.date.getMonth()] %>
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
@@ -70,6 +86,7 @@
                         </div>
                     </div>
                     <% } %>
+
             </div>
         </div>
     </div>
