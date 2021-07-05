@@ -1,5 +1,6 @@
 const Spot = require('../models/spot');
 const Event = require('../models/event');
+const { monthArray } = require('../utils');
 
 module.exports.index = async (req, res) => {
     const spots = await Spot.find({});
@@ -13,10 +14,6 @@ module.exports.newForm = (req, res) => {
 module.exports.show = async (req, res) => {
     const spot = await Spot.findById(req.params.id)
         .populate('events');
-    const monthArray = [
-        'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-        'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
-    ]
     res.render('spots/show', { spot, monthArray });
 }
 

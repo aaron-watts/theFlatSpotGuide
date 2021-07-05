@@ -9,6 +9,8 @@ const Event = require('../models/event');
 //     res.render('events/new');
 // })
 
-router.post('/:spotId', events.create)
+router.get('/', events.index);
+
+router.post('/:spotId', events.create);
 
 module.exports = router;

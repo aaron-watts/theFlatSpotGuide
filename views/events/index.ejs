@@ -1,0 +1,45 @@
+<% layout('layouts/boilerplate') %>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 m-auto">
+            <% for (event of events) { %>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <!-- Calendar illustration -->
+                                <div class="cal-frame">
+                                    <div class="date-frame">
+                                        <span>
+                                            <%= event.date.getDate() %>
+                                        </span>
+                                    </div>
+                                    <div class="month-frame">
+                                        <span>
+                                            <%= monthArray[event.date.getMonth()] %>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-8">
+                                <p class="card-title"></p>
+                                <p class="h4 mb-0">Here is a Title</p>
+                                <span class="text-muted">
+                                    <i class="bi bi-geo-alt"></i>
+                                    <%= event.spot.location %>
+                                </span>
+                                </p>
+
+                                <p class="card-text">
+                                    Details:
+                                    <%= event.date %>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <% } %> 
+        </div>
+    </div>
+</div>
