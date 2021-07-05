@@ -13,7 +13,17 @@ const spotSchema = new Schema({
     details: {
         type: String,
         required: true
-    }
+    },
+    author: {
+        type: String,
+        required: true
+    },
+    events: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Event'
+        }
+    ]
 })
 
 const Spot = mongoose.model('Spot', spotSchema);

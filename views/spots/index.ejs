@@ -10,7 +10,9 @@
                     <div class="card mb-3">
                         <div class="card-header">
                             <i class="bi bi-geo-alt"></i>
-                            <a href="geo:51.498169,-0.049067"><%= spot.location %></a>
+                            <a href="geo:51.498169,-0.049067">
+                                <%= spot.location %>
+                            </a>
                         </div>
                         <div class="card-body">
                             <div class="row">
@@ -20,9 +22,16 @@
                                         class="img-thumbnail" alt="">
                                 </div>
                                 <div class="col-sm-8">
-                                    <a href="/spots/<%= spot._id %>"><h3 class="card-title">
+                                    <p class="card-title"></p>
+                                    <p class="h4 mb-0">
+                                    <a href="/spots/<%= spot._id %>">
                                         <%= spot.name %>
-                                    </h3></a>
+                                    </a></p>
+                                    <span class="text-muted">
+                                        <%= spot.author %>
+                                    </span>
+                                    </p>
+
                                     <p class="card-text">
                                         <%= spot.details %>
                                     </p>
