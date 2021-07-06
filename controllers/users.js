@@ -25,5 +25,15 @@ module.exports.loginForm = (req, res) => {
 }
 
 module.exports.login = (req, res) => {
-    res.send(req.body)
+    console.log(req.body)
+    req.flash('success', 'Welcome back!');
+    const redirectUrl = req.session.returnTo || '/spots';
+    delete req.session.returnTo;
+    res.redirect(redirectUrl);
+}
+
+module.exports.logout = (req, res) => {
+    req.logout();
+    req.flash('success', 'Goodbye!');
+    res.redirect('/spots');
 }

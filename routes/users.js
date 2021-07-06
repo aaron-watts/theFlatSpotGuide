@@ -10,6 +10,10 @@ router.post('/register', catchAsync(user.register))
 
 router.get('/login', user.loginForm)
 
-router.post('/login', user.login)
+router.post('/login', passport.authenticate('local', 
+{ failureFlash: true, failureRedirect: '/login' }),
+user.login)
+
+router.get('/logout', user.logout)
 
 module.exports = router;
