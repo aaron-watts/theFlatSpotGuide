@@ -8,6 +8,7 @@ const session = require('express-session');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const flash = require('connect-flash');
+const ExpressError = require('./utils/ExpressError');
 const path = require('path');
 const ejsMate = require('ejs-mate');
 const methodOverride = require('method-override');
@@ -83,6 +84,16 @@ app.use('/events', eventsRoutes);
 
 app.get('/', (req, res) => {
     res.send('Spot Guide!');
+})
+
+app.all('*', (req, res, next) => {
+    next(new ExpressError('Page Not Found', 404));
+})
+
+app.use((err, req, res, next) => {
+    const { statusCode = 500, message = 'SOmethingWent Wrong!' } = err;
+    if (!err.message) err.message = 'Something Went Wrong!';
+    res.status(statusCode).render('error', { err })
 })
 
 app.listen(port, () => {
