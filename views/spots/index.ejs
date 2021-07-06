@@ -41,7 +41,11 @@
                         </div>
                         <div class="card-footer text-muted d-flex">
                             <div class="col"><i class="bi bi-calendar2-week"></i>
-                                <%= spot.events.length %> Event<%= spot.events.length > 1 ? 's' : '' %>
+                                <% if (spot.events.length) { %>
+                                    <%= spot.events.length %> Event<%= spot.events.length > 1 ? 's' : '' %>
+                                            <% } else { %>
+                                                No Events Scheduled
+                                                <% } %>
                             </div>
                             <div class="col"><i class="bi bi-star"></i> 2 Reviews</div>
                         </div>

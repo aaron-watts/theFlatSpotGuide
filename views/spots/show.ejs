@@ -2,7 +2,7 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-lg-6">
                 <img src="https://images.unsplash.com/photo-1523225078415-687408717027?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=745&q=80"
                     class="img-fluid" alt="">
                 <div class="card">
@@ -26,19 +26,19 @@
                         </div>
                         <div class="d-grid gap-3 col-sm-6 mx-auto mb-3">
                             <a href="/spots/<%= spot._id %>?_method=DELETE" class="btn btn-danger"><i
-                                class="bi bi-trash"></i> Delete</a>
+                                    class="bi bi-trash"></i> Delete</a>
                         </div>
 
                     </div>
                 </div>
             </div>
 
-            <div class="col-md-6">
+            <div class="col-lg-6">
 
 
 
 
-                <div class="col-sm-6 mx-auto">
+                <div class="col-lg-6 mx-auto mt-3">
                     <form action="/events/<%= spot._id %>" method="POST">
                         <div id="new-event" class="d-none">
                             <div class="input-group mb-3">
@@ -63,11 +63,11 @@
                                 <textarea id="event" name="event[description]" class="form-control"
                                     aria-label="With textarea"></textarea>
                             </div>
-                            <div class="d-grid gap-2 mb-3">
+                            <div class="d-grid gap-2 mb-3 mx-auto">
                                 <button type="submit" class="btn btn-primary">Submit</button>
                             </div>
                         </div>
-                        <div class="d-grid gap-2 mb-3">
+                        <div class="d-grid gap-2 mb-3 mx-auto">
                             <button id="open-event-form" class="btn btn-primary"><i class="bi bi-calendar2-plus"></i>
                                 Event</button>
                         </div>
@@ -76,12 +76,12 @@
 
                 <div class="event-container">
                     <% for (event of spot.events) { %>
-                        <div class="card">
+                        <div class="card mb-2">
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-sm-3">
+                                    <div class="col-sm-4">
                                         <!-- Calendar illustration -->
-                                        <div class="cal-frame">
+                                        <div class="cal-frame mx-auto">
                                             <div class="date-frame">
                                                 <span>
                                                     <%= event.date.getDate() %>
@@ -94,9 +94,11 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-sm-9">
+                                    <div class="col-sm-7 mx-2">
                                         <p class="card-title"></p>
-                                        <p class="h4 mb-0"><%= event.title %></p>
+                                        <p class="h4 mb-0">
+                                            <%= event.title %>
+                                        </p>
                                         <span class="text-muted">
                                             <%= event.author %>
                                         </span>
@@ -107,6 +109,13 @@
                                         </p>
                                     </div>
                                 </div>
+                            </div>
+
+                            <div class="card-footer text-muted d-flex justify-content-between">
+                                <div class="">Attending: 2
+                                </div>
+                                <div class=""><button class="btn btn-sm btn-secondary"><i
+                                            class="bi bi-bookmark-fill"></i> RSVP</button></div>
                             </div>
                         </div>
                         <% } %>
