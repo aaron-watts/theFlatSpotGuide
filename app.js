@@ -13,6 +13,7 @@ const methodOverride = require('method-override');
 const mongoose = require('mongoose');
 
 const User = require('./models/user');
+const userRoutes = require('./routes/users');
 const spotRoutes = require('./routes/spots');
 const eventsRoutes = require('./routes/events')
 
@@ -44,6 +45,9 @@ const sessionConfig = {
 app.use(session(sessionConfig));
 app.use(passport.initialize());
 app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs')
@@ -54,28 +58,12 @@ app.use(express.json());
 app.use(methodOverride('_method'));
 
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/', userRoutes)
 app.use('/spots', spotRoutes);
 app.use('/events', eventsRoutes);
 
 app.get('/', (req, res) => {
     res.send('Spot Guide!');
-})
-
-app.get('/viewcount', (req, res) => {
-    if (req.session.count) req.session.count++;
-    else req.session.count = 1;
-    res.send(`You have viewed this page ${req.session.count} times.`)
-})
-
-app.get('/register', (req, res) => {
-    const { username = 'Guest' } = req.query;
-    req.session.username = username;
-    res.redirect('/greet');
-})
-
-app.get('/greet', (req, res) => {
-    const { username } = req.session;
-    res.send(`Welcome back, ${username}`);
 })
 
 app.listen(port, () => {
