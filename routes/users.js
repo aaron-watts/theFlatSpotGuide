@@ -7,4 +7,8 @@ router.get('/register', user.registerForm)
 
 router.post('/register', user.register)
 
+router.get('/login', user.loginForm)
+
+router.post('/login', user.login)
+
 module.exports = router;

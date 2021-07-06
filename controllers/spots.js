@@ -24,7 +24,9 @@ module.exports.editForm = async (req, res) => {
 
 module.exports.create = async (req, res) => {
     const spot = new Spot(req.body.spot)
+    spot.author = 'aaron99'
     await spot.save();
+    req.flash('success', 'New Spot Created!')
     res.redirect('/spots');
 }
 

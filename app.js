@@ -7,6 +7,7 @@ const app = express();
 const session = require('express-session');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
+const flash = require('connect-flash');
 const path = require('path');
 const ejsMate = require('ejs-mate');
 const methodOverride = require('method-override');
@@ -17,9 +18,12 @@ const userRoutes = require('./routes/users');
 const spotRoutes = require('./routes/spots');
 const eventsRoutes = require('./routes/events')
 
+const MongoDBStore = require('connect-mongo');
 const port = 3000;
+const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/spotGuide'
+const secret = process.env.SECRET;
 
-mongoose.connect('mongodb://localhost:27017/spotGuide', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
         console.log('Connected to Database..');
     })
@@ -28,8 +32,14 @@ mongoose.connect('mongodb://localhost:27017/spotGuide', { useNewUrlParser: true,
         console.log(err);
     })
 
+const storeOptions = {
+    mongoUrl: dbUrl,
+    secret,
+    touchAfter: 24 * 60 * 60
+}
+
 const sessionConfig = {
-    //store: MongoDBStore.create(storeOptions),
+    store: MongoDBStore.create(storeOptions),
     name: 'session',
     secret: process.env.SECRET,
     resave: false,
@@ -56,6 +66,15 @@ app.set('views', path.join(__dirname, '/views'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(methodOverride('_method'));
+
+app.use(flash());
+
+app.use((req, res, next) => {
+    res.locals.currentUser = req.user;
+    res.locals.success = req.flash('success');
+    res.locals.error = req.flash('error');
+    next();
+})
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', userRoutes)

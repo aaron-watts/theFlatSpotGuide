@@ -17,3 +17,11 @@ module.exports.register = async (req, res) => {
         res.send(err);
     }
 }
+
+module.exports.loginForm = (req, res) => {
+    res.render('users/login');
+}
+
+module.exports.login = (req, res) => {
+    res.send(req.body)
+}
