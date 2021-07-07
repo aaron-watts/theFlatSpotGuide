@@ -3,7 +3,14 @@ const Event = require('../models/event');
 const { monthArray } = require('../utils');
 
 module.exports.index = async (req, res) => {
-    const spots = await Spot.find({});
+    const spots = await Spot.find({})
+        .populate({
+            path: 'events',
+            match: { date: { $gt: new Date() } },
+            options: {
+                sort: { date: 1 }
+            }
+        });
     res.render('spots/index', { spots });
 }
 
@@ -13,7 +20,13 @@ module.exports.newForm = (req, res) => {
 
 module.exports.show = async (req, res) => {
     const spot = await Spot.findById(req.params.id)
-        .populate('events');
+        .populate({
+            path: 'events',
+            match: { date: { $gt: new Date() } },
+            options: {
+                sort: { date: 1 }
+            }
+        });
     res.render('spots/show', { spot, monthArray });
 }
 
@@ -32,7 +45,7 @@ module.exports.create = async (req, res) => {
 
 module.exports.update = async (req, res) => {
     const { id } = req.params;
-    const spot = await Spot.findByIdAndUpdate(id, {...req.body.spot});
+    const spot = await Spot.findByIdAndUpdate(id, { ...req.body.spot });
     res.redirect(`/spots/${id}`);
 }
 

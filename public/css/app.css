@@ -14,10 +14,10 @@
 }
 
 .date-frame {
-    font-size: 7rem;
-    font-weight: 500;
-    margin: -2.5rem auto;
-    color: red;
+    font-size: 6rem;
+    font-weight: 600;
+    margin: -1.8rem auto;
+    color: #dc3545;
 }
 
 .month-frame {
@@ -38,3 +38,4 @@ input::-webkit-inner-spin-button {
 input[type=number] {
     -moz-appearance: textfield;
 }
+

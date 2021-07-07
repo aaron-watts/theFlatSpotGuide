@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-md-6 m-auto">
             <% for (event of events) { %>
-                <div class="card">
+                <div class="card mb-3">
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-4">
@@ -24,19 +24,25 @@
                             </div>
                             <div class="col-sm-8">
                                 <p class="card-title"></p>
-                                <p class="h4 mb-0">Here is a Title</p>
+                                <p class="h4 mb-0"><%= event.title %></p>
                                 <span class="text-muted">
-                                    <i class="bi bi-geo-alt"></i>
-                                    <%= event.spot.location %>
+                                    <a href="/spots/<%= event.spot._id %>"><i class="bi bi-geo-alt"></i>
+                                    <%= event.spot.location %></a>
                                 </span>
                                 </p>
 
                                 <p class="card-text">
-                                    Details:
-                                    <%= event.date %>
+                                    <%= event.description %>
                                 </p>
                             </div>
                         </div>
+                    </div>
+
+                    <div class="card-footer text-muted d-flex justify-content-between">
+                        <div class="">Attending: 2
+                        </div>
+                        <div class=""><button class="btn btn-sm btn-secondary"><i
+                                    class="bi bi-bookmark-fill"></i> RSVP</button></div>
                     </div>
                 </div>
                 <% } %> 

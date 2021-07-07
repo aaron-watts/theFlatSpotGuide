@@ -10,6 +10,14 @@ const eventSchema = new Schema({
         type: Date,
         required: true
     },
+    title: {
+        type: String,
+        required: true
+    },
+    description: {
+        type: String,
+        required: true
+    },
     spot: {
         type: Schema.Types.ObjectId,
         ref: 'Spot'
