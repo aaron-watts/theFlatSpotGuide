@@ -10,7 +10,8 @@ module.exports.index = async (req, res) => {
             options: {
                 sort: { date: 1 }
             }
-        });
+        })
+        .populate('author');
     res.render('spots/index', { spots });
 }
 
@@ -26,7 +27,8 @@ module.exports.show = async (req, res) => {
             options: {
                 sort: { date: 1 }
             }
-        });
+        })
+        .populate('author');
     res.render('spots/show', { spot, monthArray });
 }
 
@@ -37,7 +39,7 @@ module.exports.editForm = async (req, res) => {
 
 module.exports.create = async (req, res) => {
     const spot = new Spot(req.body.spot)
-    spot.author = 'aaron99'
+    spot.author = req.user._id;
     await spot.save();
     req.flash('success', 'New Spot Created!')
     res.redirect('/spots');

@@ -15,10 +15,12 @@
                         <a href="geo:51.498169,-0.049067" class=" text-muted">
                             <%= spot.location %>
                         </a>
+                        <p class="card-text">Spotted by <%= spot.author.username %></p>
                         <p class="card-text">
                             <%= spot.details %>
                         </p>
                     </div>
+                    <% if (currentUser && spot.author.equals(currentUser._id)) { %>
                     <div class="card-body row">
                         <div class="d-grid gap-3 col-sm-6 mx-auto mb-3">
                             <a href="/spots/<%= spot._id %>/edit" class="btn btn-info"><i class="bi bi-pencil"></i>
@@ -30,6 +32,7 @@
                         </div>
 
                     </div>
+                    <% } %> 
                 </div>
             </div>
 
@@ -100,7 +103,7 @@
                                             <%= event.title %>
                                         </p>
                                         <span class="text-muted">
-                                            <%= event.author %>
+                                            <%= event.author.username %>
                                         </span>
                                         </p>
 
