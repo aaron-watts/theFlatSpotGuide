@@ -25,6 +25,7 @@
                             <div class="col-sm-8">
                                 <p class="card-title"></p>
                                 <p class="h4 mb-0"><%= event.title %></p>
+                                <p>Added by <%= event.author.username %></p>
                                 <span class="text-muted">
                                     <a href="/spots/<%= event.spot._id %>"><i class="bi bi-geo-alt"></i>
                                     <%= event.spot.location %></a>

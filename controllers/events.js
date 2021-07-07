@@ -5,7 +5,9 @@ const { monthArray } = require('../utils');
 module.exports.index = async (req, res) => {
     const events = await Event.find({ 'date': {'$gte': new Date()} })
         .sort({'date': 1})
-        .populate('spot');
+        .populate('spot')
+        .populate('author');
+    req.session.returnTo = req.originalUrl;
     res.render('events/index', { events, monthArray });
 }
 
@@ -14,12 +16,12 @@ module.exports.create = async (req, res) => {
     const { event } = req.body;
     const spot = await Spot.findById(spotId);
     const newEvent = new Event ({
-        author: 'user99',
         date: new Date(parseInt(event.year), parseInt(event.month) - 1, parseInt(event.day)),
         title: event.title,
         description: event.description,
         spot: spotId
     })
+    newEvent.author = req.user._id;
     spot.events.push(newEvent);
     await newEvent.save();
     await spot.save();

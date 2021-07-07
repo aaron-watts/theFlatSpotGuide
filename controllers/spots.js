@@ -12,6 +12,7 @@ module.exports.index = async (req, res) => {
             }
         })
         .populate('author');
+    req.session.returnTo = req.originalUrl;
     res.render('spots/index', { spots });
 }
 
@@ -23,17 +24,22 @@ module.exports.show = async (req, res) => {
     const spot = await Spot.findById(req.params.id)
         .populate({
             path: 'events',
+            populate: {
+                path: 'author'
+            },
             match: { date: { $gt: new Date() } },
             options: {
                 sort: { date: 1 }
             }
         })
         .populate('author');
+    req.session.returnTo = req.originalUrl;
     res.render('spots/show', { spot, monthArray });
 }
 
 module.exports.editForm = async (req, res) => {
     const spot = await Spot.findById(req.params.id);
+    req.session.returnTo = req.originalUrl;
     res.render('spots/edit', { spot });
 }
 
