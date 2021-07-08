@@ -1,6 +1,6 @@
 const Spot = require('../models/spot');
 const Event = require('../models/event');
-const { monthArray } = require('../utils');
+const { monthArray } = require('../utils/data');
 
 module.exports.index = async (req, res) => {
     const spots = await Spot.find({})
@@ -33,13 +33,11 @@ module.exports.show = async (req, res) => {
             }
         })
         .populate('author');
-    req.session.returnTo = req.originalUrl;
     res.render('spots/show', { spot, monthArray });
 }
 
 module.exports.editForm = async (req, res) => {
     const spot = await Spot.findById(req.params.id);
-    req.session.returnTo = req.originalUrl;
     res.render('spots/edit', { spot });
 }
 

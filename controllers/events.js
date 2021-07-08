@@ -1,13 +1,12 @@
 const Spot = require('../models/spot');
 const Event = require('../models/event');
-const { monthArray } = require('../utils');
+const { monthArray } = require('../utils/data');
 
 module.exports.index = async (req, res) => {
     const events = await Event.find({ 'date': {'$gte': new Date()} })
         .sort({'date': 1})
         .populate('spot')
         .populate('author');
-    req.session.returnTo = req.originalUrl;
     res.render('events/index', { events, monthArray });
 }
 
