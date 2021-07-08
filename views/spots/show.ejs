@@ -15,24 +15,25 @@
                         <a href="geo:51.498169,-0.049067" class=" text-muted">
                             <%= spot.location %>
                         </a>
-                        <p class="card-text">Spotted by <%= spot.author.username %></p>
+                        <p class="card-text">Spotted by <%= spot.author.username %>
+                        </p>
                         <p class="card-text">
                             <%= spot.details %>
                         </p>
                     </div>
                     <% if (currentUser && spot.author.equals(currentUser._id)) { %>
-                    <div class="card-body row">
-                        <div class="d-grid gap-3 col-sm-6 mx-auto mb-3">
-                            <a href="/spots/<%= spot._id %>/edit" class="btn btn-info"><i class="bi bi-pencil"></i>
-                                Edit</a>
-                        </div>
-                        <div class="d-grid gap-3 col-sm-6 mx-auto mb-3">
-                            <a href="/spots/<%= spot._id %>?_method=DELETE" class="btn btn-danger"><i
-                                    class="bi bi-trash"></i> Delete</a>
-                        </div>
+                        <div class="card-body row">
+                            <div class="d-grid gap-3 col-sm-6 mx-auto mb-3">
+                                <a href="/spots/<%= spot._id %>/edit" class="btn btn-info"><i class="bi bi-pencil"></i>
+                                    Edit</a>
+                            </div>
+                            <div class="d-grid gap-3 col-sm-6 mx-auto mb-3">
+                                <a href="/spots/<%= spot._id %>?_method=DELETE" class="btn btn-danger"><i
+                                        class="bi bi-trash"></i> Delete</a>
+                            </div>
 
-                    </div>
-                    <% } %> 
+                        </div>
+                        <% } %>
                 </div>
             </div>
 
@@ -43,7 +44,7 @@
 
                 <div class="col-lg-6 mx-auto mt-3">
                     <form action="/events/<%= spot._id %>" method="POST">
-                        <div id="new-event" class="d-none">
+                        <div id="new-event" class="collapse">
                             <div class="input-group mb-3">
                                 <span class="input-group-text" id="title-addon">Title</span>
                                 <input type="text" id="title" name="event[title]" class="form-control"
@@ -71,8 +72,10 @@
                             </div>
                         </div>
                         <div class="d-grid gap-2 mb-3 mx-auto">
-                            <button id="open-event-form" class="btn btn-primary"><i class="bi bi-calendar2-plus"></i>
-                                Event</button>
+                            <button id="open-event-form" class="btn btn-primary" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#new-event" aria-expanded="false"
+                                aria-controls="collapseForm"><i class="bi bi-pin-angle"></i>
+                                Pin Event</button>
                         </div>
                     </form>
                 </div>
@@ -134,11 +137,11 @@
 
         eventBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            eventForm.classList.toggle('d-none');
+            //eventForm.classList.toggle('d-none');
             eventBtn.classList.toggle('btn-primary');
             eventBtn.classList.toggle('btn-danger');
             if (eventBtn.innerHTML === 'Cancel') {
-                eventBtn.innerHTML = '<i class="bi bi-calendar2-plus"></i> Event';
+                eventBtn.innerHTML = '<i class="bi bi-pin-angle"></i> Pin Event';
             } else eventBtn.innerHTML = 'Cancel'
         })
     </script>
