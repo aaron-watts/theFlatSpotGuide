@@ -5,17 +5,18 @@
             <div class="col-lg-6">
                 <img src="https://images.unsplash.com/photo-1523225078415-687408717027?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=745&q=80"
                     class="img-fluid" alt="">
-                <div class="card">
-
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <i class="bi bi-geo-alt"></i>
+                        <a href="geo:51.498169,-0.049067">
+                            <%= spot.location %>
+                        </a>
+                    </div>
                     <div class="card-body">
                         <h1 class="card-title">
                             <%= spot.name %>
                         </h1>
-                        <i class="bi bi-geo-alt text-muted"></i>
-                        <a href="geo:51.498169,-0.049067" class=" text-muted">
-                            <%= spot.location %>
-                        </a>
-                        <p class="card-text">Spotted by <%= spot.author.username %>
+                        <p class="card-text text-muted">Pinned by <%= spot.author.username %>
                         </p>
                         <p class="card-text">
                             <%= spot.details %>
