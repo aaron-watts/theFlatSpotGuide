@@ -1,52 +1,78 @@
 <% layout('layouts/boilerplate') %>
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-6 m-auto">
-            <% for (event of events) { %>
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-sm-4">
-                                <!-- Calendar illustration -->
-                                <div class="cal-frame">
-                                    <div class="date-frame">
-                                        <span>
-                                            <%= event.date.getDate() %>
-                                        </span>
-                                    </div>
-                                    <div class="month-frame">
-                                        <span>
-                                            <%= monthArray[event.date.getMonth()] %>
-                                        </span>
+    <div class="event-container">
+        <div class="row">
+            <div class="col-md-6 m-auto">
+                <% for (event of events) { %>
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <span class="text-muted">
+                                <i class="bi bi-geo-alt">
+                                </i>
+                                <a class="text-muted" href="/spots/<%= event.spot._id %>">
+                                    <%= event.spot.name %>
+                                </a>
+                                <%= event.spot.location %>
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <!-- Calendar illustration -->
+                                    <div class="cal-frame mx-auto">
+                                        <div class="date-frame">
+                                            <span>
+                                                <%= event.date.getDate() %>
+                                            </span>
+                                        </div>
+                                        <div class="month-frame">
+                                            <span>
+                                                <%= monthArray[event.date.getMonth()] %>
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-sm-8">
-                                <p class="card-title"></p>
-                                <p class="h4 mb-0"><%= event.title %></p>
-                                <p>Added by <%= event.author.username %></p>
-                                <span class="text-muted">
-                                    <a href="/spots/<%= event.spot._id %>"><i class="bi bi-geo-alt"></i>
-                                    <%= event.spot.location %></a>
-                                </span>
-                                </p>
+                                <div class="col-sm-8">
+                                    <p class="card-title"></p>
+                                    <p class="h4 mb-0">
+                                        <%= event.title %>
+                                    </p>
+                                    <p class="text-muted">Added by <%= event.author.username %>
+                                    </p>
 
-                                <p class="card-text">
-                                    <%= event.description %>
-                                </p>
+                                    </p>
+
+                                    <p class="card-text">
+                                        <%= event.description %>
+                                    </p>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="card-footer text-muted d-flex justify-content-between">
-                        <div class="">Attending: 2
-                        </div>
-                        <div class=""><button class="btn btn-sm btn-secondary"><i
-                                    class="bi bi-bookmark-fill"></i> RSVP</button></div>
+                        <% if (currentUser && event.author.equals(currentUser._id)) { %>
+                            <div class="card-body row">
+                                <div class="d-grid gap-3 col-sm-6 mx-auto mb-3">
+                                    <a href="/spots/<%= event._id %>/edit" class="btn btn-info"><i
+                                            class="bi bi-pencil"></i>
+                                        Edit</a>
+                                </div>
+                                <div class="d-grid gap-3 col-sm-6 mx-auto mb-3">
+                                    <a href="/spots/<%= event._id %>?_method=DELETE" class="btn btn-danger"><i
+                                            class="bi bi-trash"></i> Delete Event</a>
+                                </div>
+
+                            </div>
+                            <% } %>
+
+                                <div class="card-footer text-muted d-flex justify-content-between">
+                                    <div class="">Attending: 2
+                                    </div>
+                                    <div class=""><button class="btn btn-sm btn-secondary"><i
+                                                class="bi bi-bookmark-fill"></i>
+                                            RSVP</button></div>
+                                </div>
                     </div>
-                </div>
-                <% } %> 
+                    <% } %>
+            </div>
         </div>
     </div>
-</div>
