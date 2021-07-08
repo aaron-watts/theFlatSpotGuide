@@ -3,6 +3,7 @@ const Event = require('../models/event');
 const { monthArray } = require('../utils/data');
 
 module.exports.index = async (req, res) => {
+    //console.log(req.originalUrl)
     const spots = await Spot.find({})
         .populate({
             path: 'events',
@@ -12,8 +13,7 @@ module.exports.index = async (req, res) => {
             }
         })
         .populate('author');
-    req.session.returnTo = req.originalUrl;
-    res.render('spots/index', { spots });
+        res.render('spots/index', { spots });
 }
 
 module.exports.newForm = (req, res) => {

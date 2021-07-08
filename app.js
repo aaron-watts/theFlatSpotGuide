@@ -77,6 +77,8 @@ app.use((req, res, next) => {
     next();
 })
 
+// app.use(express.static('public'));
+// app.set('public', path.join(__dirname, '/public'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', userRoutes)
 app.use('/spots', spotRoutes);
