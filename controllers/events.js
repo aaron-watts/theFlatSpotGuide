@@ -6,7 +6,8 @@ module.exports.index = async (req, res) => {
     const events = await Event.find({ 'date': {'$gte': new Date()} })
         .sort({'date': 1})
         .populate('spot')
-        .populate('author');
+        .populate('author')
+        .populate('rsvps');
     res.render('events/index', { events, monthArray });
 }
 
@@ -25,4 +26,14 @@ module.exports.create = async (req, res) => {
     await newEvent.save();
     await spot.save();
     res.redirect(`/spots/${spotId}`);
+}
+
+module.exports.rsvp = async (req, res) => {
+    const { eventId } = req.params;
+    console.log(req.user._id);
+    console.log(eventId);
+    const event = await Event.findById(eventId);
+    event.rsvps.push(req.user._id);
+    event.save();
+    res.send('OK');
 }

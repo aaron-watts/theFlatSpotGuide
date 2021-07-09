@@ -134,8 +134,11 @@
                             <div class="card-footer text-muted d-flex justify-content-between">
                                 <div class="">Attending: 2
                                 </div>
-                                <div class=""><button class="btn btn-sm btn-secondary"><i
-                                            class="bi bi-bookmark-fill"></i> RSVP</button></div>
+                                <div class="">
+                                    <% if (currentUser) { %> <button class="btn btn-sm btn-secondary"><i
+                                            class="bi bi-bookmark-fill"></i> RSVP</button>
+                                        <% } %> 
+                                        </div>
                             </div>
                         </div>
                         <% } %>

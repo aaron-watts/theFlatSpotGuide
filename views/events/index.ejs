@@ -2,7 +2,7 @@
 
     <div class="event-container">
         <div class="row">
-            <div class="col-md-6 m-auto">
+            <div class="col-lg-6 m-auto">
                 <% for (event of events) { %>
                     <div class="card mb-3">
                         <div class="card-header">
@@ -37,9 +37,15 @@
                                     <p class="h4 mb-0">
                                         <%= event.title %>
                                     </p>
-                                    <p class="text-muted">Pinned by <%= event.author.username %>
+                                    <p class="text-muted"><i class="bi bi-pin-angle"></i> Pinned by <%= event.author.username %>
                                     </p>
 
+                                    <p>
+                                        <%= event.rsvps[0]._id %>
+                                            <br>
+                                            <%= currentUser._id %>
+                                                <br>
+                                                <%= event.rsvps.some(i=> i.equals(currentUser._id)) %>
                                     </p>
 
                                     <p class="card-text">
@@ -64,13 +70,16 @@
                             </div>
                             <% } %>
 
-                                <div class="card-footer text-muted d-flex justify-content-between">
-                                    <div class="">Attending: 2
+                                <div class="card-footer text-muted d-flex justify-content-between align-items-center">
+                                    <div class="py-1"><%= event.rsvps.length %> interested
                                     </div>
-                                    <div class="">
+                                    <div id="rsvp<%= event._id %>" class="">
                                         <% if (currentUser) { %>
-                                            <button class="btn btn-sm btn-secondary"><i class="bi bi-bookmark-fill"></i>
+                                            <button id=<%=event._id %> class="rsvp btn btn-sm btn-secondary"><i
+                                                    class="bi bi-bookmark-fill"></i>
                                                 RSVP</button>
+
+
                                             <% } %>
                                     </div>
                                 </div>
@@ -79,3 +88,29 @@
             </div>
         </div>
     </div>
+
+    <script src="/javascript/axios.js"></script>
+    <script>
+        const rsvpButtons = document.querySelectorAll('button.rsvp');
+
+        for (let button of rsvpButtons) {
+            button.addEventListener('click', async function () {
+                // console.log(this.id)
+                const removeButton = function (btn) {
+                    const div = btn.parentElement;
+                    console.log(div)
+                    const badge = document.createElement('SPAN');
+                    const content = document.createElement('I');
+                    content.classList.add('bi', 'bi-bookmark-fill', 'py-0');
+                    badge.appendChild(content);
+                    badge.classList.add('badge', 'bg-success', 'fs-6');
+                    btn.remove();
+                    div.appendChild(badge);
+                }
+                const res = await axios.put(`/events/${this.id}`)
+                    .then(removeButton(this))
+            })
+        }
+
+        //console.log(rsvpButtons[0].id)
+    </script>

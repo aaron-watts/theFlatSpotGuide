@@ -21,7 +21,13 @@ const eventSchema = new Schema({
     spot: {
         type: Schema.Types.ObjectId,
         ref: 'Spot'
-    }
+    },
+    rsvps: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'User'
+        }
+    ]
 })
 
 const Event = mongoose.model('Event', eventSchema);
