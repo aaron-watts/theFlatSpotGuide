@@ -14,6 +14,7 @@ router.route('/:id')
     .get(rememberPage, spots.show)
     .put(catchAsync(spots.update))
     .delete(catchAsync(spots.delete))
+    .patch(spots.follow)
 
 router.get('/:id/edit', spots.editForm)
 

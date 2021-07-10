@@ -59,3 +59,18 @@ module.exports.delete = async (req, res) => {
     const spot = await Spot.findByIdAndDelete(req.params.id);
     res.redirect('/spots');
 }
+
+module.exports.follow = async (req, res) => {
+    const user = req.user._id;
+    const spotId = req.params.id;
+    const spot = await Spot.findById(req.params.id);
+    if(!spot.following.some(i => i.equals(user))) {
+        spot.following.push(user);
+        await spot.save();
+        res.send(true);
+    } else {
+        spot.following.pull(user);
+        await spot.save();
+        res.send(false);
+    }
+}

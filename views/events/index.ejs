@@ -71,11 +71,11 @@
                                     <div id="rsvp<%= event._id %>" class="">
 
                                         <% if (currentUser && !event.rsvps.some(i=> i.equals(currentUser._id))) { %>
-                                            <button id="<%=event._id %>" class="follow rsvp btn btn-sm text-secondary"><i
+                                            <button id="<%=event._id %>" class="follow-event btn btn-sm text-secondary"><i
                                                     class="bi bi-bookmark-fill"></i></button>
                                             <% } if (currentUser && event.rsvps.some(i=> i.equals(currentUser._id))) { %>
                                                 <button id="<%= event._id %>"
-                                                    class="unfollow rsvp btn btn-sm text-success"><i
+                                                    class="unfollow-event btn btn-sm text-success"><i
                                                         class="bi bi-bookmark-fill"></i></button>
                                                 <% } %>
                                     </div>

@@ -49,6 +49,5 @@ module.exports.rsvp = async (req, res) => {
 module.exports.unrsvp = async (req, res) => {
     const { eventId } = req.params;
     await Event.findByIdAndUpdate(eventId, {$pull: { rsvps: req.user._id }});
-    console.log('pulling!')
     res.send('OK');
 }

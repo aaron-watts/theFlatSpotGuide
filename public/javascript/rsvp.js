@@ -1,11 +1,11 @@
-const rsvpButtons = document.querySelectorAll('button.rsvp.follow');
-const unrsvpButtons = document.querySelectorAll('button.rsvp.unfollow');
+const rsvpButtons = document.querySelectorAll('button.follow-event');
+const unrsvpButtons = document.querySelectorAll('button.unfollow-event');
 
 const follow = async function () {
     console.log('follow')
     const removeButton = function (btn) {
         const newBtn = document.createElement('BUTTON');
-        newBtn.classList.add('btn', 'text-success', 'btn-sm', 'rsvp', 'unfollow');
+        newBtn.classList.add('btn', 'text-success', 'btn-sm','unfollow-event');
         newBtn.id = btn.id;         
         const content = document.createElement('I');
         content.classList.add('bi', 'bi-bookmark-fill');
@@ -22,7 +22,7 @@ const unfollow = async function () {
     console.log('unfollow');
     const removeButton = function (btn) {
         const newBtn = document.createElement('BUTTON');
-        newBtn.classList.add('btn', 'text-secondary', 'btn-sm', 'rsvp', 'follow');
+        newBtn.classList.add('btn', 'text-secondary', 'btn-sm', 'follow-event');
         newBtn.id = btn.id;     
         const content = document.createElement('I');
         content.classList.add('bi', 'bi-bookmark-fill');
