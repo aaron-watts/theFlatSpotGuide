@@ -73,8 +73,7 @@
                                             <button id=<%=event._id %> class="rsvp btn btn-sm btn-secondary"><i
                                                     class="bi bi-bookmark-fill"></i>
                                                 RSVP</button>
-                                            <% } if (currentUser && event.rsvps.some(i=> i.equals(currentUser._id))) {
-                                                %>
+                                            <% } if (currentUser && event.rsvps.some(i=> i.equals(currentUser._id))) { %>
                                                 <span class="badge bg-success fs-6"><i
                                                         class="bi bi-bookmark-fill"></i></span>
                                                 <% } %>
@@ -87,27 +86,4 @@
     </div>
 
     <script src="/javascript/axios.js"></script>
-    <script>
-        const rsvpButtons = document.querySelectorAll('button.rsvp');
-
-        for (let button of rsvpButtons) {
-            button.addEventListener('click', async function () {
-                // console.log(this.id)
-                const removeButton = function (btn) {
-                    const div = btn.parentElement;
-                    console.log(div)
-                    const badge = document.createElement('SPAN');
-                    const content = document.createElement('I');
-                    content.classList.add('bi', 'bi-bookmark-fill', 'py-0');
-                    badge.appendChild(content);
-                    badge.classList.add('badge', 'bg-success', 'fs-6');
-                    btn.remove();
-                    div.appendChild(badge);
-                }
-                const res = await axios.put(`/events/${this.id}`)
-                    .then(removeButton(this))
-            })
-        }
-
-        //console.log(rsvpButtons[0].id)
-    </script>
+    <script src="/javascript/rsvp.js"></script>

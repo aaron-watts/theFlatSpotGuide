@@ -1,12 +1,18 @@
-const eventBtn = document.querySelector('#open-event-form');
-const eventForm = document.querySelector('#new-event');
+const rsvpButtons = document.querySelectorAll('button.rsvp');
 
-eventBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    //eventForm.classList.toggle('d-none');
-    eventBtn.classList.toggle('btn-primary');
-    eventBtn.classList.toggle('btn-danger');
-    if (eventBtn.innerHTML === 'Cancel') {
-        eventBtn.innerHTML = '<i class="bi bi-pin-angle"></i> Pin Event';
-    } else eventBtn.innerHTML = 'Cancel'
-})
+for (let button of rsvpButtons) {
+    button.addEventListener('click', async function () {
+        const removeButton = function (btn) {
+            const div = btn.parentElement;
+            const badge = document.createElement('SPAN');
+            const content = document.createElement('I');
+            content.classList.add('bi', 'bi-bookmark-fill', 'py-0');
+            badge.appendChild(content);
+            badge.classList.add('badge', 'bg-success', 'fs-6');
+            btn.remove();
+            div.appendChild(badge);
+        }
+        const res = await axios.put(`/events/${this.id}`)
+            .then(removeButton(this))
+    })
+}

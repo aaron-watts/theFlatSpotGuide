@@ -12,11 +12,13 @@ module.exports.register = async (req, res) => {
         req.login(registeredUser, err => {
             if (err) return res.send(err);
             req.flash('success', 'Welcome to SpotGuide')
-            res.redirect('/spots');
+            const redirectUrl = req.session.returnTo || '/spots';
+            delete req.session.returnTo;
+            res.redirect(redirectUrl);
         })
     } catch (err) {
         req.flash('error', 'err.message')
-        res.redirect('redirect');
+        res.redirect('/register');
     }
 }
 
