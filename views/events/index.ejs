@@ -37,15 +37,8 @@
                                     <p class="h4 mb-0">
                                         <%= event.title %>
                                     </p>
-                                    <p class="text-muted"><i class="bi bi-pin-angle"></i> Pinned by <%= event.author.username %>
-                                    </p>
-
-                                    <p>
-                                        <%= event.rsvps[0]._id %>
-                                            <br>
-                                            <%= currentUser._id %>
-                                                <br>
-                                                <%= event.rsvps.some(i=> i.equals(currentUser._id)) %>
+                                    <p class="text-muted"><i class="bi bi-pin-angle"></i> Pinned by <%=
+                                            event.author.username %>
                                     </p>
 
                                     <p class="card-text">
@@ -62,25 +55,29 @@
                                             class="bi bi-pencil"></i>
                                         Edit</a>
                                 </div>
-                                <div class="d-grid gap-3 col-sm-6 mx-auto mb-3">
-                                    <a href="/spots/<%= event._id %>?_method=DELETE" class="btn btn-danger"><i
-                                            class="bi bi-trash"></i> Delete Event</a>
-                                </div>
+                                <form action="/events/<%= event._id %>/<%= event.spot._id %>?_method=DELETE" method="POST"
+                                    class="d-grid gap-3 col-sm-6 mx-auto mb-3">
+                                    <button type="submit" class="btn btn-danger"><i
+                                            class="bi bi-trash"></i> Delete Event</button>
+                                </form>
 
                             </div>
                             <% } %>
 
                                 <div class="card-footer text-muted d-flex justify-content-between align-items-center">
-                                    <div class="py-1"><%= event.rsvps.length %> interested
+                                    <div class="py-1">
+                                        <%= event.rsvps.length %> interested
                                     </div>
                                     <div id="rsvp<%= event._id %>" class="">
-                                        <% if (currentUser) { %>
+                                        <% if (currentUser && !event.rsvps.some(i=> i.equals(currentUser._id))) { %>
                                             <button id=<%=event._id %> class="rsvp btn btn-sm btn-secondary"><i
                                                     class="bi bi-bookmark-fill"></i>
                                                 RSVP</button>
-
-
-                                            <% } %>
+                                            <% } if (currentUser && event.rsvps.some(i=> i.equals(currentUser._id))) {
+                                                %>
+                                                <span class="badge bg-success fs-6"><i
+                                                        class="bi bi-bookmark-fill"></i></span>
+                                                <% } %>
                                     </div>
                                 </div>
                     </div>

@@ -16,6 +16,8 @@ router.get('/', rememberPage, events.index);
 
 router.post('/:spotId', catchAsync(events.create));
 
-router.put('/:eventId', events.rsvp)
+router.put('/:eventId', events.rsvp);
+
+router.delete('/:eventId/:spotId', catchAsync(events.delete))
 
 module.exports = router;

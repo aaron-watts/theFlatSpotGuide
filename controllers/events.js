@@ -22,10 +22,19 @@ module.exports.create = async (req, res) => {
         spot: spotId
     })
     newEvent.author = req.user._id;
+    newEvent.rsvps.push(req.user._id);
     spot.events.push(newEvent);
     await newEvent.save();
     await spot.save();
     res.redirect(`/spots/${spotId}`);
+}
+
+module.exports.delete = async (req, res) => {
+    const { eventId, spotId } = req.params;
+    await Spot.findByIdAndUpdate(spotId, {$pull: { events: eventId }});
+    await Event.findByIdAndDelete(eventId);
+    req.flash('success', 'Event Deleted!')
+    res.redirect(req.session.returnTo);
 }
 
 module.exports.rsvp = async (req, res) => {
