@@ -55,10 +55,10 @@
                                             class="bi bi-pencil"></i>
                                         Edit</a>
                                 </div>
-                                <form action="/events/<%= event._id %>/<%= event.spot._id %>?_method=DELETE" method="POST"
-                                    class="d-grid gap-3 col-sm-6 mx-auto mb-3">
-                                    <button type="submit" class="btn btn-danger"><i
-                                            class="bi bi-trash"></i> Delete Event</button>
+                                <form action="/events/<%= event._id %>/<%= event.spot._id %>?_method=DELETE"
+                                    method="POST" class="d-grid gap-3 col-sm-6 mx-auto mb-3">
+                                    <button type="submit" class="btn btn-danger"><i class="bi bi-trash"></i> Delete
+                                        Event</button>
                                 </form>
 
                             </div>
@@ -69,13 +69,14 @@
                                         <%= event.rsvps.length %> interested
                                     </div>
                                     <div id="rsvp<%= event._id %>" class="">
+
                                         <% if (currentUser && !event.rsvps.some(i=> i.equals(currentUser._id))) { %>
-                                            <button id="<%=event._id %>" class="rsvp btn btn-sm btn-secondary"><i
-                                                    class="bi bi-bookmark-fill"></i>
-                                                RSVP</button>
+                                            <button id="<%=event._id %>" class="follow rsvp btn btn-sm text-secondary"><i
+                                                    class="bi bi-bookmark-fill"></i></button>
                                             <% } if (currentUser && event.rsvps.some(i=> i.equals(currentUser._id))) { %>
-                                                <span class="badge bg-success fs-6"><i
-                                                        class="bi bi-bookmark-fill"></i></span>
+                                                <button id="<%= event._id %>"
+                                                    class="unfollow rsvp btn btn-sm text-success"><i
+                                                        class="bi bi-bookmark-fill"></i></button>
                                                 <% } %>
                                     </div>
                                 </div>
