@@ -1,6 +1,7 @@
 const Spot = require('../models/spot');
 const Event = require('../models/event');
 const { monthArray } = require('../utils/data');
+const { findByIdAndRemove, findByIdAndUpdate } = require('../models/spot');
 
 module.exports.index = async (req, res) => {
     const events = await Event.find({ 'date': {'$gte': new Date()} })
@@ -39,10 +40,15 @@ module.exports.delete = async (req, res) => {
 
 module.exports.rsvp = async (req, res) => {
     const { eventId } = req.params;
-    console.log(req.user._id);
-    console.log(eventId);
     const event = await Event.findById(eventId);
     event.rsvps.push(req.user._id);
     event.save();
+    res.send('OK');
+}
+
+module.exports.unrsvp = async (req, res) => {
+    const { eventId } = req.params;
+    await Event.findByIdAndUpdate(eventId, {$pull: { rsvps: req.user._id }});
+    console.log('pulling!')
     res.send('OK');
 }

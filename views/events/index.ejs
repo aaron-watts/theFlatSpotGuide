@@ -70,7 +70,7 @@
                                     </div>
                                     <div id="rsvp<%= event._id %>" class="">
                                         <% if (currentUser && !event.rsvps.some(i=> i.equals(currentUser._id))) { %>
-                                            <button id=<%=event._id %> class="rsvp btn btn-sm btn-secondary"><i
+                                            <button id="<%=event._id %>" class="rsvp btn btn-sm btn-secondary"><i
                                                     class="bi bi-bookmark-fill"></i>
                                                 RSVP</button>
                                             <% } if (currentUser && event.rsvps.some(i=> i.equals(currentUser._id))) { %>

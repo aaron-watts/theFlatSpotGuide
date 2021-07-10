@@ -18,6 +18,8 @@ router.post('/:spotId', catchAsync(events.create));
 
 router.put('/:eventId', events.rsvp);
 
+router.patch('/:eventId', events.unrsvp);
+
 router.delete('/:eventId/:spotId', catchAsync(events.delete))
 
 module.exports = router;
