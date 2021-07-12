@@ -45,10 +45,10 @@ module.exports.follow = async (req, res) => {
     if(!event.following.some(i => i.equals(user))) {
         event.following.push(user);
         await event.save();
-        res.send(true);
+        res.send({following: true, total: event.following.length});
     } else {
         event.following.pull(user);
         await event.save();
-        res.send(false);
+        res.send({following: false, total: event.following.length});
     }
 }

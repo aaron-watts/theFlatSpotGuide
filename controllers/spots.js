@@ -66,10 +66,10 @@ module.exports.follow = async (req, res) => {
     if(!spot.following.some(i => i.equals(user))) {
         spot.following.push(user);
         await spot.save();
-        res.send(true);
+        res.send({following: true, total: spot.following.length});
     } else {
         spot.following.pull(user);
         await spot.save();
-        res.send(false);
+        res.send({following: false, total: spot.following.length});
     }
 }

@@ -4,9 +4,9 @@ const follow = async function (evt) {
     evt.preventDefault();    
     const res = await axios.patch(`/events/${this.id}`);
     const icon = this.children[0];
+    const follows = document.querySelector(`#following${this.id}`);
     
-    console.log(res.data);
-    if (res.data) {
+    if (res.data.following) {
         this.classList.remove('text-muted');
         this.classList.add('text-success');
         icon.classList.remove('bi-bookmark');
@@ -17,6 +17,8 @@ const follow = async function (evt) {
         icon.classList.remove('bi-bookmark-fill');
         icon.classList.add('bi-bookmark');
     }
+    
+    follows.innerText = res.data.total;
 }
 
 for (let button of followEventButtons) {

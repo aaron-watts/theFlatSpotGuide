@@ -64,11 +64,11 @@
                             </div>
                             <% } %>
 
-                                <div class="card-footer text-muted d-flex justify-content-between align-items-center">
-                                    <div class="py-1">
-                                        <%= event.following.length %> interested
-                                    </div>
+                                <div class="card-footer text-muted d-flex justify-content-end align-items-center">
                                     <div class="">
+                                        <span id="following<%= event._id %>" class="me-n3">
+                                            <%= event.following.length %>
+                                        </span>
                                         <% if (currentUser && event.following.some(i=> i.equals(currentUser._id))) { %> 
                                             <button id="<%=event._id %>" class="follow-event btn btn-sm 
                                                 text-success rounded-circle"><i

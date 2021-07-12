@@ -61,25 +61,32 @@
                                     </div>
                                     <div
                                         class="card-footer text-muted d-flex justify-content-between align-items-center">
-                                        <div class="py-1">
-                                            <i class="bi bi-calendar2-week"></i>
+                                        <div class="">
+                                            <i class="bi bi-calendar2-week me-1"></i>
                                             <% if (spot.events.length) { %>
                                                 <%= spot.events.length %> Event<%= spot.events.length> 1 ? 's' : '' %>
                                                         <% } else { %>
                                                             No Events Scheduled
                                                             <% } %>
                                         </div>
-                                        <div class="">
-                                            <% if (currentUser && spot.following.some(i=> i.equals(currentUser._id))) { %> 
-                                            <button id="<%=spot._id %>" class="follow-spot btn btn-sm 
+                                        <div class="text-muted">
+
+                                        </div>
+                                        <div class=""><span id="following<%= spot._id %>" class="me-n3">
+                                            <%= spot.following.length %>
+                                        </span>
+                                            <% if (currentUser && spot.following.some(i=> i.equals(currentUser._id))) {
+                                                %>
+                                                <button id="<%=spot._id %>" class="follow-spot btn btn-sm 
                                                 text-success rounded-circle"><i
-                                                    class="bi bi-bookmark-fill"></i></button>
+                                                        class="bi bi-bookmark-fill"></i></button>
                                                 <% } %>
-                                                <% if (currentUser && !spot.following.some(i=> i.equals(currentUser._id))) { %>
-                                                    <button id="<%=spot._id %>" class="follow-spot btn btn-sm 
+                                                    <% if (currentUser && !spot.following.some(i=>
+                                                        i.equals(currentUser._id))) { %>
+                                                            <button id="<%=spot._id %>" class="follow-spot btn btn-sm 
                                                         text-muted rounded-circle"><i
-                                                            class="bi bi-bookmark"></i></button>
-                                                    <% } %> 
+                                                                class="bi bi-bookmark"></i></button>
+                                                        <% } %>
                                         </div>
                                     </div>
                                 </div>
