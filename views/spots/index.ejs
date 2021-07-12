@@ -72,13 +72,13 @@
                                         <div class="">
                                             <% if (currentUser && spot.following.some(i=> i.equals(currentUser._id))) { %> 
                                             <button id="<%=spot._id %>" class="follow-spot btn btn-sm 
-                                                text-success"><i
+                                                text-success rounded-circle"><i
                                                     class="bi bi-bookmark-fill"></i></button>
                                                 <% } %>
                                                 <% if (currentUser && !spot.following.some(i=> i.equals(currentUser._id))) { %>
                                                     <button id="<%=spot._id %>" class="follow-spot btn btn-sm 
-                                                        text-secondary"><i
-                                                            class="bi bi-bookmark-fill"></i></button>
+                                                        text-muted rounded-circle"><i
+                                                            class="bi bi-bookmark"></i></button>
                                                     <% } %> 
                                         </div>
                                     </div>

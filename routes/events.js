@@ -12,9 +12,7 @@ router.get('/', rememberPage, events.index);
 
 router.post('/:spotId', catchAsync(events.create));
 
-router.route('/:eventId')
-    .put(events.rsvp)
-    .patch(events.unrsvp);
+router.patch('/:eventId', events.follow);
 
 router.delete('/:eventId/:spotId', catchAsync(events.delete))
 

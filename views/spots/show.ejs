@@ -137,16 +137,19 @@
                                     <div
                                         class="card-footer text-muted d-flex justify-content-between align-items-center">
                                         <div class="py-1">
-                                            <%= event.rsvps.length %> interested
+                                            <%= event.following.length %> interested
                                         </div>
-                                        <div id="rsvp<%= event._id %>" class="">
-                                            <% if (currentUser && !event.rsvps.some(i=> i.equals(currentUser._id))) { %>
-                                                <button id="<%=event._id %>" class="follow rsvp btn btn-sm text-secondary"><i
-                                                        class="bi bi-bookmark-fill"></i></button>
-                                                <% } if (currentUser && event.rsvps.some(i=> i.equals(currentUser._id))) { %>
-                                                    <button id="<%= event._id %>" class="unfollow rsvp btn btn-sm text-success"><i
+                                        <div class="">
+                                            <% if (currentUser && event.following.some(i=> i.equals(currentUser._id))) { %> 
+                                                <button id="<%=event._id %>" class="follow-event btn btn-sm 
+                                                    text-success rounded-circle"><i
                                                         class="bi bi-bookmark-fill"></i></button>
                                                     <% } %>
+                                                    <% if (currentUser && !event.following.some(i=> i.equals(currentUser._id))) { %>
+                                                        <button id="<%=event._id %>" class="follow-event btn btn-sm 
+                                                            text-muted rounded-circle"><i
+                                                                class="bi bi-bookmark"></i></button>
+                                                        <% } %> 
                                         </div>
                                     </div>
                         </div>
@@ -172,7 +175,7 @@
         })
     </script>
     <script src="/javascript/axios.js"></script>
-    <script src="/javascript/rsvp.js"></script>
+    <script src="/javascript/followEvent.js"></script>
 
 
     <!-- 

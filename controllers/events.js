@@ -8,7 +8,7 @@ module.exports.index = async (req, res) => {
         .sort({'date': 1})
         .populate('spot')
         .populate('author')
-        .populate('rsvps');
+        .populate('following');
     res.render('events/index', { events, monthArray });
 }
 
@@ -23,10 +23,11 @@ module.exports.create = async (req, res) => {
         spot: spotId
     })
     newEvent.author = req.user._id;
-    newEvent.rsvps.push(req.user._id);
+    newEvent.following.push(req.user._id);
     spot.events.push(newEvent);
     await newEvent.save();
     await spot.save();
+    req.flash('success', 'Event Added!')
     res.redirect(`/spots/${spotId}`);
 }
 
@@ -38,16 +39,16 @@ module.exports.delete = async (req, res) => {
     res.redirect(req.session.returnTo);
 }
 
-module.exports.rsvp = async (req, res) => {
-    const { eventId } = req.params;
-    const event = await Event.findById(eventId);
-    event.rsvps.push(req.user._id);
-    event.save();
-    res.send('OK');
-}
-
-module.exports.unrsvp = async (req, res) => {
-    const { eventId } = req.params;
-    await Event.findByIdAndUpdate(eventId, {$pull: { rsvps: req.user._id }});
-    res.send('OK');
+module.exports.follow = async (req, res) => {
+    const user = req.user._id;
+    const event = await Event.findById(req.params.eventId);
+    if(!event.following.some(i => i.equals(user))) {
+        event.following.push(user);
+        await event.save();
+        res.send(true);
+    } else {
+        event.following.pull(user);
+        await event.save();
+        res.send(false);
+    }
 }

@@ -22,7 +22,7 @@ const eventSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Spot'
     },
-    rsvps: [
+    following: [
         {
             type: Schema.Types.ObjectId,
             ref: 'User'
