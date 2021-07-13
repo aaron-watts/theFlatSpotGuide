@@ -10,9 +10,17 @@ const Event = require('../models/event');
 
 router.get('/', rememberPage, events.index);
 
-router.post('/:spotId', catchAsync(events.create));
+router.get('/new', catchAsync(events.newForm))
+
+router.post('/new', catchAsync(events.create))
+
+router.post('/:spotId', catchAsync(events.addToSpot));
 
 router.patch('/:eventId', events.follow);
+
+router.get('/:eventId/edit', catchAsync(events.editForm))
+
+router.put('/:eventId/:spotId', catchAsync(events.update))
 
 router.delete('/:eventId/:spotId', catchAsync(events.delete))
 
