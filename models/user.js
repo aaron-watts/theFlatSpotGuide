@@ -7,7 +7,12 @@ const userSchema = new Schema({
         type: String,
         required: true,
         unique: true
-    }
+    },
+    notifications: [
+        {
+            type: String
+        }
+    ]
 });
 
 userSchema.plugin(passportLocalMongoose);

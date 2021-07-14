@@ -1,5 +1,6 @@
 const Spot = require('../models/spot');
 const Event = require('../models/event');
+const User = require('../models/user');
 const { monthArray } = require('../utils/data');
 const { findByIdAndRemove, findByIdAndUpdate } = require('../models/spot');
 
@@ -113,6 +114,14 @@ module.exports.follow = async (req, res) => {
     if(!event.following.some(i => i.equals(user))) {
         event.following.push(user);
         await event.save();
+
+        // notify author
+        const author = await User.findById(event.author);
+        const username = await User.findById(user);
+
+        author.notifications.push(`${username.username} followed ${event.title} event!`);
+        await author.save()
+        console.log(author);
 
         res.send({following: true, total: event.following.length});
     } else {
