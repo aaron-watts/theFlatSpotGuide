@@ -15,6 +15,9 @@ const userSchema = new Schema({
             },
             status: {
                 type: String
+            },
+            timestamp: {
+                type: Date
             }
         }
     ]

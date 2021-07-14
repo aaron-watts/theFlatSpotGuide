@@ -124,7 +124,8 @@ module.exports.follow = async (req, res) => {
         if (!author.equals(user)) {
             author.notifications.push({
                 text: `${username.username} followed ${event.title} event!`,
-                status: 'new'
+                status: 'new',
+                date: new Date()
             });
             await author.save()
         }
