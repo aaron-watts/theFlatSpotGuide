@@ -10,7 +10,12 @@ const userSchema = new Schema({
     },
     notifications: [
         {
-            type: String
+            text: {
+                type: String
+            },
+            status: {
+                type: String
+            }
         }
     ]
 });

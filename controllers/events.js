@@ -87,7 +87,7 @@ module.exports.update = async (req, res) => {
     const edited = await Event.findByIdAndUpdate(eventId, { ...newDetails });
     const newEvent = await edited.save();
 
-    // if spot has changed update spot document
+    // if spot has changed update spot documents' event refs
     if (!spot.equals(spotId)) {
         await Spot.findByIdAndUpdate(spotId, {$pull: {events: eventId}});
         await spot.events.push(newEvent);
@@ -100,7 +100,9 @@ module.exports.update = async (req, res) => {
 
 module.exports.delete = async (req, res) => {
     const { eventId, spotId } = req.params;
-    await Spot.findByIdAndUpdate(spotId, {$pull: { events: eventId }});
+
+    // remove event from it's associated spot and then delete
+    await Spot.findByIdAndUpdate(spotId, {$pull: { events: eventId }});    
     await Event.findByIdAndDelete(eventId);
 
     req.flash('success', 'Event Deleted!')
@@ -112,19 +114,24 @@ module.exports.follow = async (req, res) => {
     const event = await Event.findById(req.params.eventId);
 
     if(!event.following.some(i => i.equals(user))) {
+        // add user to events following list
         event.following.push(user);
         await event.save();
 
-        // notify author
+        // notify author of new follow if not author
         const author = await User.findById(event.author);
         const username = await User.findById(user);
-
-        author.notifications.push(`${username.username} followed ${event.title} event!`);
-        await author.save()
-        console.log(author);
+        if (!author.equals(user)) {
+            author.notifications.push({
+                text: `${username.username} followed ${event.title} event!`,
+                status: 'new'
+            });
+            await author.save()
+        }
 
         res.send({following: true, total: event.following.length});
     } else {
+        // remove user from event following list
         event.following.pull(user);
         await event.save();
 
