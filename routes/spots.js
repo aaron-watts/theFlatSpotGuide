@@ -18,7 +18,4 @@ router.route('/:id')
 
 router.get('/:id/edit', spots.editForm)
 
-
-
-
 module.exports = router

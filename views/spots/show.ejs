@@ -29,10 +29,11 @@
                                 <a href="/spots/<%= spot._id %>/edit" class="btn btn-info"><i class="bi bi-pencil"></i>
                                     Edit</a>
                             </div>
-                            <div class="d-grid gap-3 col-sm-6 mx-auto mb-3">
-                                <a href="/spots/<%= spot._id %>?_method=DELETE" class="btn btn-danger"><i
-                                        class="bi bi-trash"></i> Delete</a>
-                            </div>
+                            <form class="d-grid gap-3 col-sm-6 mx-auto mb-3" 
+                                action="/spots/<%= spot._id %>?_method=DELETE" method="POST">
+                                <button type="submit" class="btn btn-danger"><i
+                                        class="bi bi-trash"></i> Delete</button>
+                            </form>
 
                         </div>
                         <% } %>
@@ -41,8 +42,7 @@
 
             <div class="col-lg-6">
 
-
-
+                <!-- Map to go here -->
 
                 <div class="col-lg-6 mx-auto mt-3">
                     <form action="/events/<%= spot._id %>" method="POST">
