@@ -85,7 +85,7 @@ app.use('/spots', spotRoutes);
 app.use('/events', eventsRoutes);
 
 app.get('/', (req, res) => {
-    res.send('Spot Guide!');
+    res.render('home');
 })
 
 app.all('*', (req, res, next) => {
