@@ -106,7 +106,13 @@
                                 <div class="row">
                                     <div class="col-sm-4">
                                         <!-- Calendar illustration -->
-                                        <div class="cal-frame mx-auto">
+                                        <div class="cal-frame mx-auto mb-2">
+                                            <div class="time-frame">
+                                                    <%= new Date(event.date).getHours() < 10 ? '0' : 
+                                                    '' %><%- new Date(event.date).getHours() %>:<%- new
+                                                            Date(event.date).getMinutes() < 10 ? '0' : 
+                                                            '' %><%= new Date(event.date).getMinutes() %>
+                                            </div>
                                             <div class="date-frame">
                                                 <span>
                                                     <%= event.date.getDate() %>
