@@ -52,9 +52,18 @@
                                             </div>
                                             <div class="col-sm-8">
                                                 <p class="card-title"></p>
-                                                <p class="h4 mb-0">
-                                                    <%= event.title %>
-                                                </p>
+                                                <div class="d-flex align-items-end">
+                                                    <div class="h4 mb-0 me-1">
+                                                        <%= event.title %>
+                                                    </div>
+                                                    <div class="text-muted">
+                                                        <i class="bi bi-clock"></i>
+                                                        <%= new Date(event.date).getHours() < 10 ? '0' : '' %><%- 
+                                                        new Date(event.date).getHours() %>:<%- 
+                                                        new Date(event.date).getMinutes() < 10 ? '0' : ''
+                                                         %><%= new Date(event.date).getMinutes() %>
+                                                    </div>
+                                                </div>
                                                 <p class="text-muted"><i class="bi bi-pin-angle"></i> Pinned by <%=
                                                         event.author.username %>
                                                 </p>
