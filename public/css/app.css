@@ -4,7 +4,7 @@
 
 .cal-frame {
     /* border: solid 2px black; */
-    height: 10rem;
+    height: 12rem;
     width: 8rem;
     display: flex;
     flex-direction: column;
@@ -13,15 +13,23 @@
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
+.time-frame {
+    margin: -.1rem auto .3rem;
+    color: rgba(0,0,0,0.48);
+    font-size: 1.6rem;
+    letter-spacing: .1rem;
+    font-weight: bold;
+}
+
 .date-frame {
-    font-size: 6rem;
+    font-size: 5.8rem;
     font-weight: 600;
     margin: -1.8rem auto;
     color: #dc3545;
 }
 
 .month-frame {
-    font-size: 2rem;
+    font-size: 1.8rem;
     font-weight: bold;
     color: rgba(0,0,0,0.72);
     margin-top: .8rem;
