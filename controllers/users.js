@@ -65,7 +65,6 @@ module.exports.deleteNotifications = async (req, res) => {
     try {
         for (let i = 0; i < user.notifications.length; i++) {
             user.notifications.pop();
-            console.log(user.notifications)
         }
         
         await user.save();
