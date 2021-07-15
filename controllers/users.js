@@ -44,7 +44,7 @@ module.exports.logout = (req, res) => {
 }
 
 
-module.exports.notifications = async (req, res) => {
+module.exports.updateNotifications = async (req, res) => {
     const user = await User.findById(req.user._id);
 
     try {
@@ -57,4 +57,20 @@ module.exports.notifications = async (req, res) => {
     }
 
     res.send(true);
+}
+
+module.exports.deleteNotifications = async (req, res) => {
+    const user = await User.findById(req.user._id);
+
+    try {
+        for (let i = 0; i < user.notifications.length; i++) {
+            user.notifications.pop(notification);
+        }
+        
+        await user.save();
+    } catch (e) {
+        res.send(false);
+    }
+
+    res.send(true)
 }

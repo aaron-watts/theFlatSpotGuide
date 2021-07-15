@@ -46,11 +46,11 @@ const deleteNotifications = async function(evt) {
     notifications = document.querySelectorAll('.notification');
 
     if (notifications.length) {
-        removeFromDom();
-        // await axios.delete('/notifications');
-        // if (res.data) {
-        //     removeFromDom();
-        // }
+        const res = await axios.delete('/notifications');
+        
+        if (res.data) {
+            removeFromDom();
+        }
     }
 }
 
