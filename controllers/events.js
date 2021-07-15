@@ -11,7 +11,7 @@ module.exports.index = async (req, res) => {
         .populate('author')
         .populate('following');
         
-    res.render('events/index', { events, monthArray, notifications });
+    res.render('events/index', { events, monthArray });
 }
 
 module.exports.newForm = async (req, res) => {

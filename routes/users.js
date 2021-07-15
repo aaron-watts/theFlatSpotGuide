@@ -16,4 +16,6 @@ user.login)
 
 router.get('/logout', user.logout)
 
+router.patch('/notifications', user.notifications)
+
 module.exports = router;

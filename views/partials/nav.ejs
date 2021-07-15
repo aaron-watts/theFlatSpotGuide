@@ -34,17 +34,17 @@
             <li class="nav-item dropright">
               <a class="nav-link menu-button py-lg-0 d-none d-lg-block" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
                 aria-expanded="false">
-                <button class="btn btn-outline-secondary rounded-circle my-0 fs-6 position-relative"><i class="bi bi-bell"></i>
+                <button class="notification-button btn btn-outline-secondary rounded-circle my-0 fs-6 position-relative"><i class="bi bi-bell"></i>
                   <% if(currentUser.notifications.filter(i => i.status==='new').length) { %> 
                   <span class="position-absolute top-100 start-100 translate-middle badge rounded-pill bg-primary">
                     <%- currentUser.notifications.filter(i => i.status==='new').length  %> 
-                    <span class="visually-hidden">unread messages</span>
+                    <span class="visually-hidden">notifications</span>
                   </span><% } %> </button>
               </a>
               <ul class="dropdown-menu dropdown-menu-lg-end px-2" aria-labelledby="navbarDropdown">
                 <% for (let notification of currentUser.notifications) { %>
                   <% if (notification.status === 'new') { %> 
-                    <li><%= notification.text %> </li>
+                    <li id="<%= notification._id %>" class="notification"><%= notification.text %> </li>
                     <li>
                       <hr class="dropdown-divider">
                     </li>

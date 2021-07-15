@@ -1,3 +1,4 @@
+const { findByIdAndUpdate } = require('../models/user');
 const User = require('../models/user');
 
 module.exports.registerForm = (req, res) => {
@@ -40,4 +41,20 @@ module.exports.logout = (req, res) => {
     const redirectUrl = req.session.returnTo || '/spots';
     delete req.session.returnTo;
     res.redirect(redirectUrl);
+}
+
+
+module.exports.notifications = async (req, res) => {
+    const user = await User.findById(req.user._id);
+
+    try {
+        for (notification of user.notifications) {
+            if (notification.status === 'new') notification.status = 'seen';
+        }
+        await user.save();
+    } catch (e) {
+        res.send(false)
+    }
+
+    res.send(true);
 }
