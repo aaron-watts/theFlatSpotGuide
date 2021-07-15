@@ -32,31 +32,48 @@
           <a class="nav-link" href="/register">Register</a>
           <% } else { %>
             <li class="nav-item dropright">
-              <a class="nav-link menu-button py-lg-0 d-none d-lg-block" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-                aria-expanded="false">
-                <button class="notification-button btn btn-outline-secondary rounded-circle my-0 fs-6 position-relative"><i class="bi bi-bell"></i>
-                  <% if(currentUser.notifications.filter(i => i.status==='new').length) { %> 
-                  <span class="position-absolute top-100 start-100 translate-middle badge rounded-pill bg-primary">
-                    <%- currentUser.notifications.filter(i => i.status==='new').length  %> 
-                    <span class="visually-hidden">notifications</span>
-                  </span><% } %> </button>
+              <a class="nav-link menu-button py-lg-0 d-none d-lg-block" href="#" id="navbarDropdown" role="button"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                <button
+                  class="notification-button btn btn-outline-secondary rounded-circle my-0 fs-6 position-relative"><i
+                    class="bi bi-bell"></i>
+                  <% if(currentUser.notifications.filter(i=> i.status==='new').length) { %>
+                    <span class="position-absolute top-100 start-100 translate-middle badge rounded-pill bg-primary">
+                      <%- currentUser.notifications.filter(i=> i.status==='new').length %>
+                        <span class="visually-hidden">notifications</span>
+                    </span>
+                    <% } %>
+                </button>
               </a>
-              <ul class="dropdown-menu dropdown-menu-lg-end px-2" aria-labelledby="navbarDropdown">
+              <ul class="dropdown-menu dropdown-menu-lg-end px-2 w-25" id="notification-list" aria-labelledby="navbarDropdown">
+                <div class="d-flex justify-content-center">
+                  <span class="fw-bold text-primary hoverable" id="clear-notifications">Delete All</span class="text-primary fw-bold">
+                </div>
                 <% for (let notification of currentUser.notifications) { %>
-                  <% if (notification.status === 'new') { %> 
-                    <li id="<%= notification._id %>" class="notification"><%= notification.text %> </li>
+                  <% if (notification.status==='new' ) { %>
                     <li>
                       <hr class="dropdown-divider">
                     </li>
-                  <% }} %> 
+                    <li id="<%= notification._id %>" class="notification px-2">
+                      <%= notification.text %>
+                    </li>
+                    <% }} for (let notification of currentUser.notifications) { %>
+                      <% if (notification.status==='seen' ) { %>
+                        <li>
+                          <hr class="dropdown-divider">
+                        </li>
+                        <li id="<%= notification._id %>" class="notification px-2 text-muted">
+                          <%= notification.text %>
+                        </li>
+                        <% }} %>
               </ul>
             </li>
             <li class="nav-item dropright">
-              <a class="nav-link menu-button py-lg-0" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-                aria-expanded="false">
+              <a class="nav-link menu-button py-lg-0" href="#" id="navbarDropdown" role="button"
+                data-bs-toggle="dropdown" aria-expanded="false">
                 <button class="btn btn-outline-secondary rounded-circle my-0 fs-5">A</button>
               </a>
-              <ul class="dropdown-menu dropdown-menu-lg-end" aria-labelledby="navbarDropdown">
+              <ul class="dropdown-menu dropdown-menu-lg-end w-25" aria-labelledby="navbarDropdown">
                 <li><a class="dropdown-item" href="#">Account Settings</a></li>
                 <li>
                   <hr class="dropdown-divider">
@@ -66,7 +83,7 @@
             </li>
             <% } %>
       </div>
-      
+
       <!-- <form class="d-flex">
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
         <button class="btn btn-outline-success" type="submit">Search</button>
