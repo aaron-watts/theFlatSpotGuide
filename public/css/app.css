@@ -2,6 +2,21 @@
     max-height: 80vh;
 }
 
+.menu-button button {
+    height: 2.3rem;
+    width: 2.3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.badge {
+    border-radius: 50%;
+    height: 20px;
+    width: 20px;
+    background-color: white;
+}
+
 .cal-frame {
     /* border: solid 2px black; */
     height: 12rem;
