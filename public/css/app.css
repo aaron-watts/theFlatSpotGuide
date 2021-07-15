@@ -10,13 +10,6 @@
     align-items: center;
 }
 
-.badge {
-    border-radius: 50%;
-    height: 20px;
-    width: 20px;
-    background-color: white;
-}
-
 .cal-frame {
     /* border: solid 2px black; */
     height: 12rem;

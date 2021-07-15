@@ -32,22 +32,29 @@
           <a class="nav-link" href="/register">Register</a>
           <% } else { %>
             <li class="nav-item dropright">
-              <a class="nav-link menu-button py-lg-0" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+              <a class="nav-link menu-button py-lg-0 d-none d-lg-block" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
                 aria-expanded="false">
-                <button class="btn btn-outline-secondary rounded-circle my-0 fs-6"><i class="bi bi-bell"></i></button>
+                <button class="btn btn-outline-secondary rounded-circle my-0 fs-6 position-relative"><i class="bi bi-bell"></i>
+                  <% if(currentUser.notifications.filter(i => i.status==='new').length) { %> 
+                  <span class="position-absolute top-100 start-100 translate-middle badge rounded-pill bg-primary">
+                    <%- currentUser.notifications.filter(i => i.status==='new').length  %> 
+                    <span class="visually-hidden">unread messages</span>
+                  </span><% } %> </button>
               </a>
-              <ul class="dropdown-menu dropdown-menu-lg-end" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="#">Hahahahaha</a></li>
-                <li>
-                  <hr class="dropdown-divider">
-                </li>
-                <li><a class="dropdown-item" href="/logout">Logout</a></li>
+              <ul class="dropdown-menu dropdown-menu-lg-end px-2" aria-labelledby="navbarDropdown">
+                <% for (let notification of currentUser.notifications) { %>
+                  <% if (notification.status === 'new') { %> 
+                    <li><%= notification.text %> </li>
+                    <li>
+                      <hr class="dropdown-divider">
+                    </li>
+                  <% }} %> 
               </ul>
             </li>
             <li class="nav-item dropright">
               <a class="nav-link menu-button py-lg-0" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
                 aria-expanded="false">
-                <button class="btn btn-outline-secondary rounded-circle my-0 fs-6">A</button>
+                <button class="btn btn-outline-secondary rounded-circle my-0 fs-5">A</button>
               </a>
               <ul class="dropdown-menu dropdown-menu-lg-end" aria-labelledby="navbarDropdown">
                 <li><a class="dropdown-item" href="#">Account Settings</a></li>
