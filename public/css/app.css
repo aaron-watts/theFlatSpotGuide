@@ -1,5 +1,9 @@
-.limit-height {
+.nav-height {
     max-height: 80vh;
+}
+
+.spots-height {
+    max-height: 68vh;
 }
 
 .menu-button button {

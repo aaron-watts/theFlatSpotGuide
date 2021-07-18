@@ -3,9 +3,9 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-6">
-                <h1>Spot Guide</h1> 
+                <h1>Spot Guide</h1>
             </div>
-            <div class="col-lg-6 overflow-scroll limit-height" id="show-spots">
+            <div class="col-lg-6" id="show-spots">
 
                 <% if (currentUser) { %>
                     <div class="col-lg-6 mx-auto mt-3">
@@ -24,73 +24,74 @@
                         </div>
                         <% } %>
 
+                                <% for (let spot of spots) { %>
+                                    <div class="card mb-3">
+                                        <div class="card-header">
+                                            <i class="bi bi-geo-alt"></i>
+                                            <a href="geo:51.498169,-0.049067">
+                                                <%= spot.location %>
+                                            </a>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    <!-- Image -->
+                                                    <img src="https://images.unsplash.com/photo-1523225078415-687408717027?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=745&q=80"
+                                                        class="img-thumbnail" alt="">
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    <p class="card-title"></p>
+                                                    <p class="h4 mb-0">
+                                                        <a href="/spots/<%= spot._id %>">
+                                                            <%= spot.name %>
+                                                        </a>
+                                                    </p>
+                                                    <span class="text-muted">
+                                                        <i class="bi bi-pin-angle"></i> Pinned by <%=
+                                                            spot.author.username %>
+                                                    </span>
+                                                    </p>
 
-                            <% for (let spot of spots) { %>
-                                <div class="card mb-3">
-                                    <div class="card-header">
-                                        <i class="bi bi-geo-alt"></i>
-                                        <a href="geo:51.498169,-0.049067">
-                                            <%= spot.location %>
-                                        </a>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-sm-4">
-                                                <!-- Image -->
-                                                <img src="https://images.unsplash.com/photo-1523225078415-687408717027?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=745&q=80"
-                                                    class="img-thumbnail" alt="">
+                                                    <p class="card-text">
+                                                        <%= spot.details %>
+                                                    </p>
+                                                </div>
                                             </div>
-                                            <div class="col-sm-8">
-                                                <p class="card-title"></p>
-                                                <p class="h4 mb-0">
-                                                    <a href="/spots/<%= spot._id %>">
-                                                        <%= spot.name %>
-                                                    </a>
-                                                </p>
-                                                <span class="text-muted">
-                                                    <i class="bi bi-pin-angle"></i> Pinned by <%= spot.author.username
-                                                        %>
+                                        </div>
+                                        <div
+                                            class="card-footer text-muted d-flex justify-content-between align-items-center">
+                                            <div class="">
+                                                <i class="bi bi-calendar2-week me-1"></i>
+                                                <% if (spot.events.length) { %>
+                                                    <%= spot.events.length %> Event<%= spot.events.length> 1 ? 's' : ''
+                                                            %>
+                                                            <% } else { %>
+                                                                No Events Scheduled
+                                                                <% } %>
+                                            </div>
+                                            <div class="text-muted">
+
+                                            </div>
+                                            <div class=""><span id="following<%= spot._id %>" class="me-n3">
+                                                    <%= spot.following.length %>
                                                 </span>
-                                                </p>
-
-                                                <p class="card-text">
-                                                    <%= spot.details %>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div
-                                        class="card-footer text-muted d-flex justify-content-between align-items-center">
-                                        <div class="">
-                                            <i class="bi bi-calendar2-week me-1"></i>
-                                            <% if (spot.events.length) { %>
-                                                <%= spot.events.length %> Event<%= spot.events.length> 1 ? 's' : '' %>
-                                                        <% } else { %>
-                                                            No Events Scheduled
-                                                            <% } %>
-                                        </div>
-                                        <div class="text-muted">
-
-                                        </div>
-                                        <div class=""><span id="following<%= spot._id %>" class="me-n3">
-                                            <%= spot.following.length %>
-                                        </span>
-                                            <% if (currentUser && spot.following.some(i=> i.equals(currentUser._id))) {
-                                                %>
-                                                <button id="<%=spot._id %>" class="follow-spot btn btn-sm 
+                                                <% if (currentUser && spot.following.some(i=>
+                                                    i.equals(currentUser._id))) {
+                                                    %>
+                                                    <button id="<%=spot._id %>" class="follow-spot btn btn-sm 
                                                 text-success rounded-circle"><i
-                                                        class="bi bi-bookmark-fill"></i></button>
-                                                <% } %>
-                                                    <% if (currentUser && !spot.following.some(i=>
-                                                        i.equals(currentUser._id))) { %>
+                                                            class="bi bi-bookmark-fill"></i></button>
+                                                    <% } %>
+                                                        <% if (currentUser && !spot.following.some(i=>
+                                                            i.equals(currentUser._id))) { %>
                                                             <button id="<%=spot._id %>" class="follow-spot btn btn-sm 
                                                         text-muted rounded-circle"><i
-                                                                class="bi bi-bookmark"></i></button>
-                                                        <% } %>
+                                                                    class="bi bi-bookmark"></i></button>
+                                                            <% } %>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <% } %>
+                                    <% } %>
             </div>
         </div>
     </div>

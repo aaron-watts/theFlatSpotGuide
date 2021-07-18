@@ -55,7 +55,7 @@
                   <span class="fw-bold <%= currentUser.notifications.length?'text-primary hoverable':'text-muted' %>"
                     id="clear-notifications">Delete All</span class="text-primary fw-bold">
                 </div>
-                <div class="overflow-scroll limit-height">
+                <div class="overflow-scroll nav-height">
                   <% if (currentUser.notifications.length) { %>
                     <% for (let notification of 
                       currentUser.notifications

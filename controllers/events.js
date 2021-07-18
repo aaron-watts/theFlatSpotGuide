@@ -30,7 +30,8 @@ module.exports.editForm = async (req, res) => {
 module.exports.addToSpot = async (req, res) => {
     const { spotId } = req.params
     const { event } = req.body;
-    const spot = await Spot.findById(spotId);
+    const spot = await Spot.findById(spotId)
+        .populate('following');
 
     const newEvent = new Event({
         date: new Date(parseInt(event.year), parseInt(event.month) - 1, parseInt(event.day),
@@ -39,9 +40,24 @@ module.exports.addToSpot = async (req, res) => {
         description: event.description,
         spot: spotId
     })
+
+    // update spot followers of new event
+    for (follower of spot.following) {
+        const user = await User.findById(follower._id);
+        user.notifications.push({
+            text: `<strong>${req.user.username}</strong> pinned an event to <strong>${spot.name}</strong>! 
+                <a class="text-decoration-none" href="/spots/${spot._id}">Go to event</a>`,
+            status: 'new',
+            timestamp: new Date()
+        })
+        user.save();
+    }
+
+    // add author to following
     newEvent.author = req.user._id;
     newEvent.following.push(req.user._id);
     spot.events.push(newEvent);
+    
     await newEvent.save();
     await spot.save();
 
@@ -51,7 +67,9 @@ module.exports.addToSpot = async (req, res) => {
 
 module.exports.create = async (req, res) => {
     const { event } = req.body;
-    const spot = await Spot.findOne({ name: event.spot });
+    const spot = await Spot.findOne({ name: event.spot })
+        .populate('following')
+        .populate('author');
 
     const newEvent = new Event({
         date: new Date(parseInt(event.year), parseInt(event.month) - 1, parseInt(event.day),
@@ -60,9 +78,27 @@ module.exports.create = async (req, res) => {
         description: event.description,
         spot
     })
+
+    // update spot followers of new event
+    for (follower of updateEvent.following) {
+        const user = await User.findById(follower._id);
+
+        if (!updateEvent.author.equals(user)) {
+            user.notifications.push({
+                text: `<strong>${updateEvent.title}</strong> event has been changed! 
+                <a class="text-decoration-none" href="/spots/${spot._id}">Go to event</a>`,
+                status: 'new',
+                timestamp: new Date()
+            })
+            user.save();
+        }
+    }
+
+    // add author to event followers
     newEvent.author = req.user._id;
     newEvent.following.push(req.user._id);
     spot.events.push(newEvent);
+
     await newEvent.save();
     await spot.save();
 
@@ -75,6 +111,7 @@ module.exports.update = async (req, res) => {
     const { event } = req.body
     const updateEvent = await Event.findById(eventId)
         .populate('spot')
+        .populate('author')
         .populate('following');
     const spot = await Spot.findOne({ name: event.spot });
 
@@ -95,17 +132,19 @@ module.exports.update = async (req, res) => {
         await spot.save()
     }
 
-    // notify followers
-    console.log(updateEvent.following)
+    // notify followers if not author
     for (follower of updateEvent.following) {
         const user = await User.findById(follower._id);
-        user.notifications.push({
-            text: `<strong>${updateEvent.title}</strong> event has been changed! 
-                <a href="/spots/${spot._id}">Go to event</a>`,
-            status: 'new',
-            timestamp: new Date()
-        })
-        user.save();
+
+        if (!updateEvent.author.equals(user)) {
+            user.notifications.push({
+                text: `<strong>${updateEvent.title}</strong> event has been changed! 
+                <a class="text-decoration-none" href="/spots/${spot._id}">Go to event</a>`,
+                status: 'new',
+                timestamp: new Date()
+            })
+            user.save();
+        }
     }
 
     req.flash('success', 'Event Updated!')
