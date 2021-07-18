@@ -10,6 +10,10 @@
     align-items: center;
 }
 
+.login-button {
+    width: 6rem;
+}
+
 .hoverable:hover {
     cursor: pointer;
 }
