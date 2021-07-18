@@ -5,12 +5,12 @@ const { monthArray } = require('../utils/data');
 const { findByIdAndRemove, findByIdAndUpdate } = require('../models/spot');
 
 module.exports.index = async (req, res) => {
-    const events = await Event.find({ 'date': {'$gte': new Date()} })
-        .sort({'date': 1})
+    const events = await Event.find({ 'date': { '$gte': new Date() } })
+        .sort({ 'date': 1 })
         .populate('spot')
         .populate('author')
         .populate('following');
-        
+
     res.render('events/index', { events, monthArray });
 }
 
@@ -32,7 +32,7 @@ module.exports.addToSpot = async (req, res) => {
     const { event } = req.body;
     const spot = await Spot.findById(spotId);
 
-    const newEvent = new Event ({
+    const newEvent = new Event({
         date: new Date(parseInt(event.year), parseInt(event.month) - 1, parseInt(event.day),
             parseInt(event.hours), parseInt(event.minutes)),
         title: event.title,
@@ -51,7 +51,7 @@ module.exports.addToSpot = async (req, res) => {
 
 module.exports.create = async (req, res) => {
     const { event } = req.body;
-    const spot = await Spot.findOne({name: event.spot});
+    const spot = await Spot.findOne({ name: event.spot });
 
     const newEvent = new Event({
         date: new Date(parseInt(event.year), parseInt(event.month) - 1, parseInt(event.day),
@@ -74,8 +74,9 @@ module.exports.update = async (req, res) => {
     const { eventId, spotId } = req.params;
     const { event } = req.body
     const updateEvent = await Event.findById(eventId)
-        .populate('spot');
-    const spot = await Spot.findOne({name: event.spot});
+        .populate('spot')
+        .populate('following');
+    const spot = await Spot.findOne({ name: event.spot });
 
     const newDetails = {
         title: event.title,
@@ -89,11 +90,24 @@ module.exports.update = async (req, res) => {
 
     // if spot has changed update spot documents' event refs
     if (!spot.equals(spotId)) {
-        await Spot.findByIdAndUpdate(spotId, {$pull: {events: eventId}});
+        await Spot.findByIdAndUpdate(spotId, { $pull: { events: eventId } });
         await spot.events.push(newEvent);
         await spot.save()
     }
-    
+
+    // notify followers
+    console.log(updateEvent.following)
+    for (follower of updateEvent.following) {
+        const user = await User.findById(follower._id);
+        user.notifications.push({
+            text: `<strong>${updateEvent.title}</strong> event has been changed! 
+                <a href="/spots/${spot._id}">Go to event</a>`,
+            status: 'new',
+            timestamp: new Date()
+        })
+        user.save();
+    }
+
     req.flash('success', 'Event Updated!')
     res.redirect(`/spots/${spot._id}`);
 }
@@ -102,7 +116,7 @@ module.exports.delete = async (req, res) => {
     const { eventId, spotId } = req.params;
 
     // remove event from it's associated spot and then delete
-    await Spot.findByIdAndUpdate(spotId, {$pull: { events: eventId }});    
+    await Spot.findByIdAndUpdate(spotId, { $pull: { events: eventId } });
     await Event.findByIdAndDelete(eventId);
 
     req.flash('success', 'Event Deleted!')
@@ -113,7 +127,7 @@ module.exports.follow = async (req, res) => {
     const user = req.user._id;
     const event = await Event.findById(req.params.eventId);
 
-    if(!event.following.some(i => i.equals(user))) {
+    if (!event.following.some(i => i.equals(user))) {
         // add user to events following list
         event.following.push(user);
         await event.save();
@@ -130,12 +144,12 @@ module.exports.follow = async (req, res) => {
             await author.save()
         }
 
-        res.send({following: true, total: event.following.length});
+        res.send({ following: true, total: event.following.length });
     } else {
         // remove user from event following list
         event.following.pull(user);
         await event.save();
 
-        res.send({following: false, total: event.following.length});
+        res.send({ following: false, total: event.following.length });
     }
 }
