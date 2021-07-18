@@ -57,14 +57,34 @@
                 </div>
                 <div class="overflow-scroll nav-height">
                   <% if (currentUser.notifications.length) { %>
-                    <% for (let notification of 
-                      currentUser.notifications
-                        .filter(i => i.status==='new')
+                    <% for (let notification of currentUser.notifications .filter(i=> i.status==='new')
+                      .sort((a, b) => b.timestamp - a.timestamp)) { %>
+                      <li>
+                        <hr class="dropdown-divider">
+                      </li>
+                      <li id="<%= notification._id %>" class="notification px-2">
+                        <%- notification.text %>
+                          <br><span class="badge bg-light text-primary">
+                            <% const dateDiff=new Date() - notification.timestamp; %>
+                              <% if ((dateDiff) / 1000 / 60 < 1) { %>
+                                Just Now
+                                <% } else if ((dateDiff) / 1000 / 60 < 60) { %>
+                                  <%= Math.floor((dateDiff) / 1000 / 60) %> minutes ago
+                                    <% } else if ((dateDiff) / 1000 / 60 / 60 < 60) { %>
+                                      <%= Math.floor((dateDiff) / 1000 / 60 / 60) %> hours ago
+                                        <% } else if ((dateDiff) / 1000 / 60 / 60 / 24 < 60) { %>
+                                          <%= Math.floor((dateDiff) / 1000 / 60 / 60 / 24) %> days ago
+                                            <% } else { %>
+                                              <%= Math.floor((dateDiff) / 1000 / 60 / 60 / 24 / 7) %> weeks ago
+                                                <% } %>
+                          </span>
+                      </li>
+                      <% } for (let notification of currentUser.notifications .filter(i=> i.status==='seen')
                         .sort((a, b) => b.timestamp - a.timestamp)) { %>
                         <li>
                           <hr class="dropdown-divider">
                         </li>
-                        <li id="<%= notification._id %>" class="notification px-2">
+                        <li id="<%= notification._id %>" class="notification px-2 text-muted">
                           <%- notification.text %>
                             <br><span class="badge bg-light text-primary">
                               <% const dateDiff=new Date() - notification.timestamp; %>
@@ -81,38 +101,14 @@
                                                   <% } %>
                             </span>
                         </li>
-                        <% } for (let notification of 
-                        currentUser.notifications
-                          .filter(i => i.status==='seen')
-                          .sort((a, b) => b.timestamp - a.timestamp)) { %>
-                            <li>
-                              <hr class="dropdown-divider">
-                            </li>
-                            <li id="<%= notification._id %>" class="notification px-2 text-muted">
-                              <%- notification.text %>
-                                <br><span class="badge bg-light text-primary">
-                                  <% const dateDiff=new Date() - notification.timestamp; %>
-                                    <% if ((dateDiff) / 1000 / 60 < 1) { %>
-                                      Just Now
-                                      <% } else if ((dateDiff) / 1000 / 60 < 60) { %>
-                                        <%= Math.floor((dateDiff) / 1000 / 60) %> minutes ago
-                                          <% } else if ((dateDiff) / 1000 / 60 / 60 < 60) { %>
-                                            <%= Math.floor((dateDiff) / 1000 / 60 / 60) %> hours ago
-                                              <% } else if ((dateDiff) / 1000 / 60 / 60 / 24 < 60) { %>
-                                                <%= Math.floor((dateDiff) / 1000 / 60 / 60 / 24) %> days ago
-                                                  <% } else { %>
-                                                    <%= Math.floor((dateDiff) / 1000 / 60 / 60 / 24 / 7) %> weeks ago
-                                                      <% } %>
-                                </span>
-                            </li>
-                            <% }} else { %>
-                              <li>
-                                <hr class="dropdown-divider">
-                              </li>
-                              <li class="notification px-2 text-muted">
-                                No notifications
-                              </li>
-                              <% } %>
+                        <% }} else { %>
+                          <li>
+                            <hr class="dropdown-divider">
+                          </li>
+                          <li class="notification px-2 text-muted">
+                            No notifications
+                          </li>
+                          <% } %>
                 </div>
               </ul>
             </li>
@@ -134,10 +130,6 @@
             <% } %>
       </div>
 
-      <!-- <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form> -->
     </div>
   </div>
 </nav>
