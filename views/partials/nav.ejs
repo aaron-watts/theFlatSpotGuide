@@ -57,8 +57,10 @@
                 </div>
                 <div class="overflow-scroll limit-height">
                   <% if (currentUser.notifications.length) { %>
-                    <% for (let notification of currentUser.notifications) { %>
-                      <% if (notification.status==='new' ) { %>
+                    <% for (let notification of 
+                      currentUser.notifications
+                        .filter(i => i.status==='new')
+                        .sort((a, b) => b.timestamp - a.timestamp)) { %>
                         <li>
                           <hr class="dropdown-divider">
                         </li>
@@ -79,8 +81,10 @@
                                                   <% } %>
                             </span>
                         </li>
-                        <% }} for (let notification of currentUser.notifications) { %>
-                          <% if (notification.status==='seen' ) { %>
+                        <% } for (let notification of 
+                        currentUser.notifications
+                          .filter(i => i.status==='seen')
+                          .sort((a, b) => b.timestamp - a.timestamp)) { %>
                             <li>
                               <hr class="dropdown-divider">
                             </li>
@@ -101,7 +105,7 @@
                                                       <% } %>
                                 </span>
                             </li>
-                            <% }}} else { %>
+                            <% }} else { %>
                               <li>
                                 <hr class="dropdown-divider">
                               </li>
