@@ -79,21 +79,6 @@ module.exports.create = async (req, res) => {
         spot
     })
 
-    // update spot followers of new event
-    for (follower of updateEvent.following) {
-        const user = await User.findById(follower._id);
-
-        if (!updateEvent.author.equals(user)) {
-            user.notifications.push({
-                text: `<strong>${updateEvent.title}</strong> event has been changed! 
-                <a class="text-decoration-none" href="/spots/${spot._id}">Go to event</a>`,
-                status: 'new',
-                timestamp: new Date()
-            })
-            user.save();
-        }
-    }
-
     // add author to event followers
     newEvent.author = req.user._id;
     newEvent.following.push(req.user._id);
@@ -101,6 +86,23 @@ module.exports.create = async (req, res) => {
 
     await newEvent.save();
     await spot.save();
+
+    // update spot followers of new event
+    for (follower of spot.following) {
+        const user = await User.findById(follower._id);
+
+        if (!newEvent.author.equals(user)) {
+            user.notifications.push({
+                text: `An event has been pinned to <strong>${spot.name}</strong>! 
+                <a class="text-decoration-none" href="/spots/${spot._id}">Go to spot</a>`,
+                status: 'new',
+                timestamp: new Date()
+            })
+            user.save();
+        }
+    }
+
+    
 
     req.flash('success', 'Event Added!')
     res.redirect(`/events`);
