@@ -2,15 +2,28 @@ const Spot = require('../models/spot');
 const Event = require('../models/event');
 const User = require('../models/user');
 const { monthArray } = require('../utils/data');
-const { findByIdAndRemove, findByIdAndUpdate } = require('../models/spot');
+const { findByIdAndUpdate } = require('../models/spot');
 const { updateFollowers } = require('../utils/middleware');
 
 module.exports.index = async (req, res) => {
-    const events = await Event.find({ 'date': { '$gte': new Date() } })
-        .sort({ 'date': 1 })
-        .populate('spot')
-        .populate('author')
-        .populate('following');
+    console.log(req.query)
+    const { author } = req.query;
+    let events;
+
+    if (author) {
+        console.log('Author Detected!')
+        events = await Event.find({ 'author': author })
+            .sort({ 'date': 1 })
+            .populate('spot')
+            .populate('author')
+            .populate('following');
+    } else {
+        events = await Event.find({ 'date': { '$gte': new Date() } })
+            .sort({ 'date': 1 })
+            .populate('spot')
+            .populate('author')
+            .populate('following');
+    } 
 
     res.render('events/index', { events, monthArray });
 }

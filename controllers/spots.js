@@ -5,16 +5,31 @@ const { monthArray } = require('../utils/data');
 const { updateFollowers } = require('../utils/middleware');
 
 module.exports.index = async (req, res) => {
-    const spots = await Spot.find({})
-        .populate({
-            path: 'events',
-            match: { date: { $gt: new Date() } },
-            options: {
-                sort: { date: 1 }
-            }
-        })
-        .populate('author');
-        res.render('spots/index', { spots });
+    const { author } = req.query;
+    let spots;
+    if (author) {
+        spots = await Spot.find({author})
+            .populate({
+                path: 'events',
+                match: { date: { $gt: new Date() } },
+                options: {
+                    sort: { date: 1 }
+                }
+            })
+            .populate('author');
+    } else {
+        spots = await Spot.find({})
+            .populate({
+                path: 'events',
+                match: { date: { $gt: new Date() } },
+                options: {
+                    sort: { date: 1 }
+                }
+            })
+            .populate('author');
+    }
+        
+    res.render('spots/index', { spots });
 }
 
 module.exports.newForm = (req, res) => {

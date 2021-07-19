@@ -56,7 +56,7 @@ const deleteNotifications = async function(evt) {
 
 for (let link of navLinks) {
     if (link.pathname === window.location.pathname) {
-        link.classList.add('active', 'disabled');
+        link.classList.add('active');
     }
 }
 
