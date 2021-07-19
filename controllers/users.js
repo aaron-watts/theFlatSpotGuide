@@ -63,7 +63,7 @@ module.exports.deleteNotifications = async (req, res) => {
     const user = await User.findById(req.user._id);
 
     try {
-        for (let i = 0; i < user.notifications.length; i++) {
+        for (let i = user.notifications.length; i > 0; i--) {
             user.notifications.pop();
         }
         

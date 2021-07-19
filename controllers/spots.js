@@ -5,7 +5,6 @@ const { monthArray } = require('../utils/data');
 const { updateFollowers } = require('../utils/middleware');
 
 module.exports.index = async (req, res) => {
-    //console.log(req.originalUrl)
     const spots = await Spot.find({})
         .populate({
             path: 'events',
