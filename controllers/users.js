@@ -28,7 +28,6 @@ module.exports.loginForm = (req, res) => {
 }
 
 module.exports.login = (req, res) => {
-    console.log(req.body)
     req.flash('success', `Welcome back, ${req.user.username}!`);
     const redirectUrl = req.session.returnTo || '/spots';
     delete req.session.returnTo;

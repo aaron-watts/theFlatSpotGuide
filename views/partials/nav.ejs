@@ -124,13 +124,24 @@
               </a>
               <ul class="dropdown-menu dropdown-menu-lg-end w-25" aria-labelledby="navbarDropdown">
                 <li>
-                  <a class="dropdown-item" href="/spots?author=<%= currentUser._id %>">My Spots</a></li>
+                  <div class="d-flex justify-content-center text-muted">
+                    <span><strong><%= currentUser.username %></strong> is currently signed in</span>
+                  </div>
+                </li>
                 <li>
-                  <li>
-                  <a class="dropdown-item" href="/events?author=<%= currentUser._id %>">My Events</a></li>
+                  <hr class="dropdown-divider">
+                </li>
+                <li>
+                  <a class="dropdown-item" href="/spots?author=<%= currentUser._id %>">My Spots</a>
+                </li>
                 <li>
                 <li>
-                  <a class="dropdown-item" href="#">Account Settings</a></li>
+                  <a class="dropdown-item" href="/events?author=<%= currentUser._id %>">My Events</a>
+                </li>
+                <li>
+                <li>
+                  <a class="dropdown-item" href="#">Account Settings</a>
+                </li>
                 <li>
                   <hr class="dropdown-divider">
                 </li>

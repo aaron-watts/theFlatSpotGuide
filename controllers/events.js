@@ -6,18 +6,18 @@ const { findByIdAndUpdate } = require('../models/spot');
 const { updateFollowers } = require('../utils/middleware');
 
 module.exports.index = async (req, res) => {
-    console.log(req.query)
     const { author } = req.query;
     let events;
 
     if (author) {
-        console.log('Author Detected!')
+        // show expired events for user searches
         events = await Event.find({ 'author': author })
             .sort({ 'date': 1 })
             .populate('spot')
             .populate('author')
             .populate('following');
     } else {
+        // filter expired events for viewing all
         events = await Event.find({ 'date': { '$gte': new Date() } })
             .sort({ 'date': 1 })
             .populate('spot')

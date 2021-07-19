@@ -13,6 +13,17 @@
                             </div>
                         </div>
                     </div>
+                    <% if (events.some(i => i.date < new Date())) { %>
+                        <div class="alert alert-info mt-0" role="alert">
+                            <div class="d-flex justify-content-between">
+                                <h4 class="alert-heading">You have expired events!</h4>
+                                <i class="h4 bi bi-info-circle-fill"></i> 
+                            </div>
+                            <hr>
+                            <p class="mb-0">You can either delete them, 
+                                or edit them to be reused as repeated events, or new events!</p>
+                        </div>
+                        <% } %> 
                     <% } else { %>
                         <div class="alert alert-secondary text-center mt-3" role="alert">
                             <a class="text-dark" href="/register">Register</a> or <a class="text-dark"
@@ -28,7 +39,8 @@
                                             <i class="bi bi-geo-alt">
                                             </i>
                                             <a class="text-muted" href="/spots/<%= event.spot._id %>">
-                                                <%= event.spot.name %></a>
+                                                <%= event.spot.name %>
+                                            </a>
                                             &bullet;
                                             <%= event.spot.location %>
                                         </span>
@@ -39,10 +51,8 @@
                                                 <!-- Calendar illustration -->
                                                 <div class="cal-frame mx-auto mb-2">
                                                     <div class="time-frame">
-                                                            <%= new Date(event.date).getHours() < 10 ? '0' : 
-                                                            '' %><%- new Date(event.date).getHours() %>:<%- new
-                                                                    Date(event.date).getMinutes() < 10 ? '0' : 
-                                                                    '' %><%= new Date(event.date).getMinutes() %>
+                                                        <%= new Date(event.date).getHours() < 10 ? '0' : '' %><%- new Date(event.date).getHours() %>:<%- new
+                                                                    Date(event.date).getMinutes() < 10 ? '0' : '' %><%= new Date(event.date).getMinutes() %>
                                                     </div>
                                                     <div class="date-frame">
                                                         <span>
@@ -55,6 +65,12 @@
                                                         </span>
                                                     </div>
                                                 </div>
+                                                <% if (event.date < new Date()) { %> 
+                                                <div class="d-flex justify-content-center">
+                                                    <span class="text-danger fw-bold"><i class="bi bi-calendar-x"></i>
+                                                        Expired</span>
+                                                </div>
+                                                <% } %> 
                                             </div>
                                             <div class="col-sm-8">
                                                 <p class="card-title"></p>
