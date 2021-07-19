@@ -3,6 +3,7 @@ const Event = require('../models/event');
 const User = require('../models/user');
 const { monthArray } = require('../utils/data');
 const { findByIdAndRemove, findByIdAndUpdate } = require('../models/spot');
+const { updateFollowers } = require('../utils/middleware');
 
 module.exports.index = async (req, res) => {
     const events = await Event.find({ 'date': { '$gte': new Date() } })
@@ -51,18 +52,9 @@ module.exports.addToSpot = async (req, res) => {
     await spot.save();
 
     // update spot followers of new event
-    for (follower of spot.following) {
-        const user = await User.findById(follower._id);
-        if (!spot.author.equals(user)) {
-            user.notifications.push({
-                text: `<strong>${req.user.username}</strong> pinned an event to <strong>${spot.name}</strong>! 
-                    <a class="text-decoration-none" href="/spots/${spot._id}">Go to event</a>`,
-                status: 'new',
-                timestamp: new Date()
-            })
-            user.save();
-        }
-    }
+    const notification = `<strong>${req.user.username}</strong> pinned an event to <strong>${spot.name}</strong>! 
+                     <a class="text-decoration-none" href="/spots/${spot._id}">Go to event</a>`;
+    updateFollowers(spot, newEvent, notification);
 
     req.flash('success', 'Event Added!')
     res.redirect(`/spots/${spotId}`);
@@ -91,21 +83,9 @@ module.exports.create = async (req, res) => {
     await spot.save();
 
     // update spot followers of new event
-    console.log(newEvent.author)
-    for (follower of spot.following) {
-        const user = await User.findById(follower._id);
-        console.log(user)
-
-        if (!spot.author.equals(user)) {
-            user.notifications.push({
-                text: `An event has been pinned to <strong>${spot.name}</strong>! 
-                <a class="text-decoration-none" href="/spots/${spot._id}">Go to spot</a>`,
-                status: 'new',
-                timestamp: new Date()
-            })
-            user.save();
-        }
-    }
+    const notification = `An event has been pinned to <strong>${spot.name}</strong>! 
+        <a class="text-decoration-none" href="/spots/${spot._id}">Go to spot</a>`;
+    updateFollowers(spot, newEvent, notification);
 
     req.flash('success', 'Event Added!')
     res.redirect(`/events`);
@@ -139,50 +119,22 @@ module.exports.update = async (req, res) => {
         await spot.save();
 
         // notify spot followers if not author
-        for (follower of spot.following) {
-            if (!spot.author.equals(follower._id)) {
-                const user = await User.findById(follower._id);
-                user.notifications.push({
-                    text: `<strong>${updateEvent.title}</strong> was relocated to <strong>${spot.name}</strong>! 
-                <a class="text-decoration-none" href="/spots/${spot._id}">Go to Spot</a>`,
-                    status: 'new',
-                    timestamp: new Date()
-                })
-                user.save();
-            }
-        }
+        const notification = `<strong>${updateEvent.title}</strong> was relocated to <strong>${spot.name}</strong>! 
+            <a class="text-decoration-none" href="/spots/${spot._id}">Go to Spot</a>`;
+        updateFollowers(spot, spot, notification);
 
         // notify followers of old spot
-        for (follower of oldSpot.following) {
-            if (!spot.author.equals(follower._id)) {
-                const user = await User.findById(follower._id);
-                user.notifications.push({
-                    text: `<strong>${updateEvent.title}</strong> was relocated from <strong>${oldSpot.name}</strong>! 
-                <a class="text-decoration-none" href="/spots/${spot._id}">Go to Event</a>`,
-                    status: 'new',
-                    timestamp: new Date()
-                })
-                user.save();
-            }
-        }
+        const notificationText = `<strong>${updateEvent.title}</strong> was relocated from <strong>${oldSpot.name}</strong>! 
+            <a class="text-decoration-none" href="/spots/${spot._id}">Go to Event</a>`
+        updateFollowers(oldSpot, spot, notificationText);
     }
 
     await updateEvent.save();
 
     // notify followers if not author
-    for (follower of updateEvent.following) {
-        const user = await User.findById(follower._id);
-
-        if (!updateEvent.author.equals(user)) {
-            user.notifications.push({
-                text: `<strong>${updateEvent.title}</strong> event has been changed! 
-                <a class="text-decoration-none" href="/spots/${spot._id}">Go to event</a>`,
-                status: 'new',
-                timestamp: new Date()
-            })
-            user.save();
-        }
-    }
+    const notification = `<strong>${updateEvent.title}</strong> event has been changed! 
+        <a class="text-decoration-none" href="/spots/${spot._id}">Go to event</a>`
+    updateFollowers(updateEvent, updateEvent, notification);
 
     req.flash('success', 'Event Updated!')
     res.redirect(`/spots/${spot._id}`);

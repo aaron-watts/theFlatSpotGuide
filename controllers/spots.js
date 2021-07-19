@@ -2,6 +2,7 @@ const Spot = require('../models/spot');
 const Event = require('../models/event');
 const User = require('../models/user')
 const { monthArray } = require('../utils/data');
+const { updateFollowers } = require('../utils/middleware');
 
 module.exports.index = async (req, res) => {
     //console.log(req.originalUrl)
@@ -69,21 +70,23 @@ module.exports.update = async (req, res) => {
 
     await spot.save();
 
-    console.log(spot.following)
     // notify followers if not author
-    for (follower of spot.following) {
-        const user = await User.findById(follower._id);
+    const notification = `<strong>${spot.name}</strong> spot has been changed! 
+        <a class="text-decoration-none" href="/spots/${spot._id}">Go to Spot</a>`
+    updateFollowers(spot, spot, notification);
+    
+    // for (follower of spot.following) {
+    //     const user = await User.findById(follower._id);
 
-        if (!spot.author.equals(user)) {
-            user.notifications.push({
-                text: `<strong>${newSpot.name}</strong> spot has been changed! 
-                <a class="text-decoration-none" href="/spots/${newSpot._id}">Go to Spot</a>`,
-                status: 'new',
-                timestamp: new Date()
-            })
-            user.save();
-        }
-    }
+    //     if (!spot.author.equals(user)) {
+    //         user.notifications.push({
+    //             text: ``,
+    //             status: 'new',
+    //             timestamp: new Date()
+    //         })
+    //         user.save();
+    //     }
+    // }
 
     res.redirect(`/spots/${id}`);
 }
@@ -96,15 +99,6 @@ module.exports.delete = async (req, res) => {
 module.exports.follow = async (req, res) => {
     const user = req.user._id;
     const spot = await Spot.findById(req.params.id);
-    // if(!spot.following.some(i => i.equals(user))) {
-    //     spot.following.push(user);
-    //     await spot.save();
-    //     res.send({following: true, total: spot.following.length});
-    // } else {
-    //     spot.following.pull(user);
-    //     await spot.save();
-    //     res.send({following: false, total: spot.following.length});
-    // }
 
     if (!spot.following.some(i => i.equals(user))) {
         // add user to spots following list
