@@ -59,18 +59,15 @@ module.exports.create = async (req, res) => {
 module.exports.update = async (req, res) => {
     const { id } = req.params;
     const updateSpot = req.body.spot;
-    //const spot = await Spot.findByIdAndUpdate(id, { ...req.body.spot })
     const spot = await Spot.findById(id)
         .populate('author')
         .populate('following');
 
-    const newDetails = {
-        name: updateSpot.name,
-        location: updateSpot.location,
-        details: updateSpot.details
-    }
-    const edited = await Spot.findByIdAndUpdate(id, {...newDetails});
-    const newSpot = await edited.save();
+    spot.name = updateSpot.name;
+    spot.location = updateSpot.location;
+    spot.details = updateSpot.details;
+
+    await spot.save();
 
     console.log(spot.following)
     // notify followers if not author
