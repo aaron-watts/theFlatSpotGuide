@@ -1,4 +1,4 @@
-const navLinks = document.querySelectorAll('.nav-link:not(#navbarDropdown)');
+const navLinks = document.querySelectorAll('.nav-link:not(#navbarDropdown).nav-link:not(.js-ignore)');
 const notificationButtons = document.querySelectorAll('.notification-button');
 const clearNotifications = document.querySelector('#clear-notifications');
 const notificationList = document.querySelector('#notification-list');
@@ -55,7 +55,8 @@ const deleteNotifications = async function(evt) {
 }
 
 for (let link of navLinks) {
-    if (link.pathname === window.location.pathname) {
+    if (link.pathname === window.location.pathname 
+        && window.location.search.slice(1,7) !== 'author') {
         link.classList.add('active');
     }
 }
