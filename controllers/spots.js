@@ -7,7 +7,14 @@ const { updateFollowers } = require('../utils/middleware');
 module.exports.index = async (req, res) => {
     const { author } = req.query;
     let spots;
+
     if (author) {
+        // redirect if not correct user
+        if (!req.isAuthenticated() || req.user && !req.user.equals(author)) {
+            res.redirect('/spots');
+        }
+
+        // find only current users events
         spots = await Spot.find({author})
             .populate({
                 path: 'events',
@@ -17,7 +24,9 @@ module.exports.index = async (req, res) => {
                 }
             })
             .populate('author');
+
     } else {
+        // find all events
         spots = await Spot.find({})
             .populate({
                 path: 'events',
@@ -88,19 +97,6 @@ module.exports.update = async (req, res) => {
     const notification = `<strong>${spot.name}</strong> spot has been changed! 
         <a class="text-decoration-none" href="/spots/${spot._id}">Go to Spot</a>`
     updateFollowers(spot, spot, notification);
-    
-    // for (follower of spot.following) {
-    //     const user = await User.findById(follower._id);
-
-    //     if (!spot.author.equals(user)) {
-    //         user.notifications.push({
-    //             text: ``,
-    //             status: 'new',
-    //             timestamp: new Date()
-    //         })
-    //         user.save();
-    //     }
-    // }
 
     res.redirect(`/spots/${id}`);
 }
