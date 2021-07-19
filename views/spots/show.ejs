@@ -29,11 +29,49 @@
                                 <a href="/spots/<%= spot._id %>/edit" class="btn btn-info"><i class="bi bi-pencil"></i>
                                     Edit</a>
                             </div>
-                            <form class="d-grid gap-3 col-sm-6 mx-auto mb-3" 
-                                action="/spots/<%= spot._id %>?_method=DELETE" method="POST">
-                                <button type="submit" class="btn btn-danger"><i
-                                        class="bi bi-trash"></i> Delete</button>
-                            </form>
+                            <!-- Button trigger modal -->
+                            <div class="d-grid gap-3 col-sm-6 mx-auto mb-3">
+                                <button type="button" class="btn btn-danger"
+                                    data-bs-toggle="modal" data-bs-target="#warning<%= spot._id %>">
+                                    <i class="bi bi-trash"></i> Delete Event
+                                </button>
+                            </div>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="warning<%= spot._id %>"
+                                data-bs-backdrop="static" data-bs-keyboard="false"
+                                tabindex="-1" aria-labelledby="staticBackdropLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title"
+                                                id="staticBackdropLabel">
+                                                <i class="bi bi-exclamation-triangle"></i>
+                                                Delete <%= spot.name %>?
+                                            </h5>
+                                            <button type="button" class="btn-close"
+                                                data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            If you proceed this event will be gone forever!
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Close</button>
+                                            <form
+                                                action="/spots/<%= spot._id %>?_method=DELETE"
+                                                method="POST"
+                                                class="">
+                                                <button type="submit"
+                                                    class="btn btn-primary">
+                                                    Proceed</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
                         </div>
                         <% } %>
@@ -148,11 +186,49 @@
                                                 class="bi bi-pencil"></i>
                                             Edit</a>
                                     </div>
-                                    <form action="/events/<%= event._id %>/<%= spot._id %>?_method=DELETE" method="POST"
-                                        class="d-grid gap-3 col-sm-6 mx-auto mb-3">
-                                        <button type="submit" class="btn btn-danger"><i class="bi bi-trash"></i> Delete
-                                            Event</button>
-                                    </form>
+                                    <!-- Button trigger modal -->
+                                    <div class="d-grid gap-3 col-sm-6 mx-auto mb-3">
+                                        <button type="button" class="btn btn-danger"
+                                            data-bs-toggle="modal" data-bs-target="#warning<%= event._id %>">
+                                            <i class="bi bi-trash"></i> Delete Event
+                                        </button>
+                                    </div>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="warning<%= event._id %>"
+                                        data-bs-backdrop="static" data-bs-keyboard="false"
+                                        tabindex="-1" aria-labelledby="staticBackdropLabel"
+                                        aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title"
+                                                        id="staticBackdropLabel">
+                                                        <i class="bi bi-exclamation-triangle"></i>
+                                                        Delete <%= event.title %>?
+                                                    </h5>
+                                                    <button type="button" class="btn-close"
+                                                        data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    If you proceed this event will be gone forever!
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">Close</button>
+                                                    <form
+                                                        action="/events/<%= event._id %>/<%= event.spot._id %>?_method=DELETE"
+                                                        method="POST"
+                                                        class="">
+                                                        <button type="submit"
+                                                            class="btn btn-primary">
+                                                            Proceed</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
 
                                 </div>
                                 <% } %>

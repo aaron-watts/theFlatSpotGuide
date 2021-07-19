@@ -13,120 +13,160 @@
                             </div>
                         </div>
                     </div>
-                    <% if (events.some(i => i.date < new Date())) { %>
-                        <div class="alert alert-info mt-0" role="alert">
-                            <div class="d-flex justify-content-between">
-                                <h4 class="alert-heading">You have expired events!</h4>
-                                <i class="h4 bi bi-info-circle-fill"></i> 
-                            </div>
-                            <hr>
-                            <p class="mb-0">You can either delete them, 
-                                or edit them to be reused as repeated events, or new events!</p>
-                        </div>
-                        <% } %> 
-                    <% } else { %>
-                        <div class="alert alert-secondary text-center mt-3" role="alert">
-                            <a class="text-dark" href="/register">Register</a> or <a class="text-dark"
-                                href="/login">Login</a>
-                            to Pin a New Event!
-                        </div>
-                        <% } %>
-
-                            <% for (event of events) { %>
-                                <div class="card mb-3" id="section<%= event._id %>">
-                                    <div class="card-header">
-                                        <span class="text-muted">
-                                            <i class="bi bi-geo-alt">
-                                            </i>
-                                            <a class="text-muted" href="/spots/<%= event.spot._id %>">
-                                                <%= event.spot.name %>
-                                            </a>
-                                            &bullet;
-                                            <%= event.spot.location %>
-                                        </span>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-sm-4">
-                                                <!-- Calendar illustration -->
-                                                <div class="cal-frame mx-auto mb-2">
-                                                    <div class="time-frame">
-                                                        <%= new Date(event.date).getHours() < 10 ? '0' : '' %><%- new Date(event.date).getHours() %>:<%- new
-                                                                    Date(event.date).getMinutes() < 10 ? '0' : '' %><%= new Date(event.date).getMinutes() %>
-                                                    </div>
-                                                    <div class="date-frame">
-                                                        <span>
-                                                            <%= event.date.getDate() %>
-                                                        </span>
-                                                    </div>
-                                                    <div class="month-frame">
-                                                        <span>
-                                                            <%= monthArray[event.date.getMonth()] %>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                                <% if (event.date < new Date()) { %> 
-                                                <div class="d-flex justify-content-center">
-                                                    <span class="text-danger fw-bold"><i class="bi bi-calendar-x"></i>
-                                                        Expired</span>
-                                                </div>
-                                                <% } %> 
-                                            </div>
-                                            <div class="col-sm-8">
-                                                <p class="card-title"></p>
-                                                <div class="h4 mb-0 me-1">
-                                                    <%= event.title %>
-                                                </div>
-                                                <p class="text-muted"><i class="bi bi-pin-angle"></i> Pinned by <%=
-                                                        event.author.username %>
-                                                </p>
-
-                                                <p class="card-text">
-                                                    <%= event.description %>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <% if (currentUser && event.author.equals(currentUser._id)) { %>
-                                        <div class="card-body row">
-                                            <div class="d-grid gap-3 col-sm-6 mx-auto mb-3">
-                                                <a href="/events/<%= event._id %>/edit" class="btn btn-info"><i
-                                                        class="bi bi-pencil"></i>
-                                                    Edit</a>
-                                            </div>
-                                            <form action="/events/<%= event._id %>/<%= event.spot._id %>?_method=DELETE"
-                                                method="POST" class="d-grid gap-3 col-sm-6 mx-auto mb-3">
-                                                <button type="submit" class="btn btn-danger"><i class="bi bi-trash"></i>
-                                                    Delete
-                                                    Event</button>
-                                            </form>
-
-                                        </div>
-                                        <% } %>
-
-                                            <div
-                                                class="card-footer text-muted d-flex justify-content-end align-items-center">
-                                                <div class="">
-                                                    <span id="following<%= event._id %>" class="me-n3">
-                                                        <%= event.following.length %>
-                                                    </span>
-                                                    <% if (currentUser && event.following.some(i=>
-                                                        i.equals(currentUser._id))) { %>
-                                                        <button id="<%=event._id %>" class="follow-event btn btn-sm 
-                                                text-success rounded-circle"><i
-                                                                class="bi bi-bookmark-fill"></i></button>
-                                                        <% } %>
-                                                            <% if (currentUser && !event.following.some(i=>
-                                                                i.equals(currentUser._id))) { %>
-                                                                <button id="<%= event._id %>" class="follow-event btn btn-sm 
-                                                        text-muted rounded-circle"><i
-                                                                        class="bi bi-bookmark"></i></button>
-                                                                <% } %>
-                                                </div>
-                                            </div>
+                    <% if (events.some(i=> i.date < new Date())) { %>
+                            <div class="alert alert-info mt-0" role="alert">
+                                <div class="d-flex justify-content-between">
+                                    <h4 class="alert-heading">You have expired events!</h4>
+                                    <i class="h4 bi bi-info-circle-fill"></i>
                                 </div>
-                                <% } %>
+                                <hr>
+                                <p class="mb-0">You can either delete them,
+                                    or edit them to be reused as repeated events, or new events!</p>
+                            </div>
+                            <% } %>
+                                <% } else { %>
+                                    <div class="alert alert-secondary text-center mt-3" role="alert">
+                                        <a class="text-dark" href="/register">Register</a> or <a class="text-dark"
+                                            href="/login">Login</a>
+                                        to Pin a New Event!
+                                    </div>
+                                    <% } %>
+
+                                        <% for (event of events) { %>
+                                            <div class="card mb-3" id="section<%= event._id %>">
+                                                <div class="card-header">
+                                                    <span class="text-muted">
+                                                        <i class="bi bi-geo-alt">
+                                                        </i>
+                                                        <a class="text-muted" href="/spots/<%= event.spot._id %>">
+                                                            <%= event.spot.name %>
+                                                        </a>
+                                                        &bullet;
+                                                        <%= event.spot.location %>
+                                                    </span>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                        <div class="col-sm-4">
+                                                            <!-- Calendar illustration -->
+                                                            <div class="cal-frame mx-auto mb-2">
+                                                                <div class="time-frame">
+                                                                    <%= new Date(event.date).getHours() < 10 ? '0' : ''
+                                                                        %><%- new Date(event.date).getHours() %>:<%- new
+                                                                                Date(event.date).getMinutes() < 10 ? '0'
+                                                                                : '' %><%= new Date(event.date).getMinutes() %>
+                                                                </div>
+                                                                <div class="date-frame">
+                                                                    <span>
+                                                                        <%= event.date.getDate() %>
+                                                                    </span>
+                                                                </div>
+                                                                <div class="month-frame">
+                                                                    <span>
+                                                                        <%= monthArray[event.date.getMonth()] %>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            <% if (event.date < new Date()) { %>
+                                                                <div class="d-flex justify-content-center">
+                                                                    <span class="text-danger fw-bold"><i
+                                                                            class="bi bi-calendar-x"></i>
+                                                                        Expired</span>
+                                                                </div>
+                                                                <% } %>
+                                                        </div>
+                                                        <div class="col-sm-8">
+                                                            <p class="card-title"></p>
+                                                            <div class="h4 mb-0 me-1">
+                                                                <%= event.title %>
+                                                            </div>
+                                                            <p class="text-muted"><i class="bi bi-pin-angle"></i> Pinned
+                                                                by <%= event.author.username %>
+                                                            </p>
+
+                                                            <p class="card-text">
+                                                                <%= event.description %>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <% if (currentUser && event.author.equals(currentUser._id)) { %>
+                                                    <div class="card-body row">
+                                                        <div class="d-grid gap-3 col-sm-6 mx-auto mb-3">
+                                                            <a href="/events/<%= event._id %>/edit"
+                                                                class="btn btn-info"><i class="bi bi-pencil"></i>
+                                                                Edit</a>
+                                                        </div>
+                                                        <!-- Button trigger modal -->
+                                                        <div class="d-grid gap-3 col-sm-6 mx-auto mb-3">
+                                                            <button type="button" class="btn btn-danger"
+                                                                data-bs-toggle="modal" data-bs-target="#warning<%= event._id %>">
+                                                                <i class="bi bi-trash"></i> Delete Event
+                                                            </button>
+                                                        </div>
+
+                                                        <!-- Modal -->
+                                                        <div class="modal fade" id="warning<%= event._id %>"
+                                                            data-bs-backdrop="static" data-bs-keyboard="false"
+                                                            tabindex="-1" aria-labelledby="staticBackdropLabel"
+                                                            aria-hidden="true">
+                                                            <div class="modal-dialog">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title"
+                                                                            id="staticBackdropLabel">
+                                                                            <i class="bi bi-exclamation-triangle"></i>
+                                                                            Delete <%= event.title %>?
+                                                                        </h5>
+                                                                        <button type="button" class="btn-close"
+                                                                            data-bs-dismiss="modal"
+                                                                            aria-label="Close"></button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        If you proceed this event will be gone forever!
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-secondary"
+                                                                            data-bs-dismiss="modal">Close</button>
+                                                                        <form
+                                                                            action="/events/<%= event._id %>/<%= event.spot._id %>?_method=DELETE"
+                                                                            method="POST"
+                                                                            class="">
+                                                                            <button type="submit"
+                                                                                class="btn btn-primary">
+                                                                                Proceed</button>
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <% } %>
+
+                                                        <div
+                                                            class="card-footer text-muted d-flex justify-content-end align-items-center">
+                                                            <div class="">
+                                                                <span id="following<%= event._id %>" class="me-n3">
+                                                                    <%= event.following.length %>
+                                                                </span>
+                                                                <% if (currentUser && event.following.some(i=>
+                                                                    i.equals(currentUser._id))) { %>
+                                                                    <button id="<%=event._id %>" class="follow-event btn btn-sm 
+                                                text-success rounded-circle"><i
+                                                                            class="bi bi-bookmark-fill"></i></button>
+                                                                    <% } %>
+                                                                        <% if (currentUser && !event.following.some(i=>
+                                                                            i.equals(currentUser._id))) { %>
+                                                                            <button id="<%= event._id %>" class="follow-event btn btn-sm 
+                                                        text-muted rounded-circle"><i
+                                                                                    class="bi bi-bookmark"></i></button>
+                                                                            <% } %>
+                                                            </div>
+                                                        </div>
+                                            </div>
+                                            <% } %>
             </div>
         </div>
     </div>

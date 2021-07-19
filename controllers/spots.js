@@ -102,7 +102,18 @@ module.exports.update = async (req, res) => {
 }
 
 module.exports.delete = async (req, res) => {
-    const spot = await Spot.findByIdAndDelete(req.params.id);
+    const spot = await Spot.findById(req.params.id)
+        .populate('events');
+
+    // delete associated events
+    if (spot.events.length) {
+        for (event of spot.events) {
+            await event.delete();
+        }
+    }
+
+    await spot.delete();
+
     res.redirect('/spots');
 }
 
