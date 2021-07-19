@@ -10,6 +10,7 @@ module.exports.index = async (req, res) => {
     let events;
 
     if (author) {
+        if (!req.isAuthenticated() || req.user && !req.user.equals(author)) res.redirect('/events');
         // show expired events for user searches
         events = await Event.find({ 'author': author })
             .sort({ 'date': 1 })
