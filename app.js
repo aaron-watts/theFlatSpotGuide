@@ -94,11 +94,17 @@ app.get('/about', (req, res) => {
 
 app.all('*', (req, res, next) => {
     // next(new ExpressError('Page Not Found', 404));
-    res.render('404notfound');
+    res.status(404).render('404notfound');
 })
 
 app.use((err, req, res, next) => {
-    const { statusCode = 500, message = 'SOmethingWent Wrong!' } = err;
+    const { statusCode = 500, message = 'Something Went Wrong!' } = err;
+
+    // 404 for bad IDs
+    if(req.method === 'GET' && req.originalUrl.includes('spots/')) {
+        res.status(404).render('404notfound')
+    }
+
     if (!err.message) err.message = 'Something Went Wrong!';
     res.status(statusCode).render('error', { err })
 })
