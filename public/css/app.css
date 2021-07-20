@@ -6,6 +6,10 @@
     max-height: 68vh;
 }
 
+.fill-page {
+    height: 80vh;
+}
+
 .menu-button button {
     height: 2.3rem;
     width: 2.3rem;
@@ -65,5 +69,10 @@ input::-webkit-inner-spin-button {
 }
 input[type=number] {
     -moz-appearance: textfield;
+}
+
+.ascii-art {
+    font-family: monospace;
+    white-space: pre;
 }
 
