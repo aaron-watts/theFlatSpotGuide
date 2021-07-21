@@ -128,6 +128,13 @@ module.exports.update = async (req, res) => {
     updateEvent.description = event.description;
     updateEvent.spot = spot;
 
+    await updateEvent.save();
+
+    // notify followers if not author
+    const notification = `<strong>${updateEvent.title}</strong> event has been changed! 
+        <a class="text-decoration-none" href="/spots/${spot._id}">Go to event</a>`
+    let alerted = await updateFollowers(updateEvent, updateEvent, notification);
+
     if (!spot.equals(spotId)) {
         //await Spot.findByIdAndUpdate(spotId, { $pull: { events: eventId } });
         const oldSpot = await Spot.findById(spotId)
@@ -141,20 +148,13 @@ module.exports.update = async (req, res) => {
         // notify spot followers if not author
         const notification = `<strong>${updateEvent.title}</strong> was relocated to <strong>${spot.name}</strong>! 
             <a class="text-decoration-none" href="/spots/${spot._id}">Go to Spot</a>`;
-        updateFollowers(spot, spot, notification);
+        alerted = await updateFollowers(spot, spot, notification, alerted);
 
         // notify followers of old spot
         const notificationText = `<strong>${updateEvent.title}</strong> was relocated from <strong>${oldSpot.name}</strong>! 
             <a class="text-decoration-none" href="/spots/${spot._id}">Go to Event</a>`
-        updateFollowers(oldSpot, spot, notificationText);
+        alerted = await updateFollowers(oldSpot, spot, notificationText, alerted);
     }
-
-    await updateEvent.save();
-
-    // notify followers if not author
-    const notification = `<strong>${updateEvent.title}</strong> event has been changed! 
-        <a class="text-decoration-none" href="/spots/${spot._id}">Go to event</a>`
-    updateFollowers(updateEvent, updateEvent, notification);
 
     req.flash('success', 'Event Updated!')
     res.redirect(`/spots/${spot._id}`);
