@@ -133,6 +133,7 @@ module.exports.update = async (req, res) => {
     // notify followers if not author
     const notification = `<strong>${updateEvent.title}</strong> event has been changed! 
         <a class="text-decoration-none" href="/spots/${spot._id}">Go to event</a>`
+    // keep tabs on who has been notified so they only receive one instead of three
     let alerted = await updateFollowers(updateEvent, updateEvent, notification);
 
     if (!spot.equals(spotId)) {
@@ -148,12 +149,12 @@ module.exports.update = async (req, res) => {
         // notify spot followers if not author
         const notification = `<strong>${updateEvent.title}</strong> was relocated to <strong>${spot.name}</strong>! 
             <a class="text-decoration-none" href="/spots/${spot._id}">Go to Spot</a>`;
-        alerted = await updateFollowers(spot, spot, notification, alerted);
+        alerted = await updateFollowers(spot, updateEvent, notification, alerted);
 
         // notify followers of old spot
         const notificationText = `<strong>${updateEvent.title}</strong> was relocated from <strong>${oldSpot.name}</strong>! 
             <a class="text-decoration-none" href="/spots/${spot._id}">Go to Event</a>`
-        alerted = await updateFollowers(oldSpot, spot, notificationText, alerted);
+        await updateFollowers(oldSpot, updateEvent, notificationText, alerted);
     }
 
     req.flash('success', 'Event Updated!')

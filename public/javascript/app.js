@@ -6,6 +6,12 @@ const notificationList = document.querySelector('#notification-list');
 let notifications = document.querySelectorAll('.notification');
 let notificationsOpen = false;
 
+const removeBadge = () => {
+    for (button of notificationButtons) {
+        if (button.children[1]) button.children[1].remove();
+    }
+}
+
 const markAsSeen = async function (evt) {
     evt.preventDefault();
 
@@ -14,9 +20,7 @@ const markAsSeen = async function (evt) {
         notificationsOpen = true;
     } else {
         for (let notification of notifications) notification.classList.add('text-muted');
-        for (button of notificationButtons) {
-            if (button.children[1]) button.children[1].remove();
-        }
+        removeBadge();
     }
 }
 
@@ -52,6 +56,8 @@ const deleteNotifications = async function(evt) {
             removeFromDom();
         }
     }
+
+    removeBadge();
 }
 
 for (let link of navLinks) {
