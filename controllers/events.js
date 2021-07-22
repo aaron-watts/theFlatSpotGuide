@@ -136,8 +136,8 @@ module.exports.update = async (req, res) => {
     // keep tabs on who has been notified so they only receive one instead of three
     let alerted = await updateFollowers(updateEvent, updateEvent, notification);
 
+    // if event location has changed notify followers of spots
     if (!spot.equals(spotId)) {
-        //await Spot.findByIdAndUpdate(spotId, { $pull: { events: eventId } });
         const oldSpot = await Spot.findById(spotId)
             .populate('author')
             .populate('following');
@@ -146,14 +146,14 @@ module.exports.update = async (req, res) => {
         await oldSpot.save();
         await spot.save();
 
-        // notify spot followers if not author
         const notification = `<strong>${updateEvent.title}</strong> was relocated to <strong>${spot.name}</strong>! 
             <a class="text-decoration-none" href="/spots/${spot._id}">Go to Spot</a>`;
+        // notify spot followers if not author and not already notified
         alerted = await updateFollowers(spot, updateEvent, notification, alerted);
 
-        // notify followers of old spot
         const notificationText = `<strong>${updateEvent.title}</strong> was relocated from <strong>${oldSpot.name}</strong>! 
             <a class="text-decoration-none" href="/spots/${spot._id}">Go to Event</a>`
+        // notify followers of old spot and not already notified
         await updateFollowers(oldSpot, updateEvent, notificationText, alerted);
     }
 

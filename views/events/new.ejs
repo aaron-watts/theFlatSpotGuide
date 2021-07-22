@@ -3,17 +3,17 @@
     <div class="container">
         <div class="row d-flex justify-content-center">
             <div class="col-lg-6">
-                <form action="/events/new" method="POST">
-                    <div class="input-group mb-3">
+                <form action="/events/new" method="POST" class="">
+                    <div class="input-group mb-3 position relative">
                         <span class="input-group-text" id="title-addon">Title</span>
                         <input type="text" id="title" name="event[title]" class="form-control"
-                            placeholder="What is the event called?" aria-label="title" 
-                            aria-describedby="title-addon" autofocus>
+                            placeholder="What is the event called?" aria-label="title" aria-describedby="title-addon"
+                            autofocus>
                     </div>
 
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="title-addon"><i class="bi bi-geo-alt"></i></span>
-                        <input type="text" id="spot" name="event[spot]" class="form-control" aria-label="title" 
+                        <input type="text" id="spot" name="event[spot]" class="form-control" aria-label="title"
                             aria-describedby="title-addon" list="spot-list" autocomplete="off" required>
                         <datalist id="spot-list">
                             <% for (spot of spots) { %>
@@ -24,7 +24,7 @@
 
                     <div class="row">
                         <div class="col-sm-7">
-                            <div class="input-group mb-3">
+                            <div class="input-group mb-3 position relative">
                                 <span class="input-group-text" id="basic-addon1"><i
                                         class="bi bi-calendar2-event"></i></span>
                                 <input id="day" name="event[day]" type="number" class="form-control" placeholder="dd"
@@ -64,3 +64,5 @@
             </div>
         </div>
     </div>
+
+    <script src="/javascript/eventForm.js"></script>
