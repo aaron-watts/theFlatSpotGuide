@@ -10,45 +10,68 @@ const dateHandler = () => {
     const today = new Date();
     const mm = month.value || '0';
 
+    const blinkInput = (element) => {
+        element.classList.add('blink');
+        setTimeout(() => { element.classList.remove('blink') }, 600);
+    }
+
     // don't allow more days in a month than there actually are
     const daysInMonth = (month, year = new Date().getFullYear()) => {
         return new Date(year, month, 0).getDate();
     }
 
     // if full date is in the past, adjust year to put it into the future
-    const backToTheFuture = (dd, mm, yyyy=new Date().getFullYear()) => {
+    const backToTheFuture = (dd, mm, yyyy = new Date().getFullYear()) => {
         if (new Date(yyyy, mm, dd) - new Date() < 0) {
             if (new Date(new Date().getFullYear(), mm, dd)) {
                 year.value = (new Date().getFullYear()).toString();
             }
             else year.value = (new Date().getFullYear() + 1).toString();
+
+            blinkInput(year);
         }
     }
 
+    // limit months to 12
+    if (parseInt(month.value) && parseInt(month.value) > 12) {
+        month.value = '12';
+        blinkInput(month);
+    }
+
     // can't be more than 31 days
-    if (!parseInt(month.value) && parseInt(day.value) > 31) day.value = '31';
+    if (!parseInt(month.value) && parseInt(day.value) > 31) {
+        day.value = '31';
+        blinkInput(day);
+    }
 
     // if the month has less than 31 days then adjust to correct max
     if (!parseInt(year.value) && parseInt(month.value)
         && parseInt(day.value) > daysInMonth(parseInt(month.value))) {
         day.value = daysInMonth(parseInt(month.value)).toString();
+        blinkInput(day);
     }
 
     // account for leap years and february 28/29
     if (parseInt(year.value) && parseInt(month.value)
         && parseInt(day.value) > daysInMonth(parseInt(month.value), parseInt(year.value))) {
         day.value = daysInMonth(parseInt(month.value), parseInt(year.value)).toString();
+        blinkInput(day);
     }
 
     // dates must be upcoming
     if (parseInt(year.value) && parseInt(day.value) && parseInt(month.value)) {
-        console.log('HELO')
         backToTheFuture(parseInt(day.value), parseInt(month.value) - 1, parseInt(year.value));
     }
 
     // limit time to 24 hour clock
-    if (parseInt(hours.value) > 23) hours.value = '23';
-    if (parseInt(minutes.value) > 59) minutes.value = '59';
+    if (parseInt(hours.value) > 23) {
+        hours.value = '23';
+        blinkInput(hours);
+    }
+    if (parseInt(minutes.value) > 59) {
+        minutes.value = '59';
+        blinkInput(minutes);
+    }
 }
 
 const numberInputMaxLength = (target) => {
