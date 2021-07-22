@@ -71,6 +71,10 @@ input[type=number] {
     -moz-appearance: textfield;
 }
 
+form * {
+    transition: margin-bottom .3s ease-in-out;
+}
+
 .blink {
     /* color: rgb(220, 53, 69); */
     animation: blinker 6s ease-out;

@@ -3,15 +3,15 @@
     <div class="container">
         <div class="row d-flex justify-content-center">
             <div class="col-lg-6">
-                <form action="/events/new" method="POST" class="">
+                <form action="/events/new" method="POST">
                     <div class="input-group mb-3 position relative">
                         <span class="input-group-text" id="title-addon">Title</span>
                         <input type="text" id="title" name="event[title]" class="form-control"
                             placeholder="What is the event called?" aria-label="title" aria-describedby="title-addon"
-                            autofocus>
+                            autofocus required>
                     </div>
 
-                    <div class="input-group mb-3">
+                    <div class="input-group mb-3 position-relative">
                         <span class="input-group-text" id="title-addon"><i class="bi bi-geo-alt"></i></span>
                         <input type="text" id="spot" name="event[spot]" class="form-control" aria-label="title"
                             aria-describedby="title-addon" list="spot-list" autocomplete="off" required>
@@ -19,17 +19,23 @@
                             <% for (spot of spots) { %>
                                 <option value="<%= spot.name %>"></option>
                                 <% } %>
-                        </datalist>
+                        </datalist>  
+                        <div id="spot-feedback" class="position-absolute top-100 ms-3 text-danger fs-6 d-none">
+                            <i class="bi bi-info-circle"></i>
+                            It seems like that's not a listed spot!
+                        </div> 
                     </div>
+                    
+                    
 
                     <div class="row">
                         <div class="col-sm-7">
                             <div class="input-group mb-3 position relative">
                                 <span class="input-group-text" id="basic-addon1"><i
                                         class="bi bi-calendar2-event"></i></span>
-                                <input id="day" name="event[day]" type="number" class="form-control blinkable" placeholder="dd"
-                                    aria-label="Day" aria-describedby="basic-addon1" min=1 max=31 step=1 maxlength="2"
-                                    required>
+                                <input id="day" name="event[day]" type="number" class="form-control blinkable"
+                                    placeholder="dd" aria-label="Day" aria-describedby="basic-addon1" min=1 max=31
+                                    step=1 maxlength="2" required>
                                 <input id="month" name="event[month]" type="number" class="form-control blinkable"
                                     placeholder="mm" aria-label="Month" min=1 max=12 step=1 maxlength=2 required>
                                 <input id="year" name="event[year]" type="number" class="form-control blinkable"
@@ -65,4 +71,11 @@
         </div>
     </div>
 
+
+    <script>
+        const spots = [];
+        <% for (let spot of spots) { %>
+            spots.push('<%= spot.name %>');
+            <% } %>
+    </script>
     <script src="/javascript/eventForm.js"></script>

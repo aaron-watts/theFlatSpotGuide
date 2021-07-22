@@ -85,6 +85,21 @@ form.addEventListener('change', (evt) => {
 
     // adjust dates to be realistic
     if (datetime.includes(evt.target.id)) dateHandler();
+
+    if (evt.target.id === 'spot') {
+        const feedback = document.querySelector('#spot-feedback');
+        if (spot.value !== '' && !spots.some(i => i === spot.value)) {
+            spot.classList.add('is-invalid');  
+            feedback.classList.remove('d-none');
+            spot.parentElement.classList.remove('mb-3');
+            spot.parentElement.classList.add('mb-5');
+        } else {
+            spot.classList.remove('is-invalid');  
+            feedback.classList.add('d-none');
+            spot.parentElement.classList.add('mb-3');
+            spot.parentElement.classList.remove('mb-5');
+        }
+    }
 })
 
 form.addEventListener('input', (evt) => {
