@@ -83,13 +83,13 @@
                 <!-- Map to go here -->
 
                 <div class="col-lg-6 mx-auto mt-3">
-                    <form action="/events/<%= spot._id %>" method="POST">
+                    <form id="events-form" action="/events/<%= spot._id %>" method="POST">
                         <div id="new-event" class="collapse">
                             <div class="input-group mb-3">
                                 <span class="input-group-text" id="title-addon">Title</span>
                                 <input type="text" id="title" name="event[title]" class="form-control"
                                     placeholder="What is the event called?" aria-label="title"
-                                    aria-describedby="title-addon">
+                                    aria-describedby="title-addon" required>
                             </div>
                             <div class="row">
                                 <div class="col-xs-7">
@@ -121,8 +121,8 @@
                             </div>
                             <div class="input-group mb-3">
                                 <span class="input-group-text">Details</span>
-                                <textarea id="event" name="event[description]" class="form-control"
-                                    aria-label="With textarea"></textarea>
+                                <textarea id="description" name="event[description]" class="form-control"
+                                    aria-label="With textarea" required></textarea>
                             </div>
                             <div class="d-grid gap-2 mb-3 mx-auto">
                                 <button type="submit" class="btn btn-primary">Submit</button>
@@ -262,6 +262,8 @@
 
     <script src="/javascript/pinEvent.js"></script>
     <script src="/javascript/followEvent.js"></script>
+
+    <script src="/javascript/eventForm.js"></script>
 
 
     <!-- 

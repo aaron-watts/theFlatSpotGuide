@@ -1,5 +1,40 @@
-const form = document.querySelector('form');
+const form = document.querySelector('form#events-form');
 const datetime = ['day', 'month', 'year', 'hours', 'minutes'];
+
+form.submit.addEventListener('click', function (evt) {
+    const validateForm = () => {
+        let validated = true;
+        // title not blank
+        if (!form.title.value) {
+            form.title.classList.add('is-invalid');
+            validated = false;
+        }
+
+        // spot is a listed location
+        if (form.spot && !spots.some(i => i === form.spot.value)) {
+            form.spot.classList.add('is-invalid');
+            validated = false;
+        }
+
+        // date is in the future
+        if (new Date(
+            parseInt(form.year.value),
+            parseInt(form.month.value),
+            parseInt(form.day.value)
+        ) - new Date() < 0) {
+            validated = false;
+        }
+        // description not blank
+        if (!form.description.value) {
+            form.description.classList.add('is-invalid')
+            validated = false;
+        }
+
+        return validated;
+    }  
+
+    if(validateForm()) console.log('SUCCESS')
+})
 
 const dateHandler = () => {
     const day = document.querySelector('#day');
@@ -86,9 +121,10 @@ form.addEventListener('change', (evt) => {
     // adjust dates to be realistic
     if (datetime.includes(evt.target.id)) dateHandler();
 
+    // check spot is in database
     if (evt.target.id === 'spot') {
         const feedback = document.querySelector('#spot-feedback');
-        if (spot.value !== '' && !spots.some(i => i === spot.value)) {
+        if (spot.value && !spots.some(i => i === spot.value)) {
             spot.classList.add('is-invalid');  
             feedback.classList.remove('d-none');
             spot.parentElement.classList.remove('mb-3');

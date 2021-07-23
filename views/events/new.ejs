@@ -3,7 +3,7 @@
     <div class="container">
         <div class="row d-flex justify-content-center">
             <div class="col-lg-6">
-                <form action="/events/new" method="POST">
+                <form id="events-form" action="/events/new" method="POST">
                     <div class="input-group mb-3 position relative">
                         <span class="input-group-text" id="title-addon">Title</span>
                         <input type="text" id="title" name="event[title]" class="form-control"
@@ -59,11 +59,11 @@
 
                     <div class="input-group mb-3">
                         <span class="input-group-text">Details</span>
-                        <textarea id="event" name="event[description]" class="form-control"
+                        <textarea id="description" name="event[description]" class="form-control"
                             aria-label="With textarea"></textarea>
                     </div>
 
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button id="submit" type="button" class="btn btn-primary">Submit</button>
                     <a href="javascript:history.back()" class="btn btn-danger">Cancel</a>
 
                 </form>

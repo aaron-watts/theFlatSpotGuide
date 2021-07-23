@@ -3,7 +3,7 @@
     <div class="container">
         <div class="row d-flex justify-content-center">
             <div class="col-lg-6">
-                <form action="/events/<%= event._id %>/<%= event.spot._id %>?_method=PUT" method="POST">
+                <form id="events-form" action="/events/<%= event._id %>/<%= event.spot._id %>?_method=PUT" method="POST">
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="title-addon">Title</span>
                         <input type="text" id="title" name="event[title]" class="form-control"
@@ -11,7 +11,7 @@
                             value="<%= event.title %>" autofocus required>
                     </div>
 
-                    <div class="input-group mb-3">
+                    <div class="input-group mb-3 position-relative">
                         <span class="input-group-text" id="title-addon"><i class="bi bi-geo-alt"></i></span>
                         <input type="text" id="spot" name="event[spot]" class="form-control"
                             placeholder="What is the event called?" aria-label="title" aria-describedby="title-addon"
@@ -21,6 +21,10 @@
                                 <option value="<%= spot.name %>"></option>
                                 <% } %>
                         </datalist>
+                        <div id="spot-feedback" class="position-absolute top-100 ms-3 text-danger fs-6 d-none">
+                            <i class="bi bi-info-circle"></i>
+                            It seems like that's not a listed spot!
+                        </div> 
                     </div>
 
                     <div class="row">
@@ -70,4 +74,10 @@
         </div>
     </div>
 
+    <script>
+        const spots = [];
+        <% for (let spot of spots) { %>
+            spots.push('<%= spot.name %>');
+            <% } %>
+    </script>
     <script src="/javascript/eventForm.js"></script>
