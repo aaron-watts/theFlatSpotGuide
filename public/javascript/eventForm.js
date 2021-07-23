@@ -1,40 +1,39 @@
 const form = document.querySelector('form#events-form');
 const datetime = ['day', 'month', 'year', 'hours', 'minutes'];
 
-form.formSubmit.addEventListener('click', function (evt) {
-    const validateForm = () => {
-        let validated = true;
-        // title not blank
-        if (!title.value) {
-            title.classList.add('is-invalid');
-            validated = false;
-        }
+const checkNotBlank = (input) => {
+    if (input.value.length) {
+        input.classList.remove('is-invalid');
+        input.classList.add('is-valid');
+    } else {
+        input.classList.add('is-invalid');
+        input.classList.remove('is-valid');
+    }
+}
 
-        // spot is a listed location
-        if (!(!form.spot) && !spots.some(i => i === form.spot.value)) {
-            form.spot.classList.add('is-invalid');
-            validated = false;
-        }
+const numberInputMaxLength = (target) => {
+    if (target.id === 'year') target.value = target.value.slice(0, 4);
+    else target.value = target.value.slice(0, 2);
+}
 
-        // date is in the future
-        if (new Date(
-            parseInt(year.value),
-            parseInt(month.value),
-            parseInt(day.value)
-        ) - new Date() < 0) {
-            validated = false;
+const spotValid = (spot) => {
+    const feedback = document.querySelector('#spot-feedback');
+        if (spot.value && !spots.some(i => i === spot.value)) {
+            spot.classList.add('is-invalid'); 
+            spot.classList.remove('is-valid');  
+            feedback.classList.remove('d-none');
+            spot.parentElement.classList.remove('mb-3');
+            spot.parentElement.classList.add('mb-5');
+            return true;
+        } else {
+            spot.classList.remove('is-invalid'); 
+            spot.classList.add('is-valid'); 
+            feedback.classList.add('d-none');
+            spot.parentElement.classList.add('mb-3');
+            spot.parentElement.classList.remove('mb-5');
+            return false;
         }
-        // description not blank
-        if (!description.value) {
-            description.classList.add('is-invalid')
-            validated = false;
-        }
-
-        return validated;
-    }  
-
-    if(validateForm()) form.submit();
-})
+}
 
 const dateHandler = () => {
     const today = new Date();
@@ -104,10 +103,41 @@ const dateHandler = () => {
     }
 }
 
-const numberInputMaxLength = (target) => {
-    if (target.id === 'year') target.value = target.value.slice(0, 4);
-    else target.value = target.value.slice(0, 2);
-}
+form.formSubmit.addEventListener('click', () => {
+    const validateForm = () => {
+        let validated = true;
+
+        // title not blank
+        if (!title.value) {
+            title.classList.add('is-invalid');
+            validated = false;
+        }
+
+        // if spot exists as a form input check spot is a listed location
+        if (!(!form.spot) && !spotValid(spot)) {
+            form.spot.classList.add('is-invalid');
+            validated = false;
+        }
+
+        // date is in the future
+        if (new Date(
+            parseInt(year.value),
+            parseInt(month.value),
+            parseInt(day.value)
+        ) - new Date() < 0) {
+            validated = false;
+        }
+        // description not blank
+        if (!description.value) {
+            description.classList.add('is-invalid')
+            validated = false;
+        }
+
+        return validated;
+    }  
+
+    if(validateForm()) form.submit();
+})
 
 form.addEventListener('change', (evt) => {
     // extend year if yy format is used
@@ -115,40 +145,15 @@ form.addEventListener('change', (evt) => {
 
     // adjust dates to be realistic
     if (datetime.includes(evt.target.id)) dateHandler();
-
-    // check spot is in database
-    if (evt.target === form.spot) {
-        const feedback = document.querySelector('#spot-feedback');
-        if (spot.value && !spots.some(i => i === spot.value)) {
-            spot.classList.add('is-invalid');  
-            feedback.classList.remove('d-none');
-            spot.parentElement.classList.remove('mb-3');
-            spot.parentElement.classList.add('mb-5');
-        } else {
-            spot.classList.remove('is-invalid');  
-            feedback.classList.add('d-none');
-            spot.parentElement.classList.add('mb-3');
-            spot.parentElement.classList.remove('mb-5');
-        }
-    }
 })
 
 form.addEventListener('input', (evt) => {
     // concatenate lengths
     if (datetime.includes(evt.target.id)) numberInputMaxLength(evt.target);
-
-    if (title.value.length) {
-        title.classList.remove('is-invalid');
-        title.classList.add('is-valid')
-    } else {
-        title.classList.add('is-invalid');
-        title.classList.remove('is-valid')
+    // check spot is valid
+    else if (evt.target === spot) {
+        spotValid(evt.target);
     }
-    if (description.value.length) {
-        description.classList.remove('is-invalid');
-        description.classList.add('is-valid');
-    } else {
-        description.classList.add('is-invalid');
-        description.classList.remove('is-valid');
-    }
+    // check not blank
+    else checkNotBlank(evt.target);
 })

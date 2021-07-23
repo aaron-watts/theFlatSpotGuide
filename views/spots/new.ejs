@@ -4,7 +4,7 @@
         <div class="row d-flex justify-content-center">
             <div class="col-md-6">
 
-                <form action="/spots" method="POST">
+                <form id="spot-form" action="/spots" method="POST">
                     <div class="mb-3">
                         <label for="name" class="form-label">Name</label>
                         <input type="text" class="form-control" id="name" name="spot[name]" aria-describedby="nameHelp"
@@ -16,14 +16,16 @@
                         <input type="text" class="form-control" id="location" name="spot[location]">
                     </div>
                     <div class="mb-3">
-                        <label for="details" class="form-label">Example textarea</label>
+                        <label for="details" class="form-label">Details</label>
                         <textarea class="form-control" id="details" name="spot[details]" rows="3"></textarea>
                     </div>
 
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button id="formSubmit" type="button" class="btn btn-primary">Submit</button>
                     <a href="/spots" class="btn btn-danger">Cancel</a>
                 </form>
             </div>
 
         </div>
     </div>
+
+    <script src="/javascript/spotForm.js"></script>
