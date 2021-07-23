@@ -18,21 +18,21 @@ const numberInputMaxLength = (target) => {
 
 const spotValid = (spot) => {
     const feedback = document.querySelector('#spot-feedback');
-        if (spot.value && !spots.some(i => i === spot.value)) {
-            spot.classList.add('is-invalid'); 
-            spot.classList.remove('is-valid');  
-            feedback.classList.remove('d-none');
-            spot.parentElement.classList.remove('mb-3');
-            spot.parentElement.classList.add('mb-5');
-            return true;
-        } else {
-            spot.classList.remove('is-invalid'); 
-            spot.classList.add('is-valid'); 
-            feedback.classList.add('d-none');
-            spot.parentElement.classList.add('mb-3');
-            spot.parentElement.classList.remove('mb-5');
-            return false;
-        }
+    if (spot.value && spots.some(i => i === spot.value)) {
+        spot.classList.remove('is-invalid'); 
+        spot.classList.add('is-valid'); 
+        feedback.classList.add('d-none');
+        spot.parentElement.classList.add('mb-3');
+        spot.parentElement.classList.remove('mb-5');
+        return true;
+    } else {
+        spot.classList.add('is-invalid'); 
+        spot.classList.remove('is-valid');  
+        feedback.classList.remove('d-none');
+        spot.parentElement.classList.remove('mb-3');
+        spot.parentElement.classList.add('mb-5');
+        return false;
+    }
 }
 
 const dateHandler = () => {

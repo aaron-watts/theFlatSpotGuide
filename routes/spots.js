@@ -2,11 +2,11 @@ const express = require('express');
 const router = express.Router();
 const spots = require('../controllers/spots');
 const catchAsync = require('../utils/catchAsync');
-const { rememberPage } = require('../utils/middleware');
+const { rememberPage, validateSpot } = require('../utils/middleware');
 
 router.route('/')
     .get(rememberPage, spots.index)
-    .post(catchAsync(spots.create))
+    .post(validateSpot, catchAsync(spots.create))
 
 router.get('/new', spots.newForm)
 

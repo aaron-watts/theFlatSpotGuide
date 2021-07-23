@@ -1,4 +1,26 @@
 const User = require('../models/user');
+const ExpressError = require('./ExpressError');
+const { spotSchema, eventSchema } = require('../utils/schemas');
+
+module.exports.validateEvent = (req, res, next) => {
+    const { error } = eventSchema.validate(req.body);
+    if (error) {
+        const msg = error.details.map(el => el.message).join(',');
+        throw new ExpressError(msg, 400);
+    } else {
+        next();
+    }
+}
+
+module.exports.validateSpot = (req, res, next) => {
+    const { error } = spotSchema.validate(req.body);
+    if (error) {
+        const msg = error.details.map(el => el.message).join(',');
+        throw new ExpressError(msg, 400);
+    } else {
+        next();
+    }
+}
 
 module.exports.rememberPage = (req, res, next) => {
     req.session.returnTo = req.originalUrl;
