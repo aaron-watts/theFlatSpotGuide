@@ -11,8 +11,8 @@ form.formSubmit.addEventListener('click', function (evt) {
         }
 
         // spot is a listed location
-        if (spot && !spots.some(i => i === spot.value)) {
-            spot.classList.add('is-invalid');
+        if (!(!form.spot) && !spots.some(i => i === form.spot.value)) {
+            form.spot.classList.add('is-invalid');
             validated = false;
         }
 
@@ -117,7 +117,7 @@ form.addEventListener('change', (evt) => {
     if (datetime.includes(evt.target.id)) dateHandler();
 
     // check spot is in database
-    if (evt.target.id === 'spot') {
+    if (evt.target === form.spot) {
         const feedback = document.querySelector('#spot-feedback');
         if (spot.value && !spots.some(i => i === spot.value)) {
             spot.classList.add('is-invalid');  

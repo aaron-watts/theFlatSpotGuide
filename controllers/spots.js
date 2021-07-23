@@ -58,6 +58,9 @@ module.exports.show = async (req, res) => {
             }
         })
         .populate('author');
+
+    if (!spot) res.status(404).render('404notfound');
+
     res.render('spots/show', { spot, monthArray });
 }
 
