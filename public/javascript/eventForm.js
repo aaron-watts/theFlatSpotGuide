@@ -1,53 +1,48 @@
 const form = document.querySelector('form#events-form');
 const datetime = ['day', 'month', 'year', 'hours', 'minutes'];
 
-form.submit.addEventListener('click', function (evt) {
+form.formSubmit.addEventListener('click', function (evt) {
     const validateForm = () => {
         let validated = true;
         // title not blank
-        if (!form.title.value) {
-            form.title.classList.add('is-invalid');
+        if (!title.value) {
+            title.classList.add('is-invalid');
             validated = false;
         }
 
         // spot is a listed location
-        if (form.spot && !spots.some(i => i === form.spot.value)) {
-            form.spot.classList.add('is-invalid');
+        if (spot && !spots.some(i => i === spot.value)) {
+            spot.classList.add('is-invalid');
             validated = false;
         }
 
         // date is in the future
         if (new Date(
-            parseInt(form.year.value),
-            parseInt(form.month.value),
-            parseInt(form.day.value)
+            parseInt(year.value),
+            parseInt(month.value),
+            parseInt(day.value)
         ) - new Date() < 0) {
             validated = false;
         }
         // description not blank
-        if (!form.description.value) {
-            form.description.classList.add('is-invalid')
+        if (!description.value) {
+            description.classList.add('is-invalid')
             validated = false;
         }
 
         return validated;
     }  
 
-    if(validateForm()) console.log('SUCCESS')
+    if(validateForm()) form.submit();
 })
 
 const dateHandler = () => {
-    const day = document.querySelector('#day');
-    const month = document.querySelector('#month');
-    const year = document.querySelector('#year');
-    const hours = document.querySelector('#hours');
-    const minutes = document.querySelector('#minutes');
     const today = new Date();
     const mm = month.value || '0';
 
     const blinkInput = (element) => {
         element.classList.add('blink');
-        setTimeout(() => { element.classList.remove('blink') }, 600);
+        setTimeout(() => { element.classList.remove('blink') }, 300);
     }
 
     // don't allow more days in a month than there actually are
@@ -58,7 +53,7 @@ const dateHandler = () => {
     // if full date is in the past, adjust year to put it into the future
     const backToTheFuture = (dd, mm, yyyy = new Date().getFullYear()) => {
         if (new Date(yyyy, mm, dd) - new Date() < 0) {
-            if (new Date(new Date().getFullYear(), mm, dd)) {
+            if (new Date(new Date().getFullYear(), mm, dd) - new Date() > 0) {
                 year.value = (new Date().getFullYear()).toString();
             }
             else year.value = (new Date().getFullYear() + 1).toString();
@@ -141,4 +136,19 @@ form.addEventListener('change', (evt) => {
 form.addEventListener('input', (evt) => {
     // concatenate lengths
     if (datetime.includes(evt.target.id)) numberInputMaxLength(evt.target);
+
+    if (title.value.length) {
+        title.classList.remove('is-invalid');
+        title.classList.add('is-valid')
+    } else {
+        title.classList.add('is-invalid');
+        title.classList.remove('is-valid')
+    }
+    if (description.value.length) {
+        description.classList.remove('is-invalid');
+        description.classList.add('is-valid');
+    } else {
+        description.classList.add('is-invalid');
+        description.classList.remove('is-valid');
+    }
 })

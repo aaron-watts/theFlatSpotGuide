@@ -62,11 +62,11 @@
 
                     <div class="input-group mb-3">
                         <span class="input-group-text">Details</span>
-                        <textarea id="event" name="event[description]" class="form-control"
+                        <textarea id="description" name="event[description]" class="form-control"
                             aria-label="With textarea"><%= event.description %></textarea>
                     </div>
 
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button id="formSubmit" type="button" class="btn btn-primary">Submit</button>
                     <a href="javascript:history.back()" class="btn btn-danger">Cancel</a>
 
                 </form>
