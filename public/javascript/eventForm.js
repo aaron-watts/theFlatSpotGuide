@@ -49,10 +49,9 @@ const dateHandler = () => {
     }
 
     // if full date is in the past, adjust year to put it into the future
-    const backToTheFuture = (dd, mm, yyyy = new Date().getFullYear()) => {
-        if (new Date(yyyy, mm, dd) - new Date() < 0) {
-            console.log(new Date(yyyy, mm, dd) - new Date() < 0)
-            if (new Date(new Date().getFullYear(), mm, dd) - new Date() > 0) {
+    const backToTheFuture = (dd, mm, yyyy = new Date().getFullYear(), hh, mins) => {
+        if (new Date(yyyy, mm, dd, hh, mins) - new Date() < 0) {
+            if (new Date(new Date().getFullYear(), mm, dd, hh, mins) - new Date() > 0) {
                 year.value = (new Date().getFullYear()).toString();
             }
             else year.value = (new Date().getFullYear() + 1).toString();
@@ -88,7 +87,13 @@ const dateHandler = () => {
     }
 
     // dates must be upcoming
-    backToTheFuture(parseInt(day.value), parseInt(month.value) - 1, parseInt(year.value));
+    backToTheFuture(
+        parseInt(day.value), 
+        parseInt(month.value) - 1, 
+        parseInt(year.value),
+        parseInt(hours.value),
+        parseInt(minutes.value)
+    );
 
     // limit time to 24 hour clock
     if (parseInt(hours.value) > 23) {

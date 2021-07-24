@@ -7,12 +7,14 @@ module.exports.validateEvent = (req, res, next) => {
     const eventDate = new Date(
         req.body.event.year,
         req.body.event.month - 1,
-        req.body.event.day)
+        req.body.event.day,
+        req.body.event.hours,
+        req.body.event.minutes)
     if (error) {
         const msg = error.details.map(el => el.message).join(',');
         throw new ExpressError(msg, 400);
     } else if (eventDate - new Date() < 0) {
-        const msg = 'Date cannot be in the past'
+        const msg = 'Date/time cannot be in the past'
         throw new ExpressError(msg, 400);
     } else {
         next();

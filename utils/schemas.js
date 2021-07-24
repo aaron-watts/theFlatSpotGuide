@@ -1,7 +1,5 @@
 const Joi = require('joi');
 
-// forms, not models!
-
 module.exports.spotSchema = Joi.object({
     spot: Joi.object({
         name: Joi.string()
