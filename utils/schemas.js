@@ -9,7 +9,6 @@ module.exports.spotSchema = Joi.object({
         details: Joi.string()
             .required()
     }).required()
-
 })
 
 module.exports.eventSchema = Joi.object({

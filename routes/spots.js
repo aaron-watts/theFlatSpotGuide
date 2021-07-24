@@ -2,20 +2,24 @@ const express = require('express');
 const router = express.Router();
 const spots = require('../controllers/spots');
 const catchAsync = require('../utils/catchAsync');
-const { rememberPage, validateSpot } = require('../utils/middleware');
+const { rememberPage, validateSpot, isLoggedIn } = require('../utils/middleware');
+const multer = require('multer');
+const { storage } = require('../cloudinary');
+//const upload = multer({ storage });
+const upload = multer({ storage })
 
 router.route('/')
     .get(rememberPage, spots.index)
-    .post(validateSpot, catchAsync(spots.create))
-
-router.get('/new', spots.newForm)
+    .post(isLoggedIn, upload.array('image'), validateSpot, catchAsync(spots.create))
+    
+router.get('/new', isLoggedIn, spots.newForm)
 
 router.route('/:id')
     .get(rememberPage, catchAsync(spots.show))
-    .put(validateSpot, catchAsync(spots.update))
+    .put(isLoggedIn, validateSpot, catchAsync(spots.update))
     .delete(catchAsync(spots.delete))
     .patch(spots.follow)
 
-router.get('/:id/edit', spots.editForm)
+router.get('/:id/edit', isLoggedIn, spots.editForm)
 
 module.exports = router

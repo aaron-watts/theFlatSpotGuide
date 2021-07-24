@@ -2,6 +2,15 @@ const User = require('../models/user');
 const ExpressError = require('./ExpressError');
 const { spotSchema, eventSchema } = require('../utils/schemas');
 
+module.exports.isLoggedIn = (req, res, next) => {
+    if (!req.isAuthenticated()) {
+        req.session.returnTo = req.originalUrl;
+        req.flash('error', 'You must be signed in!');
+        return res.redirect('/login');
+    }
+    next();
+}
+
 module.exports.validateEvent = (req, res, next) => {
     const { error } = eventSchema.validate(req.body);
     const eventDate = new Date(

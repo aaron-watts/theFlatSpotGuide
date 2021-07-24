@@ -19,6 +19,11 @@ form.formSubmit.addEventListener('click', () => {
             validated = false;
         }
 
+        if (!image.value) {
+            image.classList.add('is-invalid');
+            validated = false;
+        }
+
         return validated;
     }
 

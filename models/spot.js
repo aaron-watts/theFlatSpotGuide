@@ -2,6 +2,12 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const spotSchema = new Schema({
+    images: [
+        {
+            url: String,
+            filename: String
+        }
+    ],
     name: {
         type: String,
         required: true

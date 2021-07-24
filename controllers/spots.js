@@ -71,6 +71,10 @@ module.exports.editForm = async (req, res) => {
 
 module.exports.create = async (req, res) => {
     const spot = new Spot(req.body.spot)
+
+    // map files from multer files object in req.body
+    spot.images = req.files.map(file => ({ url: file.path, filename: file.filename }));
+    // got user ID from session cookie
     spot.author = req.user._id;
 
     // add author to following
