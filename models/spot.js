@@ -1,13 +1,19 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const ImageSchema = new Schema({
+    url: String,
+    filename: String
+})
+
+ImageSchema.virtual('thumbnail').get(function () {
+    return this.url.replace('/upload', '/upload/w_200');
+})
+
+const opts = { toJSON: { virtuals: true }};
+
 const spotSchema = new Schema({
-    images: [
-        {
-            url: String,
-            filename: String
-        }
-    ],
+    images: [ImageSchema],
     name: {
         type: String,
         required: true
@@ -36,8 +42,6 @@ const spotSchema = new Schema({
             ref: 'User'
         }
     ]
-})
+}, opts)
 
-const Spot = mongoose.model('Spot', spotSchema);
-
-module.exports = Spot;
+module.exports = mongoose.model('Spot', spotSchema);
