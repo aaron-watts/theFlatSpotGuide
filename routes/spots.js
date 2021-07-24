@@ -5,7 +5,6 @@ const catchAsync = require('../utils/catchAsync');
 const { rememberPage, validateSpot, isLoggedIn } = require('../utils/middleware');
 const multer = require('multer');
 const { storage } = require('../cloudinary');
-//const upload = multer({ storage });
 const upload = multer({ storage })
 
 router.route('/')
@@ -16,7 +15,7 @@ router.get('/new', isLoggedIn, spots.newForm)
 
 router.route('/:id')
     .get(rememberPage, catchAsync(spots.show))
-    .put(isLoggedIn, validateSpot, catchAsync(spots.update))
+    .put(isLoggedIn, upload.array('image'), validateSpot, catchAsync(spots.update))
     .delete(catchAsync(spots.delete))
     .patch(spots.follow)
 

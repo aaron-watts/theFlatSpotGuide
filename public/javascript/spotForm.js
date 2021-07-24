@@ -19,7 +19,7 @@ form.formSubmit.addEventListener('click', () => {
             validated = false;
         }
 
-        if (!image.value) {
+        if (!form.action.includes('/spots/') && !image.value) {
             image.classList.add('is-invalid');
             validated = false;
         }

@@ -3,6 +3,7 @@ const Event = require('../models/event');
 const User = require('../models/user')
 const { monthArray } = require('../utils/data');
 const { updateFollowers } = require('../utils/middleware');
+const { cloudinary } = require('../cloudinary');
 
 module.exports.index = async (req, res) => {
     const { author } = req.query;
@@ -94,11 +95,24 @@ module.exports.update = async (req, res) => {
         .populate('author')
         .populate('following');
 
+    // map files from multer files object in req.body
+    const imgs = req.files.map(file => ({ url: file.path, filename: file.filename }));
+    spot.images.push(...imgs);
+
     spot.name = updateSpot.name;
     spot.location = updateSpot.location;
     spot.details = updateSpot.details;
 
     await spot.save();
+
+    console.log(req.body.deletImages)
+    // delete images
+    if(req.body.deleteImages) {
+        for(let filename of req.body.deleteImages) {
+            await cloudinary.uploader.destroy(filename);
+        }
+        await spot.updateOne({$pull: {images: {filename: {$in: req.body.deleteImages}}}});
+    }
 
     // notify followers if not author
     const notification = `<strong>${spot.name}</strong> spot has been changed! 

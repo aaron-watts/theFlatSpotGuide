@@ -8,7 +8,8 @@ module.exports.spotSchema = Joi.object({
             .required(),
         details: Joi.string()
             .required()
-    }).required()
+    }).required(),
+    deleteImages: Joi.array()
 })
 
 module.exports.eventSchema = Joi.object({
