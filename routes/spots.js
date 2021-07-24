@@ -12,7 +12,7 @@ router.get('/new', spots.newForm)
 
 router.route('/:id')
     .get(rememberPage, catchAsync(spots.show))
-    .put(catchAsync(spots.update))
+    .put(validateSpot, catchAsync(spots.update))
     .delete(catchAsync(spots.delete))
     .patch(spots.follow)
 

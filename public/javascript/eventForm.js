@@ -36,7 +36,6 @@ const spotValid = (spot) => {
 }
 
 const dateHandler = () => {
-    const today = new Date();
     const mm = month.value || '0';
 
     const blinkInput = (element) => {
@@ -52,6 +51,7 @@ const dateHandler = () => {
     // if full date is in the past, adjust year to put it into the future
     const backToTheFuture = (dd, mm, yyyy = new Date().getFullYear()) => {
         if (new Date(yyyy, mm, dd) - new Date() < 0) {
+            console.log(new Date(yyyy, mm, dd) - new Date() < 0)
             if (new Date(new Date().getFullYear(), mm, dd) - new Date() > 0) {
                 year.value = (new Date().getFullYear()).toString();
             }
@@ -88,9 +88,7 @@ const dateHandler = () => {
     }
 
     // dates must be upcoming
-    if (parseInt(year.value) && parseInt(day.value) && parseInt(month.value)) {
-        backToTheFuture(parseInt(day.value), parseInt(month.value) - 1, parseInt(year.value));
-    }
+    backToTheFuture(parseInt(day.value), parseInt(month.value) - 1, parseInt(year.value));
 
     // limit time to 24 hour clock
     if (parseInt(hours.value) > 23) {
@@ -106,6 +104,11 @@ const dateHandler = () => {
 form.formSubmit.addEventListener('click', () => {
     const validateForm = () => {
         let validated = true;
+        const eventDate = new Date(
+            parseInt(year.value),
+            parseInt(month.value),
+            parseInt(day.value)
+        );
 
         // title not blank
         if (!title.value) {
@@ -120,13 +123,10 @@ form.formSubmit.addEventListener('click', () => {
         }
 
         // date is in the future
-        if (new Date(
-            parseInt(year.value),
-            parseInt(month.value),
-            parseInt(day.value)
-        ) - new Date() < 0) {
+        if (eventDate - new Date() < 0) {
             validated = false;
         }
+
         // description not blank
         if (!description.value) {
             description.classList.add('is-invalid')
@@ -145,15 +145,17 @@ form.addEventListener('change', (evt) => {
 
     // adjust dates to be realistic
     if (datetime.includes(evt.target.id)) dateHandler();
+
+    // check spot is valid
+    else if (evt.target === spot) {
+        spotValid(evt.target);
+    }
 })
 
 form.addEventListener('input', (evt) => {
     // concatenate lengths
     if (datetime.includes(evt.target.id)) numberInputMaxLength(evt.target);
-    // check spot is valid
-    else if (evt.target === spot) {
-        spotValid(evt.target);
-    }
+
     // check not blank
-    else checkNotBlank(evt.target);
+    if (evt.target.type !== 'number' && evt.target !== spot) checkNotBlank(evt.target);
 })

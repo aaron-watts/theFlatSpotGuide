@@ -4,8 +4,15 @@ const { spotSchema, eventSchema } = require('../utils/schemas');
 
 module.exports.validateEvent = (req, res, next) => {
     const { error } = eventSchema.validate(req.body);
+    const eventDate = new Date(
+        req.body.event.year,
+        req.body.event.month - 1,
+        req.body.event.day)
     if (error) {
         const msg = error.details.map(el => el.message).join(',');
+        throw new ExpressError(msg, 400);
+    } else if (eventDate - new Date() < 0) {
+        const msg = 'Date cannot be in the past'
         throw new ExpressError(msg, 400);
     } else {
         next();
