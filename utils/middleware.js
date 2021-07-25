@@ -45,9 +45,9 @@ module.exports.rememberPage = (req, res, next) => {
     next();
 }
 
-module.exports.updateFollowers = async (followersOf, update, text, alerted=[]) => {
+module.exports.updateFollowers = async (followersOf, update, text, alerted = []) => {
     const sentTo = [...alerted];
-    
+
     for (follower of followersOf.following) {
         const hasHadAlert = alerted.some(i => i.equals(follower._id)) || false;
         if (!update.author.equals(follower._id) && !hasHadAlert) {
