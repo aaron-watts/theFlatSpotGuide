@@ -7,7 +7,8 @@ module.exports.spotSchema = Joi.object({
         location: Joi.string()
             .required(),
         details: Joi.string()
-            .required()
+            .required(),
+        coordinates: Joi.string().regex(/^((\-?|\+?)?\d+(\.\d+)?),\s*((\-?|\+?)?\d+(\.\d+)?)$/)
     }).required(),
     deleteImages: Joi.array()
 })

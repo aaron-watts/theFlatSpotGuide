@@ -9,12 +9,24 @@
                         <label for="name" class="form-label">Name</label>
                         <input type="text" class="form-control" id="name" name="spot[name]" value="<%= spot.name %>"
                             aria-describedby="nameHelp" autofocus>
-                        <div id="nameHelp" class="form-text">Use a descriptive name</div>
+                        <div id="nameHelp" class="form-text">
+                            Use a descriptive name
+                        </div>
                     </div>
                     <div class="mb-3">
                         <label for="location" class="form-label">Location</label>
                         <input type="text" class="form-control" id="location" name="spot[location]"
-                            value="<%= spot.location %>">
+                            value="<%= spot.location %>" aria-describedby="locationHelp" >
+                        <div id="locationHelp" class="form-text">
+                            Physical address/location, e.g. "Flip Out, Wandsworth"
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="coordinates" class="form-label">Coordinates <small class="text-muted">Optional</small></label>
+                        <input type="text" class="form-control" id="coordinates" name="spot[coordinates]">
+                        <div id="locationHelp" class="form-text">
+                            Use lat and lon coordinates from a google maps pin to increase precision
+                        </div>
                     </div>
                     <div class="mb-3">
                         <label for="details" class="form-label">Details</label>

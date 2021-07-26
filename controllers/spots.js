@@ -1,6 +1,9 @@
 const Spot = require('../models/spot');
 const Event = require('../models/event');
-const User = require('../models/user')
+const User = require('../models/user');
+const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
+const mapBoxToken = process.env.MAPBOX_TOKEN;
+const geocoder = mbxGeocoding({accessToken: mapBoxToken});
 const { monthArray } = require('../utils/data');
 const { updateFollowers } = require('../utils/middleware');
 const { cloudinary } = require('../cloudinary');
@@ -71,6 +74,13 @@ module.exports.editForm = async (req, res) => {
 }
 
 module.exports.create = async (req, res) => {
+    // const geoData = await geocoder.forwardGeocode({
+    //     query: req.body.spot.location,
+    //     limit: 1
+    // }).send()
+
+    // res.send(geoData.body.features[0].geometry.coordinates);
+
     const spot = new Spot(req.body.spot)
 
     // map files from multer files object in req.body

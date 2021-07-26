@@ -1,5 +1,6 @@
 const form = document.querySelector('form#spot-form');
 const loadingModal = document.querySelector('#loading');
+const latLonRegex = /^((\-?|\+?)?\d+(\.\d+)?),\s*((\-?|\+?)?\d+(\.\d+)?)$/;
 
 form.formSubmit.addEventListener('click', () => {
     const validate = () => {
@@ -16,6 +17,12 @@ form.formSubmit.addEventListener('click', () => {
         checkNotBlank(form.location);
         checkNotBlank(details);
 
+        if (form.action.includes('/spots/') && coordinates.value.length &&
+            !latLonRegex.test(coordinates.value)) {
+            coordinates.classList.add('is-invalid');
+            validated = false;
+        }
+
         // If new spot form and 1 or 2 files only
         if (!form.action.includes('/spots/') && (!image.files.length || image.files.length > 2)) {
             image.classList.add('is-invalid');
@@ -28,7 +35,8 @@ form.formSubmit.addEventListener('click', () => {
             validated = false;
         }
 
-        return validated;
+        //return validated;
+        return false;
     }
 
     if (validate()) {
@@ -47,6 +55,19 @@ const checkNotBlank = (input) => {
     }
 }
 
+const testCoordinates = (input) => {
+    if (input.value.length && !latLonRegex.test(input.value)) {
+        input.classList.add('is-invalid');
+        input.classList.remove('is-valid');
+    } 
+    if (input.value.length && latLonRegex.test(input.value)) {
+        input.classList.remove('is-invalid');
+        input.classList.add('is-valid');
+    }
+    if (!input.value.length) input.classList.remove('is-valid','is-invalid');
+}
+
 form.addEventListener('input', (evt) => {
-    checkNotBlank(evt.target);
+    if (evt.target.id !== 'coordinates') checkNotBlank(evt.target);
+    else testCoordinates(evt.target);
 })
