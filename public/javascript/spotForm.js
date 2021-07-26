@@ -1,23 +1,20 @@
 const form = document.querySelector('form#spot-form');
+const loadingModal = document.querySelector('#loading');
 
 form.formSubmit.addEventListener('click', () => {
     const validate = () => {
         let validated = true;
 
-        if (!form.name.value) {
-            form.name.classList.add('is-invalid');
-            validated = false;
+        const checkNotBlank = (element) => {
+            if (!element.value) {
+                element.classList.add('is-invalid');
+                validated = false;
+            }
         }
 
-        if (!form.location.value) {
-            form.location.classList.add('is-invalid');
-            validated = false;
-        }
-
-        if (!details.value) {
-            details.classList.add('is-invalid');
-            validated = false;
-        }
+        checkNotBlank(form.name);
+        checkNotBlank(form.location);
+        checkNotBlank(details);
 
         // If new spot form and 1 or 2 files only
         if (!form.action.includes('/spots/') && (!image.files.length || image.files.length > 2)) {
@@ -25,10 +22,19 @@ form.formSubmit.addEventListener('click', () => {
             validated = false;
         }
 
+        // If edit form only allow 2 images including previously uploaded
+        if (form.action.includes('/spots/') && image.files.length > 2 - imageCount) {
+            image.classList.add('is-invalid');
+            validated = false;
+        }
+
         return validated;
     }
 
-    if (validate()) form.submit();
+    if (validate()) {
+        loadingModal.classList.remove('d-none');
+        form.submit()
+    };
 })
 
 const checkNotBlank = (input) => {

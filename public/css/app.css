@@ -26,6 +26,15 @@
     cursor: pointer;
 }
 
+#loading {
+    background-color: #0005;
+    position: fixed;
+    left: -5vw;
+    top: -5vh;
+    height: 110vh;
+    width: 110vw;
+}
+
 .cal-frame {
     /* border: solid 2px black; */
     height: 12rem;

@@ -1,7 +1,7 @@
 const form = document.querySelector('form#events-form');
 const datetime = ['day', 'month', 'year', 'hours', 'minutes'];
 
-const checkNotBlank = (input) => {
+const checkNotBlankGlobal = (input) => {
     if (input.value.length) {
         input.classList.remove('is-invalid');
         input.classList.add('is-valid');
@@ -115,11 +115,14 @@ form.formSubmit.addEventListener('click', () => {
             parseInt(day.value)
         );
 
-        // title not blank
-        if (!title.value) {
-            title.classList.add('is-invalid');
-            validated = false;
+        const checkNotBlankLocal = (element) => {
+            if (!element.value) {
+                element.classList.add('is-invalid');
+                validated = false;
+            }
         }
+
+        checkNotBlankLocal(title)
 
         // if spot exists as a form input check spot is a listed location
         if (!(!form.spot) && !spotValid(spot)) {
@@ -132,11 +135,7 @@ form.formSubmit.addEventListener('click', () => {
             validated = false;
         }
 
-        // description not blank
-        if (!description.value) {
-            description.classList.add('is-invalid')
-            validated = false;
-        }
+        checkNotBlankLocal(description);
 
         return validated;
     }  
@@ -162,5 +161,5 @@ form.addEventListener('input', (evt) => {
     if (datetime.includes(evt.target.id)) numberInputMaxLength(evt.target);
 
     // check not blank
-    if (evt.target.type !== 'number' && evt.target !== spot) checkNotBlank(evt.target);
+    if (evt.target.type !== 'number' && evt.target !== spot) checkNotBlankGlobal(evt.target);
 })

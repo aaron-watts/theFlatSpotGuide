@@ -105,13 +105,22 @@ module.exports.update = async (req, res) => {
 
     await spot.save();
 
-    console.log(req.body.deletImages)
-    // delete images
+    // delete slected images
     if(req.body.deleteImages) {
         for(let filename of req.body.deleteImages) {
             await cloudinary.uploader.destroy(filename);
         }
         await spot.updateOne({$pull: {images: {filename: {$in: req.body.deleteImages}}}});
+    }
+
+    // only allow 2 images, delete excess
+    if (spot.images.length > 2) {
+        const toDelete = [];
+        for (let i = 2; i < spot.images.length; i++) {
+            await cloudinary.uploader.destroy(spot.images[i].filename);
+            toDelete.push(spot.images[i].filename)
+        }
+        await spot.updateOne({$pull: {images: {filename: {$in: toDelete}}}});
     }
 
     // notify followers if not author
