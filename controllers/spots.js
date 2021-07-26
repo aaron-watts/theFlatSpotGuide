@@ -133,11 +133,19 @@ module.exports.update = async (req, res) => {
 
 module.exports.delete = async (req, res) => {
     const spot = await Spot.findById(req.params.id)
-        .populate('events');
+        .populate('events')
+        .populate('images');
+
+    // delete associated images
+    if (spot.images.length) {
+        for (let image of spot.images) {
+            await cloudinary.uploader.destroy(image.filename);
+        }
+    }
 
     // delete associated events
     if (spot.events.length) {
-        for (event of spot.events) {
+        for (let event of spot.events) {
             await event.delete();
         }
     }
