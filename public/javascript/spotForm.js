@@ -35,8 +35,7 @@ form.formSubmit.addEventListener('click', () => {
             validated = false;
         }
 
-        //return validated;
-        return false;
+        return validated;
     }
 
     if (validate()) {

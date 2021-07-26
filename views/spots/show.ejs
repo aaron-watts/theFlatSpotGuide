@@ -101,6 +101,7 @@
             <div class="col-lg-6">
 
                 <!-- Map to go here -->
+                <div id="map" class="mb-3" style='width: auto; height: 300px;'></div>
 
                 <div class="col-lg-6 mx-auto mt-3">
                     <form id="events-form" action="/events/<%= spot._id %>" method="POST">
@@ -287,10 +288,10 @@
 
     <script src="/javascript/eventForm.js"></script>
 
-
-    <!-- 
-    <a href="/spots/<%= spot._id %>/edit">Edit</a>
-    <form action="/spots/<%= spot._id %>?_method=DELETE" method="POST">
-        <button>Delete</button>
-    </form>
-    <a href="/spots">All Spots</a> -->
+    <script>
+        const mbx = '<%- process.env.MAPBOX_TOKEN %>';
+    </script>
+    <script>
+        const spot = <%- JSON.stringify(spot) %>;
+    </script>
+    <script src="/javascript/showPageMap.js"></script>

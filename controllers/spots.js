@@ -74,14 +74,15 @@ module.exports.editForm = async (req, res) => {
 }
 
 module.exports.create = async (req, res) => {
-    // const geoData = await geocoder.forwardGeocode({
-    //     query: req.body.spot.location,
-    //     limit: 1
-    // }).send()
+    const geoData = await geocoder.forwardGeocode({
+        query: req.body.spot.location,
+        limit: 1
+    }).send()
 
-    // res.send(geoData.body.features[0].geometry.coordinates);
+    const spot = new Spot(req.body.spot);
 
-    const spot = new Spot(req.body.spot)
+    // append geometry to spot
+    spot.geometry = geoData.body.features[0].geometry;
 
     // map files from multer files object in req.body
     spot.images = req.files.map(file => ({ url: file.path, filename: file.filename }));

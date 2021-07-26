@@ -3,7 +3,7 @@ const router = express.Router();
 const events = require('../controllers/events');
 const catchAsync = require('../utils/catchAsync');
 const catchBrowser = require('../utils/catchBrowser');
-const { rememberPage, validateEvent } = require('../utils/middleware');
+const { rememberPage, validateEvent, validatePinnedEvent } = require('../utils/middleware');
 
 const Spot = require('../models/spot');
 const Event = require('../models/event');
@@ -14,7 +14,7 @@ router.route('/new')
     .get(catchAsync(events.newForm))
     .post(validateEvent, catchAsync(events.create));
 
-router.post('/:spotId', validateEvent, catchAsync(events.addToSpot));
+router.post('/:spotId', validatePinnedEvent, catchAsync(events.addToSpot));
 
 router.patch('/:eventId', events.follow);
 
