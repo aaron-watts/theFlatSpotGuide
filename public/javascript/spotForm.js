@@ -19,7 +19,8 @@ form.formSubmit.addEventListener('click', () => {
             validated = false;
         }
 
-        if (!form.action.includes('/spots/') && !image.value) {
+        // If new spot form and 1 or 2 files only
+        if (!form.action.includes('/spots/') && (!image.files.length || image.files.length > 2)) {
             image.classList.add('is-invalid');
             validated = false;
         }
