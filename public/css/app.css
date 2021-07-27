@@ -109,6 +109,17 @@ form * {
     height: 50px;
     border-radius: 50%;
     cursor: pointer;
-  }
+}
+
+#cluster-map {
+    width: 100%;
+    height: 85vh;
+}
+
+@media (max-width: 768px) {
+    #cluster-map {
+        height: 50vh;
+    }
+}
   
 

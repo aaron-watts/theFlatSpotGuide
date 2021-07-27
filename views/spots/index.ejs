@@ -1,10 +1,10 @@
 <% layout('layouts/boilerplate') %>
-
     <div class="container">
         <div class="row">
             <div class="col-lg-6">
-                <h1>Spot Guide</h1>
+                <div id="cluster-map"></div>
             </div>
+
             <div class="col-lg-6" id="show-spots">
 
                 <% if (currentUser) { %>
@@ -99,3 +99,11 @@
     </div>
 
     <script src="/javascript/followSpot.js"></script>
+
+    <script>
+        const mbx = '<%- process.env.MAPBOX_TOKEN %>';
+    </script>
+    <script>
+        const spots = {features: <%- JSON.stringify(spots) %>};
+    </script>
+    <script src="/javascript/clusterMap.js"></script>
