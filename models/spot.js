@@ -25,6 +25,10 @@ const spotSchema = new Schema({
             required: true
         }
     },
+    customLatLon: {
+        type: Boolean,
+        default: false
+    },
     name: {
         type: String,
         required: true

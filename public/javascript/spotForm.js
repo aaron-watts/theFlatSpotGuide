@@ -17,6 +17,8 @@ form.formSubmit.addEventListener('click', () => {
         checkNotBlank(form.location);
         checkNotBlank(details);
 
+        if (!(!form.coordinates) && coordinates.value.length) coordinates.disabled = false;
+
         if (form.action.includes('/spots/') && coordinates.value.length &&
             !latLonRegex.test(coordinates.value)) {
             coordinates.classList.add('is-invalid');

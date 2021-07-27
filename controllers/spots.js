@@ -3,7 +3,7 @@ const Event = require('../models/event');
 const User = require('../models/user');
 const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
 const mapBoxToken = process.env.MAPBOX_TOKEN;
-const geocoder = mbxGeocoding({accessToken: mapBoxToken});
+const geocoder = mbxGeocoding({ accessToken: mapBoxToken });
 const { monthArray } = require('../utils/data');
 const { updateFollowers } = require('../utils/middleware');
 const { cloudinary } = require('../cloudinary');
@@ -19,7 +19,7 @@ module.exports.index = async (req, res) => {
         }
 
         // find only current users events
-        spots = await Spot.find({author})
+        spots = await Spot.find({ author })
             .populate({
                 path: 'events',
                 match: { date: { $gt: new Date() } },
@@ -41,7 +41,7 @@ module.exports.index = async (req, res) => {
             })
             .populate('author');
     }
-        
+
     res.render('spots/index', { spots });
 }
 
@@ -94,7 +94,7 @@ module.exports.create = async (req, res) => {
     spot.events.push(spot);
 
     await spot.save();
-    
+
     req.flash('success', 'New Spot Created!')
     res.redirect('/spots');
 }
@@ -105,6 +105,21 @@ module.exports.update = async (req, res) => {
     const spot = await Spot.findById(id)
         .populate('author')
         .populate('following');
+
+    if (updateSpot.coordinates) {
+        const spotLatLon = updateSpot.coordinates.split(',');
+        spot.geometry.coordinates.splice(0, 2, parseFloat(spotLatLon[1]), parseFloat(spotLatLon[0]));
+        spot.customLatLon = true;
+    }
+    if (!updateSpot.coordinates && !spot.customLatLon && updateSpot.location !== spot.location) {
+        const geoData = await geocoder.forwardGeocode({
+            query: req.body.spot.location,
+            limit: 1
+        }).send()
+
+        // append geometry to spot
+        spot.geometry = geoData.body.features[0].geometry;
+    }
 
     // map files from multer files object in req.body
     const imgs = req.files.map(file => ({ url: file.path, filename: file.filename }));
@@ -117,11 +132,11 @@ module.exports.update = async (req, res) => {
     await spot.save();
 
     // delete slected images
-    if(req.body.deleteImages) {
-        for(let filename of req.body.deleteImages) {
+    if (req.body.deleteImages) {
+        for (let filename of req.body.deleteImages) {
             await cloudinary.uploader.destroy(filename);
         }
-        await spot.updateOne({$pull: {images: {filename: {$in: req.body.deleteImages}}}});
+        await spot.updateOne({ $pull: { images: { filename: { $in: req.body.deleteImages } } } });
     }
 
     // only allow 2 images, delete excess
@@ -131,7 +146,7 @@ module.exports.update = async (req, res) => {
             await cloudinary.uploader.destroy(spot.images[i].filename);
             toDelete.push(spot.images[i].filename)
         }
-        await spot.updateOne({$pull: {images: {filename: {$in: toDelete}}}});
+        await spot.updateOne({ $pull: { images: { filename: { $in: toDelete } } } });
     }
 
     // notify followers if not author
