@@ -1,5 +1,8 @@
 const { findByIdAndUpdate } = require('../models/user');
 const User = require('../models/user');
+const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
+const mapBoxToken = process.env.MAPBOX_TOKEN;
+const geocoder = mbxGeocoding({ accessToken: mapBoxToken });
 
 module.exports.registerForm = (req, res) => {
     res.render('users/register');
@@ -72,4 +75,29 @@ module.exports.deleteNotifications = async (req, res) => {
     }
 
     res.send(true)
+}
+
+module.exports.showSettings = (req, res) => {
+    res.render('users/setting');
+}
+
+module.exports.renderSetLocation = (req, res) => {
+    res.render('users/location');
+}
+
+module.exports.setLocation = async (req, res) => {
+    const { location } = req.body;
+    const geoData = await geocoder.forwardGeocode({
+        query: location,
+        limit: 1
+    }).send()
+
+    const user = await User.findById(req.user._id);
+
+    user.location = location;
+    user.geometry = geoData.body.features[0].geometry;
+
+    await user.save();
+
+    res.redirect('/account')
 }

@@ -5,11 +5,13 @@ const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
 const mapBoxToken = process.env.MAPBOX_TOKEN;
 const geocoder = mbxGeocoding({ accessToken: mapBoxToken });
 const { monthArray } = require('../utils/data');
+const { haversine } = require('../utils/haversine')
 const { updateFollowers } = require('../utils/middleware');
 const { cloudinary } = require('../cloudinary');
 
 module.exports.index = async (req, res) => {
     const { author } = req.query;
+    console.log(!(!req.user))
     let spots;
 
     if (author) {
@@ -40,6 +42,23 @@ module.exports.index = async (req, res) => {
                 }
             })
             .populate('author');
+    }
+
+    // if user is signed in sort by distance from users location
+    if (!(!req.user)) {
+        const user = req.user;
+        // (lat1, lon1, lat2, lon2)
+        spots.sort(function (a, b) {
+            return haversine(
+                    a.geometry.coordinates[0],a.geometry.coordinates[1],
+                    user.geometry.coordinates[0],user.geometry.coordinates[1]
+                ) 
+                - haversine(
+                    b.geometry.coordinates[0],b.geometry.coordinates[1],
+                    user.geometry.coordinates[0],user.geometry.coordinates[1]
+                )   
+        })
+        console.log(spots[0].name)
     }
 
     res.render('spots/index', { spots });

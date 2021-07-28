@@ -1,6 +1,7 @@
 <% layout('layouts/boilerplate') %>
     <div class="container">
-        <div class="row">
+        <div class="row mb-2">
+
             <div class="col-lg-6">
                 <div id="cluster-map"></div>
             </div>
@@ -23,7 +24,7 @@
                             to Pin a New Spot!
                         </div>
                         <% } %>
-
+                            <div class="spots-height overflow-scroll vh-50">
                                 <% for (let spot of spots) { %>
                                     <div class="card mb-3">
                                         <div class="card-header">
@@ -94,6 +95,7 @@
                                         </div>
                                     </div>
                                     <% } %>
+                            </div>
             </div>
         </div>
     </div>

@@ -1,0 +1,14 @@
+<% layout('layouts/boilerplate') %>
+
+    <div class="row d-flex justify-content-center">
+        <form action="/account/location?_method=PUT" method="POST" class="col-lg-6">
+            <div class="mb-3 row">
+                <label for="location" class="form-label">Location</label>
+                <input type="text" name="location" id="location" class="form-control" aria-describedby="location-help">
+                <div id="location-help" class="form-text">
+                    Enter a location, i.e. "London, UK"
+                </div>
+            </div>
+            <button class="btn btn-primary">Save</button>
+        </form>
+    </div>

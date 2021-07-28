@@ -8,6 +8,18 @@ const userSchema = new Schema({
         required: true,
         unique: true
     },
+    location: {
+        type: String
+    },
+    geometry: {
+        type: {
+            type: String,
+            enum: ['Point'],
+        },
+        coordinates: {
+            type: [Number],
+        }
+    },
     notifications: [
         {
             text: {

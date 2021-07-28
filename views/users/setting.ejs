@@ -1,0 +1,37 @@
+<% layout('layouts/boilerplate') %>
+
+    <div class="container">
+        <div class="row">
+            <div class="d-inline">
+                <span class="text-muted fw-bold">Username:</span>
+                <%= currentUser.username %>
+                    <span><i class="bi bi-pencil"></i></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="d-inline">
+                <span class="text-muted fw-bold">Email:</span>
+                <%= currentUser.email %>
+                    <span><i class="bi bi-pencil"></i></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="d-inline">
+                <span class="text-muted fw-bold">Location:</span>
+                <%= currentUser.location %>
+                    <a class="btn btn-sm" href="/account/location"><span><i class="bi bi-pencil"></i></span></a>
+            </div>
+        </div>
+        <div style="width: 50vw;">
+            <div id="map" class="mb-3" style='width: auto; height: 300px;'></div>
+        </div>
+    </div>
+
+    <script>
+        const mbx = '<%- process.env.MAPBOX_TOKEN %>';
+        const zoom = 6;
+    </script>
+    <script>
+        const spot = <%- JSON.stringify(currentUser) %>;
+    </script>
+    <script src="/javascript/pageMapShow.js"></script>
