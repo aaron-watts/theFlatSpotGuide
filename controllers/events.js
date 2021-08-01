@@ -19,7 +19,7 @@ module.exports.index = async (req, res) => {
         events = await Event.find({ 'author': author })
             .sort({ 'date': 1 })
             .populate('spot')
-            .populate('author')
+            .populate('author', 'username')
             .populate('following');
 
     } else {
@@ -28,7 +28,7 @@ module.exports.index = async (req, res) => {
         events = await Event.find({ 'date': { '$gte': new Date() } })
             .sort({ 'date': 1 })
             .populate('spot')
-            .populate('author')
+            .populate('author', 'username')
             .populate('following');
     } 
 

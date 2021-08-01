@@ -11,7 +11,6 @@ const { cloudinary } = require('../cloudinary');
 
 module.exports.index = async (req, res) => {
     const { author } = req.query;
-    console.log(!(!req.user))
     let spots;
 
     if (author) {
@@ -29,7 +28,7 @@ module.exports.index = async (req, res) => {
                     sort: { date: 1 }
                 }
             })
-            .populate('author');
+            .populate('author', 'username');
 
     } else {
         // find all events
@@ -41,7 +40,7 @@ module.exports.index = async (req, res) => {
                     sort: { date: 1 }
                 }
             })
-            .populate('author');
+            .populate('author', 'username');
     }
 
     // if user is signed in sort by distance from users location
@@ -58,7 +57,6 @@ module.exports.index = async (req, res) => {
                     user.geometry.coordinates[0],user.geometry.coordinates[1]
                 )   
         })
-        console.log(spots[0].name)
     }
 
     res.render('spots/index', { spots });
@@ -80,7 +78,7 @@ module.exports.show = async (req, res) => {
                 sort: { date: 1 }
             }
         })
-        .populate('author');
+        .populate('author', 'username');
 
     if (!spot) res.status(404).render('404notfound');
 
