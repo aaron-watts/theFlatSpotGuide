@@ -27,11 +27,9 @@
                             <div class="spots-height overflow-scroll vh-50">
                                 <% for (let spot of spots) { %>
                                     <div class="card mb-3">
-                                        <div class="card-header">
+                                        <div id="geo-<%= spot._id %>" class="card-header">
                                             <i class="bi bi-geo-alt"></i>
-                                            <a href="geo:51.498169,-0.049067">
-                                                <%= spot.location %>
-                                            </a>
+                                            <%= spot.location %>
                                         </div>
                                         <div class="card-body">
                                             <div class="row">
@@ -114,3 +112,5 @@
         const spots = {features: <%- JSON.stringify(spots) %>};
     </script>
     <script src="/javascript/clusterMap.js"></script>
+
+    

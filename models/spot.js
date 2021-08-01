@@ -59,4 +59,10 @@ const spotSchema = new Schema({
     ]
 }, opts)
 
+spotSchema.virtual('properties.popUpMarkup').get(function () {
+    return `
+    <a href="/campgrounds/${this._id}">${this.name}</a>
+    <p>${this.details.substring(0, 30)}...</p>`;
+})
+
 module.exports = mongoose.model('Spot', spotSchema);
