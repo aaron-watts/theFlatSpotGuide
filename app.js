@@ -19,11 +19,11 @@ const helmet = require('helmet');
 const User = require('./models/user');
 const userRoutes = require('./routes/users');
 const spotRoutes = require('./routes/spots');
-const eventsRoutes = require('./routes/events')
+const eventsRoutes = require('./routes/events');
 
 const MongoDBStore = require('connect-mongo');
-const port = 3000;
-const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/spotGuide'
+const port = process.env.PORT || 3000;
+const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/spotGuide';
 const secret = process.env.SECRET;
 
 mongoose.connect(dbUrl, { 
