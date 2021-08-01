@@ -1,4 +1,28 @@
-const Joi = require('joi');
+const { sanitize } = require('express-mongo-sanitize');
+const BaseJoi = require('joi');
+const sanitizeHtml = require('sanitize-html');
+
+const extension = (joi) => ({
+    type: 'string',
+    base: joi.string(),
+    messages: {
+        'string.escapeHTML': '{{#label}} must not include HTML!'
+    },
+    rules: {
+        escapeHTML: {
+            validate(value, helpers) {
+                const clean = sanitizeHtml(value, {
+                    allowedTags: [],
+                    allowedAttributes: {},
+                });
+                if (clean !== value) return helpers.error('string.escapeHTML', { value })
+                return clean;
+            }
+        }
+    }
+});
+
+const Joi = BaseJoi.extend(extension);
 
 module.exports.userSchema = Joi.object({
     user: Joi.object({
@@ -8,17 +32,21 @@ module.exports.userSchema = Joi.object({
             .required(),
         username: Joi.string()
             .required()
+            .escapeHTML()
     })
 })
 
 module.exports.spotSchema = Joi.object({
     spot: Joi.object({
         name: Joi.string()
-            .required(),
+            .required()
+            .escapeHTML(),
         location: Joi.string()
-            .required(),
+            .required()
+            .escapeHTML(),
         details: Joi.string()
-            .required(),
+            .required()
+            .escapeHTML(),
         coordinates: Joi.string().regex(/^((\-?|\+?)?\d+(\.\d+)?),\s*((\-?|\+?)?\d+(\.\d+)?)$/)
     }).required(),
     deleteImages: Joi.array()
@@ -27,7 +55,8 @@ module.exports.spotSchema = Joi.object({
 module.exports.eventPinSchema = Joi.object({
     event: Joi.object({
         title: Joi.string()
-            .required(),
+            .required()
+            .escapeHTML(),
         day: Joi.number()
             .min(1)
             .max(31)
@@ -47,13 +76,15 @@ module.exports.eventPinSchema = Joi.object({
             .required(),
         description: Joi.string()
             .required()
+            .escapeHTML()
     }).required()
 })
 
 module.exports.eventSchema = Joi.object({
     event: Joi.object({
         title: Joi.string()
-            .required(),
+            .required()
+            .escapeHTML(),
         spot: Joi.string()
             .required(),
         day: Joi.number()
@@ -75,5 +106,6 @@ module.exports.eventSchema = Joi.object({
             .required(),
         description: Joi.string()
             .required()
+            .escapeHTML()
     }).required()
 })
