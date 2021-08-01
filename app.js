@@ -23,7 +23,11 @@ const eventsRoutes = require('./routes/events');
 
 const MongoDBStore = require('connect-mongo');
 const port = process.env.PORT || 3000;
+// production
 const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/spotGuide';
+// development
+// const dbUrl = 'mongodb://localhost:27017/spotGuide';
+
 const secret = process.env.SECRET;
 
 mongoose.connect(dbUrl, { 
@@ -55,7 +59,7 @@ const sessionConfig = {
     saveUninitialized: true,
     cookie: {
         httpOnly: true,
-        secure: true,
+        //secure: true,
         expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
         maxAge: 1000 * 60 * 60 * 24 * 7
     }
