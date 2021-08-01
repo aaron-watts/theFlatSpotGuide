@@ -1,9 +1,12 @@
 mapboxgl.accessToken = mbx;
 
+// set default map centering if user has not set a location
+let centreMap = userLocale.geometry.coordinates.length ? userLocale.geometry.coordinates : [-2.244644, 53.483959];
+
 const map = new mapboxgl.Map({
     container: 'cluster-map',
     style: 'mapbox://styles/mapbox/light-v10',
-    center: userLocale.geometry.coordinates || [-2.244644, 53.483959],
+    center: centreMap,
     zoom: 5
 });
 

@@ -1,6 +1,6 @@
 const User = require('../models/user');
 const ExpressError = require('./ExpressError');
-const { spotSchema, eventSchema, eventPinSchema } = require('../utils/schemas');
+const { spotSchema, eventSchema, eventPinSchema, userSchema } = require('../utils/schemas');
 
 module.exports.isLoggedIn = (req, res, next) => {
     if (!req.isAuthenticated()) {
@@ -9,6 +9,14 @@ module.exports.isLoggedIn = (req, res, next) => {
         return res.redirect('/login');
     }
     next();
+}
+
+module.exports.validateRegistration = (req, res, next) => {
+    const { error } = userSchema.validate(req.body);
+    if (error) {
+        const msg = error.details.map(el => el.message).join(',');
+        throw new ExpressError(msg, 400);
+    } else next();
 }
 
 module.exports.validateEvent = (req, res, next) => {
@@ -25,9 +33,7 @@ module.exports.validateEvent = (req, res, next) => {
     } else if (eventDate - new Date() < 0) {
         const msg = 'Date/time cannot be in the past'
         throw new ExpressError(msg, 400);
-    } else {
-        next();
-    }
+    } else next();
 }
 
 module.exports.validatePinnedEvent = (req, res, next) => {
@@ -44,9 +50,7 @@ module.exports.validatePinnedEvent = (req, res, next) => {
     } else if (eventDate - new Date() < 0) {
         const msg = 'Date/time cannot be in the past'
         throw new ExpressError(msg, 400);
-    } else {
-        next();
-    }
+    } else next();
 }
 
 module.exports.validateSpot = (req, res, next) => {
@@ -54,9 +58,7 @@ module.exports.validateSpot = (req, res, next) => {
     if (error) {
         const msg = error.details.map(el => el.message).join(',');
         throw new ExpressError(msg, 400);
-    } else {
-        next();
-    }
+    } else next();
 }
 
 module.exports.rememberPage = (req, res, next) => {

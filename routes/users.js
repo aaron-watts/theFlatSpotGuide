@@ -1,12 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
-const user = require('../controllers/users')
+const user = require('../controllers/users');
+const { validateRegistration } = require('../utils/middleware');
 const catchAsync = require('../utils/catchAsync');
 
 router.route('/register')
     .get(user.registerForm)
-    .post(catchAsync(user.register))
+    .post(validateRegistration, catchAsync(user.register))
 
 router.route('/login')
     .get(user.loginForm)
