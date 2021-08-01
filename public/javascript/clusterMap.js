@@ -3,7 +3,7 @@ mapboxgl.accessToken = mbx;
 const map = new mapboxgl.Map({
     container: 'cluster-map',
     style: 'mapbox://styles/mapbox/light-v10',
-    center: [-2.244644, 53.483959],
+    center: userLocale.geometry.coordinates || [-2.244644, 53.483959],
     zoom: 5
 });
 

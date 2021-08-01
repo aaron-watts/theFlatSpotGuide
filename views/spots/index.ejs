@@ -105,6 +105,11 @@
     <script>
         const mbx = '<%- process.env.MAPBOX_TOKEN %>';
     </script>
+    <% if (currentUser) { %>
+        <script>
+            const userLocale = {geometry: <%- JSON.stringify(currentUser.geometry) %>}
+            </script>
+        <% } %>
     <script>
         const spots = {features: <%- JSON.stringify(spots) %>};
     </script>
