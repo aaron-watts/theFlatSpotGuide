@@ -15,7 +15,7 @@ module.exports.register = async (req, res) => {
         const registeredUser = await User.register(user, password);
         req.login(registeredUser, err => {
             if (err) return res.send(err);
-            req.flash('success', 'Welcome to SpotGuide')
+            req.flash('success', 'Welcome to SpotGuide! Be sure to set your location in the account settings!')
             const redirectUrl = req.session.returnTo || '/spots';
             delete req.session.returnTo;
             res.redirect(redirectUrl);

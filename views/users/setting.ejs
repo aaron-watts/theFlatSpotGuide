@@ -21,10 +21,19 @@
                 <%= currentUser.location %>
                     <a class="btn btn-sm" href="/account/location"><span><i class="bi bi-pencil"></i></span></a>
             </div>
+            <% if (!currentUser.location) { %>
+            <div class="text-primary">
+                <a href="/account/location">
+                    Set your location so we can organise spots by what's closest to you
+                </a>
+            </div>
+            <% } %>
         </div>
+        <% if (currentUser.location) { %>
         <div style="width: 50vw;">
             <div id="map" class="mb-3" style='width: auto; height: 300px;'></div>
         </div>
+        <% } %>
     </div>
 
     <script>

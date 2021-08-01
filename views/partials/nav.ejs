@@ -118,8 +118,13 @@
             <li class="nav-item dropright">
               <a class="nav-link menu-button py-lg-0" href="#" id="navbarDropdown" role="button"
                 data-bs-toggle="dropdown" aria-expanded="false">
-                <button class="btn btn-outline-secondary rounded-circle my-0 fs-5 fw-bold d-none d-lg-flex">
-                  <%= currentUser.username[0].toUpperCase() %>
+                <button class="btn btn-outline-secondary rounded-circle my-0 fs-6 fw-bold d-none d-lg-flex position-relative">
+                  <span class="fs-5"><%= currentUser.username[0].toUpperCase() %></span>
+                  <% if (!currentUser.location) { %>
+                    <span class="position-absolute top-100 start-100 translate-middle badge rounded-pill bg-primary">!
+                      <span class="visually-hidden">New alerts</span>
+                    </span>
+                  <% } %>
                 </button>
               </a>
               <ul class="dropdown-menu dropdown-menu-lg-end w-25" aria-labelledby="navbarDropdown">
@@ -140,7 +145,10 @@
                 </li>
                 <li>
                 <li>
-                  <a class="dropdown-item" href="/account">Account Settings</a>
+                  <a class="dropdown-item" href="/account">Account Settings 
+                    <% if (!currentUser.location) { %>
+                    <span class="text-primary fw-bold">&larr;</span></a>
+                    <% } %>
                 </li>
                 <li>
                   <hr class="dropdown-divider">
