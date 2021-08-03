@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 const user = require('../controllers/users');
-const { validateRegistration, isLoggedIn } = require('../utils/middleware');
+const { validateRegistration, validatePasswordChange, isLoggedIn } = require('../utils/middleware');
 const catchAsync = require('../utils/catchAsync');
 
 router.route('/register')
@@ -15,21 +15,21 @@ router.route('/login')
         passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }),
         user.login)
 
-router.get('/logout', user.logout)
+router.get('/logout', isLoggedIn, user.logout)
 
 router.route('/notifications')
     .patch(user.updateNotifications)
     .delete (user.deleteNotifications)
 
 router.route('/account/location')
-    .get(user.renderSetLocation)
-    .put(catchAsync(user.setLocation))
+    .get(isLoggedIn, user.renderSetLocation)
+    .put(isLoggedIn, catchAsync(user.setLocation))
 
-router.get('/account', user.showSettings)
+router.get('/account', isLoggedIn, user.showSettings)
 
 router.get('/password', isLoggedIn, user.renderPasswordForm)
 
-router.patch('/password/:id', isLoggedIn, catchAsync(user.changePassword))
+router.patch('/password/:id', isLoggedIn, validatePasswordChange, catchAsync(user.changePassword))
 
 router.get('/users/:username', user.getUsernames)
 

@@ -40,6 +40,17 @@ module.exports.userSchema = Joi.object({
     })
 })
 
+module.exports.changePasswordSchema = Joi.object({
+    user: Joi.object({
+        oldPassword: Joi.string()
+            .required(),
+        newPassword: Joi.string()
+            .regex(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/)
+            .required(),
+        confirmPassword: Joi.ref('newPassword')
+    })
+})
+
 module.exports.spotSchema = Joi.object({
     spot: Joi.object({
         name: Joi.string()

@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const spots = require('../controllers/spots');
 const catchAsync = require('../utils/catchAsync');
-const { rememberPage, validateSpot, isLoggedIn, resizeImage } = require('../utils/middleware');
+const { rememberPage, validateSpot, isLoggedIn } = require('../utils/middleware');
 const multer = require('multer');
 const { storage } = require('../cloudinary');
 const spot = require('../models/spot');
@@ -27,7 +27,7 @@ router.route('/:id')
         validateSpot, 
         catchAsync(spots.update)
     )
-    .delete(catchAsync(spots.delete))
+    .delete(isLoggedIn, catchAsync(spots.delete))
     .patch(spots.follow)
 
 router.get('/:id/edit', isLoggedIn, spots.editForm)

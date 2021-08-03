@@ -129,12 +129,12 @@ module.exports.changePassword = async (req, res) => {
             req.flash('success', 'Password successfully changed!')
             res.redirect('/account');
         } catch (err) {
-            req.flash('error', err);
+            req.flash('error', 'Password is wrong! Consider logging out and requesting a reset!');
             res.redirect('/password');
         }
         
     } else {
-        res.flash('Passwords do not match');
+        res.flash('error', 'Passwords do not match');
         res.redirect('/password');
     }
     

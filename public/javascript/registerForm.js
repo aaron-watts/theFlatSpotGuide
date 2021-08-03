@@ -37,7 +37,6 @@ form.formSubmit.addEventListener('click', (evt) => {
     }
 
     if (validateForm()) form.submit();
-    else console.log('incomplete')
 })
 
 form.username.addEventListener('change', checkUsername);
