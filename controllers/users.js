@@ -139,3 +139,10 @@ module.exports.changePassword = async (req, res) => {
     }
     
 }
+
+module.exports.getUsernames = async (req, res) => {
+    const { username } = req.params;
+    const user = await User.findOne({'username': username});
+    if (user === null) res.send({exists: false});
+    else res.send({exists: true});
+}

@@ -2,28 +2,45 @@
 
     <div class="container d-flex align-items-center justify-content-center fill-page">
         <div class="card col-lg-4 p-3">
-        <form action="/register" method="POST">
-            <div class="mb-3">
-                <label for="username" class="form-label">Username</label>
-                <input type="text" class="form-control" id="username" name="user[username]" 
-                    required autofocus autocomplete="off">
-            </div>
-            <div class="mb-3">
-                <label for="email" class="form-label">Email address</label>
-                <input type="email" class="form-control" id="email" name="user[email]" aria-describedby="emailHelp"
-                    required>
-                <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-            </div>
-            <div class="mb-3">
-                <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control" id="password" name="user[password]" required>
-            </div>
-            <div class="mb-3">
-                <label for="confirmPassword" class="form-label">Confirm Password</label>
-                <input type="confirmPassword" class="form-control" id="confirmPassword" 
-                    name="user[confirmPassword]" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
+            <form action="/register" method="POST">
+                <div class="mb-3">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" class="form-control" id="username" name="user[username]" 
+                        aria-describedby="usernameHelp" required autofocus autocomplete="off">
+                    <div id="usernameHelp" class="form-text d-none">
+                        <i class="bi bi-info-circle"></i>
+                        Username is taken!
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email address</label>
+                    <input type="email" class="form-control" id="email" name="user[email]" aria-describedby="emailHelp"
+                        required>
+                    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" name="user[password]"
+                        aria-describedby="passwordHelp" required>
+                    <div id="passwordHelp" class="form-text">
+                        <i class="bi bi-info-circle"></i>
+                        Min 8 characters, at least one uppercase letter (A-Z),
+                        one least one lowercase letter (a-z),
+                        at least one digit (0-9)
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="confirmPassword" class="form-label">Confirm Password</label>
+                    <input type="Password" class="form-control" id="confirmPassword" name="user[confirmPassword]"
+                        aria-describedby="confirmHelp" required>
+                    <div id="confirmHelp" class="form-text d-none">
+                        <i class="bi bi-info-circle"></i>
+                        Passwords must match!
+                    </div>
+                </div>
+                <button id="formSubmit" type="button" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
     </div>
-    </div>
+
+    <script src="/javascript/registerForm.js"></script>

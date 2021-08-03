@@ -31,4 +31,6 @@ router.get('/password', isLoggedIn, user.renderPasswordForm)
 
 router.patch('/password/:id', isLoggedIn, catchAsync(user.changePassword))
 
+router.get('/users/:username', user.getUsernames)
+
 module.exports = router;
