@@ -23,10 +23,7 @@ const eventsRoutes = require('./routes/events');
 
 const MongoDBStore = require('connect-mongo');
 const port = process.env.PORT || 3000;
-// production
-const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/spotGuide';
-// development
-// const dbUrl = 'mongodb://localhost:27017/spotGuide';
+const dbUrl = app.get('env') !== 'development' ? process.env.DB_URL : 'mongodb://localhost:27017/spotGuide';
 
 const secret = process.env.SECRET;
 

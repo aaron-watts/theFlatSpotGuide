@@ -3,6 +3,7 @@ const User = require('../models/user');
 const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
 const mapBoxToken = process.env.MAPBOX_TOKEN;
 const geocoder = mbxGeocoding({ accessToken: mapBoxToken });
+const mailer = require('../utils/sendMail');
 
 module.exports.registerForm = (req, res) => {
     res.render('users/register');
@@ -13,6 +14,13 @@ module.exports.register = async (req, res) => {
         const { email, username, password} = req.body.user;
         const user = new User({ email, username });
         const registeredUser = await User.register(user, password);
+
+        // send welcome email
+        const subject = `Thanks for joining the FlatspotGuide, ${username}!`;
+        const text = `Welcome to the FlatspotGuide! Don't forget to set your location in account settings, so we know what spots to show you first!`;
+        const html = `Welcome to the FlatspotGuide! Don't forget to set your location in account settings, so we know what spots to show you first!`;
+        mailer.send(email, subject, text, html);
+
         req.login(registeredUser, err => {
             if (err) return res.send(err);
             req.flash('success', 'Welcome to SpotGuide! Be sure to set your location in the account settings!')
