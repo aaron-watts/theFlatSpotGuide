@@ -27,10 +27,14 @@ const Joi = BaseJoi.extend(extension);
 module.exports.userSchema = Joi.object({
     user: Joi.object({
         email: Joi.string()
+            .email()
             .required(),
         password: Joi.string()
+            .regex(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/)
             .required(),
+        confirmPassword: Joi.ref('password'),
         username: Joi.string()
+            .max(40)
             .required()
             .escapeHTML()
     })
@@ -39,6 +43,7 @@ module.exports.userSchema = Joi.object({
 module.exports.spotSchema = Joi.object({
     spot: Joi.object({
         name: Joi.string()
+            .max(50)
             .required()
             .escapeHTML(),
         location: Joi.string()
@@ -47,7 +52,8 @@ module.exports.spotSchema = Joi.object({
         details: Joi.string()
             .required()
             .escapeHTML(),
-        coordinates: Joi.string().regex(/^((\-?|\+?)?\d+(\.\d+)?),\s*((\-?|\+?)?\d+(\.\d+)?)$/)
+        coordinates: Joi.string()
+            .regex(/^((\-?|\+?)?\d+(\.\d+)?),\s*((\-?|\+?)?\d+(\.\d+)?)$/)
     }).required(),
     deleteImages: Joi.array()
 })
@@ -55,6 +61,7 @@ module.exports.spotSchema = Joi.object({
 module.exports.eventPinSchema = Joi.object({
     event: Joi.object({
         title: Joi.string()
+            .max(50)
             .required()
             .escapeHTML(),
         day: Joi.number()
@@ -83,6 +90,7 @@ module.exports.eventPinSchema = Joi.object({
 module.exports.eventSchema = Joi.object({
     event: Joi.object({
         title: Joi.string()
+            .max(50)
             .required()
             .escapeHTML(),
         spot: Joi.string()
