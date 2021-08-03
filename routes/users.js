@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 const user = require('../controllers/users');
-const { validateRegistration } = require('../utils/middleware');
+const { validateRegistration, isLoggedIn } = require('../utils/middleware');
 const catchAsync = require('../utils/catchAsync');
 
 router.route('/register')
@@ -25,7 +25,10 @@ router.route('/account/location')
     .get(user.renderSetLocation)
     .put(catchAsync(user.setLocation))
 
-router.route('/account')
-    .get(user.showSettings)
+router.get('/account', user.showSettings)
+
+router.get('/password', isLoggedIn, user.renderPasswordForm)
+
+router.patch('/password/:id', isLoggedIn, catchAsync(user.changePassword))
 
 module.exports = router;

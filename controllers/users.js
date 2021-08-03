@@ -113,3 +113,29 @@ module.exports.setLocation = async (req, res) => {
 
     res.redirect('/account')
 }
+
+module.exports.renderPasswordForm = (req, res) => {
+    res.render('users/password');
+}
+
+module.exports.changePassword = async (req, res) => {
+    const { id } = req.params;
+    const { oldPassword, newPassword, confirmPassword } = req.body.user;
+
+    if (newPassword === confirmPassword) {
+        const user = await User.findById(id)
+        try {
+            await user.changePassword(oldPassword, newPassword);
+            req.flash('success', 'Password successfully changed!')
+            res.redirect('/account');
+        } catch (err) {
+            req.flash('error', err);
+            res.redirect('/password');
+        }
+        
+    } else {
+        res.flash('Passwords do not match');
+        res.redirect('/password');
+    }
+    
+}
