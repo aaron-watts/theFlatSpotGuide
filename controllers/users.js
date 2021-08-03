@@ -19,7 +19,11 @@ module.exports.register = async (req, res) => {
         const subject = `Thanks for joining the FlatspotGuide, ${username}!`;
         const text = `Welcome to the FlatspotGuide! Don't forget to set your location in account settings, so we know what spots to show you first!`;
         const html = `Welcome to the FlatspotGuide! Don't forget to set your location in account settings, so we know what spots to show you first!`;
-        mailer.send(email, subject, text, html);
+        try {
+            mailer.send(email, subject, text, html);
+        } catch (err) {
+            console.log(`Something went wrong while emailing ${email}`);
+        }
 
         req.login(registeredUser, err => {
             if (err) return res.send(err);
