@@ -1,0 +1,15 @@
+<% layout('layouts/boilerplate') %>
+
+<div class="container">
+    <div class="row d-flex justify-content-center align-items-center">
+        <form action="/account/email?_method=PATCH" method="POST">
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" name="user[email]" required>
+            </div>
+            <button id="formSubmit" type="button" class="btn btn-primary">Change</button>
+        </form>
+    </div>
+</div>
+
+<script src="/javascript/emailForm.js"></script>

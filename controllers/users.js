@@ -114,6 +114,17 @@ module.exports.setLocation = async (req, res) => {
     res.redirect('/account')
 }
 
+module.exports.renderEmailForm = (req, res) => {
+    res.render('users/email');
+}
+
+module.exports.updateEmail = async (req, res) => {
+    const { email } = req.body.user;
+    const user = await User.findByIdAndUpdate(req.user._id, {email});
+
+    res.redirect('/account');
+}
+
 module.exports.renderPasswordForm = (req, res) => {
     res.render('users/password');
 }
