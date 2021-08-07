@@ -131,5 +131,66 @@ form * {
     z-index: -1;
     background-color: lightgrey;
 }
-  
 
+/* keep location input behind modal */
+input#spot:focus {
+    z-index: -1;
+}
+
+/* The following is taken from an older project where I didn't really know what I was
+   doing with bootstrap! But it works, so with a couple of tweaks, here it is.. */
+.selection-board {
+    position: fixed;
+    top: 20px;
+    left: 0;
+    margin: 0 auto;
+    height: 100vh;
+    width: 100vw;
+    background: #000a;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    z-index: 1;
+}
+
+.selection-board .select-header {
+    margin: 11vh auto 0;
+    background-color: #fff;
+    width: 50vw;
+    padding: 5px 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.selection-board .list-section {
+    background-color: #fff;
+    height: 45vh;
+    width: 50vw;
+    overflow: scroll;
+    scroll-behavior: smooth;
+    margin: 0 auto auto;
+    padding: .3rem;
+}
+
+.selection-board ul {
+    padding: 20px 0;
+}
+
+.selection-board li {
+    padding: 12px;
+    cursor: pointer;
+}
+
+.selection-board li:hover {
+    color: #0d6efd;
+}
+
+@media (max-width: 768px) {
+    .selection-board .list-section {
+        width: 90vw;
+    }
+
+    .selection-board .select-header {
+        width: 90vw;
+    }
+}

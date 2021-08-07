@@ -74,6 +74,27 @@
         </div>
     </div>
 
+    <div id="spot-select" class="selection-board d-none">
+        <div class="select-header bg-primary text-white">
+            <div class="bg-primary text-white">Choose a spot</div>
+            <div class="input-group mb-3 col">
+                <span class="input-group-text" id="basic-addon1"><i class="bi bi-funnel"></i></span>
+                <input id="list-input" type="text" class="form-control text-input filter-input" placeholder="Type to Filter..."
+                    aria-label="Username" aria-describedby="basic-addon1">
+            </div>
+        </div>
+
+        <div class="list-section">
+            <ul class="list-group">
+                <% for (let spot of spots) { %>
+                    <li class="list-group-item">
+                        <%- spot.name %>
+                    </li>
+                    <% } %>
+            </ul>
+        </div>
+    </div>
+
     <script>
         const spots = [];
         <% for (let spot of spots) { %>

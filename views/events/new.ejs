@@ -13,13 +13,13 @@
 
                     <div class="input-group mb-3 position-relative">
                         <span class="input-group-text" id="title-addon"><i class="bi bi-geo-alt"></i></span>
-                        <input type="text" id="spot" name="event[spot]" class="form-control" aria-label="title"
+                        <input type="text" id="spot" name="event[spot]" class="form-control" aria-label="spot"
                             aria-describedby="title-addon" list="spot-list" autocomplete="off" required>
-                        <datalist id="spot-list">
+                        <!-- <datalist id="spot-list">
                             <% for (spot of spots) { %>
                                 <option value="<%= spot.name %>"></option>
                                 <% } %>
-                        </datalist>  
+                        </datalist>   -->
                         <div id="spot-feedback" class="position-absolute top-100 ms-3 text-danger fs-6 d-none">
                             <i class="bi bi-info-circle"></i>
                             It seems like that's not a listed spot!
@@ -71,6 +71,27 @@
 
                 </form>
             </div>
+        </div>
+    </div>
+
+    <div id="spot-select" class="selection-board d-none">
+        <div class="select-header bg-primary text-white">
+            <div class="bg-primary text-white">Choose a spot</div>
+            <div class="input-group mb-3 col">
+                <span class="input-group-text" id="basic-addon1"><i class="bi bi-funnel"></i></span>
+                <input id="list-input" type="text" class="form-control text-input filter-input" placeholder="Type to Filter..."
+                    aria-label="Username" aria-describedby="basic-addon1">
+            </div>
+        </div>
+
+        <div class="list-section">
+            <ul class="list-group">
+                <% for (let spot of spots) { %>
+                    <li class="list-group-item">
+                        <%- spot.name %>
+                    </li>
+                    <% } %>
+            </ul>
         </div>
     </div>
 
